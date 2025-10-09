@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import useStories from "../hooks/useStories";
 import useAuthors from "../hooks/useAuthors";
 import { Chapter } from "../types/story";
@@ -78,6 +78,7 @@ function UploadStory() {
         id: chapters.length + 1,
         title: chapterTitle,
         content: chapterContent,
+        comments: [],
       };
       setChapters(prev => [...prev, newChapter]);
     } catch (error) {

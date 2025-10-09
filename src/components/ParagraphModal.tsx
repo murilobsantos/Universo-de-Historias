@@ -16,7 +16,8 @@ const ParagraphModal: React.FC<ParagraphModalProps> = ({
   onClose,
   storyId,
   paragraphIndex,
-  chapterId
+  chapterId,
+  onCommentAdded
 }) => {
   const [newCommentAuthor, setNewCommentAuthor] = useState('');
   const [newCommentText, setNewCommentText] = useState('');
