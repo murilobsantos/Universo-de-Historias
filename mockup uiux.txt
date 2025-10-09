@@ -1,0 +1,130 @@
+### Mockup Conceitual - Galáxia de Histórias
+
+---
+
+#### Tema geral
+
+Identidade cosmic minimalista – combinações de tons azul-escuro, roxo elétrico e ciano suave. O objetivo é dar uma sensação de imersão e movimento, como se o leitor estivesse explorando uma galáxia literária.
+
+---
+
+### 🧭 1. Header (Topo do site)
+
+Layout
+
+ Barra translúcida com efeito glassmorphism (`blur + transparência`).
+ Gradiente horizontal `linear-gradient(90deg, #6D28D9, #9333EA, #C084FC)`.
+ Ícone animado com efeito de brilho pulsante a cada 10s.
+ Título Galáxia de Histórias (fonte Exo 2, bold, espaçamento ampliado).
+
+Exemplo visual
+
+```
+┌──────────────────────────────────────────────┐
+│ 🌌 Galáxia de Histórias        [Histórias] [Autores] │
+└──────────────────────────────────────────────┘
+```
+
+ O header encolhe levemente ao rolar a página.
+
+---
+
+### 🌠 2. Hero Section (Início da página)
+
+Fundo
+
+ Fundo escuro em gradiente (`#0F172A` → `#1E1B4B`), com partículas leves (estrelas flutuantes).
+ Efeito parallax sutil com estrelas se movendo conforme o scroll.
+
+Conteúdo central
+
+```
+[ Ícone da galáxia ]
+GALÁXIA DE HISTÓRIAS
+Descubra mundos incríveis através de histórias criadas por autores talentosos.
+```
+
+Botões
+
+ 🪐 Explorar Histórias → azul brilhante com leve animação de brilho.
+ 🚀 Portal do Autor → roxo com efeito de pulso no hover.
+
+Detalhe adicional
+
+ Texto abaixo “+500 histórias publicadas • +120 autores ativos”
+
+---
+
+### 📚 3. Seção - Por que escolher nossa plataforma
+
+Três cartões horizontais com ícones e microanimações
+
+```
+📘 Biblioteca Diversa     👥 Comunidade Ativa     ✨ Experiência Imersiva
+Milhares de histórias...  Conecte-se com...      Interface intuitiva...
+```
+
+Efeito
+
+ Ao rolar, os cards aparecem com animação `fade-up`.
+ Hover leve aumento de escala e brilho.
+
+---
+
+### 🌌 4. Histórias em Destaque
+
+Cards
+Cada card representa uma história com imagem de capa, título e breve descrição.
+
+```
+┌──────────────────────────────┐
+│ [Capa da História]          │
+│ A Ascensão do Herói Perdido │
+│ Em um mundo esquecido...    │
+└──────────────────────────────┘
+```
+
+Interação
+
+ Hover → imagem amplia levemente e aplica sombra.
+ Clique → abre modal com sinopse completa + botão “Ler agora”.
+
+---
+
+### 🪄 5. Elementos Extras
+
+Efeito de fundo
+
+ Estrelas conectadas formando constelações ao passar o mouse (interativo).
+
+Botão flutuante (canto inferior direito)
+
+ 🔝 Voltar ao topo (aparece ao rolar 500px).
+
+Rodapé
+
+```
+──────────────────────────────
+🌠 Galáxia de Histórias © 2025    Contato    Termos    Sobre
+──────────────────────────────
+```
+
+---
+
+### 💫 6. Tema dinâmico (opcional futuro)
+
+ De manhã fundo mais claro (tons de azul e rosa suave).
+ À noite fundo escuro com estrelas e tons de roxo profundo.
+
+---
+
+### ⚙️ 7. Tecnologias sugeridas (para o visual real)
+
+ React + TailwindCSS
+ Framer Motion → para transições suaves.
+ Particles.js ou react-tsparticles → fundo com estrelas animadas.
+ NextUI ou ShadcnUI → para componentes estilizados e responsivos.
+
+---
+
+Esse mockup conceitual descreve a aparência e a experiência ideal — o próximo passo seria gerar um wireframe visual ou um protótipo clicável (em Figma, por exemplo) com base nessas ideias para visualizar o fluxo e microanimações.
