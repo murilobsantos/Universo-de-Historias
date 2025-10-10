@@ -3,26 +3,21 @@ import { useNavigate } from "react-router-dom";
 import useAuthors from "../hooks/useAuthors";
 
 function AuthorRegistration() {
-  const { register } = useAuthors();
+  const { createAuthor } = useAuthors();
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (register(name, email, password, bio)) {
-      setMessage("Registration successful!");
-      setName("");
-      setEmail("");
-      setPassword("");
-      setBio("");
-      navigate("/home");
-    } else {
-      setMessage("Email already registered.");
-    }
+    createAuthor(name, bio, avatarUrl);
+    setMessage("Registration successful!");
+    setName("");
+    setBio("");
+    setAvatarUrl("");
+    navigate("/home");
   };
 
   return (
@@ -39,22 +34,12 @@ function AuthorRegistration() {
           autoComplete="name"
         />
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="url"
+          placeholder="Avatar URL (optional)"
+          value={avatarUrl}
+          onChange={(e) => setAvatarUrl(e.target.value)}
           className="w-full p-2 border border-cosmic-purple rounded bg-cosmic-dark text-white placeholder-cosmic-purple focus:outline-none focus:ring-2 focus:ring-primary"
-          required
-          autoComplete="email"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border border-cosmic-purple rounded bg-cosmic-dark text-white placeholder-cosmic-purple focus:outline-none focus:ring-2 focus:ring-primary"
-          required
-          autoComplete="new-password"
+          autoComplete="url"
         />
         <textarea
           placeholder="Bio (optional)"

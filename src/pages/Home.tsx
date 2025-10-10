@@ -1,147 +1,115 @@
-import React, { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import StoryCard from "../components/StoryCard";
-import Modal from "../components/Modal";
-import Filter from "../components/Filter";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import useStories from "../hooks/useStories";
-import { Story } from "../types/story";
+import { useDarkMode } from "../contexts/DarkModeContext";
+import StoryCard from "../components/StoryCard";
+import Skeleton from "../components/Skeleton";
 
 function Home() {
-  const { stories } = useStories();
-  const [selectedStory, setSelectedStory] = useState<Story | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const { stories, getRecommendations, getTopStories } = useStories();
+  const { isDarkMode } = useDarkMode();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  // Extract all genres and tags from stories for filter options
-  const allGenres = useMemo(() => {
-    const genresSet = new Set<string>();
-    stories?.forEach(story => {
-      story.genres?.forEach(genre => genresSet.add(genre));
-    });
-    return Array.from(genresSet);
-  }, [stories]);
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const allTags = useMemo(() => {
-    const tagsSet = new Set<string>();
-    stories?.forEach(story => {
-      story.tags?.forEach(tag => tagsSet.add(tag));
-    });
-    return Array.from(tagsSet);
-  }, [stories]);
-
-  const filteredStories = useMemo(() => {
-    if (!stories) return [];
-
-    return stories.filter((story) => {
-      const matchesSearch = story.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           story.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           story.author.toLowerCase().includes(searchTerm.toLowerCase());
-
-      const matchesGenres = selectedGenres.length === 0 || selectedGenres.some(genre => story.genres?.includes(genre));
-      const matchesTags = selectedTags.length === 0 || selectedTags.some(tag => story.tags?.includes(tag));
-
-      return matchesSearch && matchesGenres && matchesTags;
-    });
-  }, [stories, searchTerm, selectedGenres, selectedTags]);
-
-  const handleCardClick = (story: Story) => {
-    setSelectedStory(story);
-    setIsModalOpen(true);
+  const containerVariants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedStory(null);
-  };
-
-  const handleSearchChange = (term: string) => {
-    setSearchTerm(term);
-  };
-
-  const handleGenreChange = (genres: string[]) => {
-    setSelectedGenres(genres);
-  };
-
-  const handleTagChange = (tags: string[]) => {
-    setSelectedTags(tags);
+  const childVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white pt-24">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-up">
-            Biblioteca Cósmica
-          </h1>
-          <p className="text-xl text-textSecondary animate-fade-up" style={{animationDelay: '0.2s'}}>
-            Explore nossa coleção de histórias incríveis
-          </p>
+    <main className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} p-4 sm:p-8`}>
+      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center">Explorar Histórias</h1>
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <AnimatePresence mode="wait">
+          {loading
+            ? Array.from({ length: 8 }).map((_, index) => (
+                <motion.div
+                  key={`skeleton-${index}`}
+                  variants={childVariants}
+                  exit={{ opacity: 0, y: -20 }}
+                >
+                  <div className="bg-white/10 rounded-lg shadow-lg overflow-hidden">
+                    <Skeleton className="w-full h-48 rounded-none" />
+                    <div className="p-4">
+                      <Skeleton className="h-6 mb-2" />
+                      <Skeleton className="h-4" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            : stories.map((story) => (
+                <motion.div
+                  key={`story-${story.id}`}
+                  variants={childVariants}
+                  exit={{ opacity: 0, y: 20 }}
+                >
+                  <StoryCard
+                    title={story.title}
+                    description={story.description}
+                    image={story.image}
+                    onClick={() => navigate(`/story/${story.id}`)}
+                  />
+                </motion.div>
+              ))}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Recommendations Section */}
+      <motion.section
+        className="mt-16"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <h2 className="text-3xl font-bold mb-8 text-center">Recomendações para Você</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
+          <AnimatePresence>
+            {(() => {
+              const lastReadId = localStorage.getItem('last-read-story');
+              const lastReadNum = lastReadId ? Number(lastReadId) : null;
+              const recommendations = lastReadNum ? getRecommendations(lastReadNum) : getTopStories();
+              return recommendations.map((story) => (
+                <motion.div
+                  key={`rec-${story.id}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <StoryCard
+                    title={story.title}
+                    description={story.description}
+                    image={story.image}
+                    onClick={() => navigate(`/story/${story.id}`)}
+                  />
+                </motion.div>
+              ));
+            })()}
+          </AnimatePresence>
         </div>
-
-        {/* Search and Filters */}
-        <div className="mb-8 animate-fade-up" style={{animationDelay: '0.4s'}}>
-          <Filter
-            allGenres={allGenres}
-            allTags={allTags}
-            searchQuery={searchTerm}
-            onSearchChange={handleSearchChange}
-            onGenreChange={handleGenreChange}
-            onTagChange={handleTagChange}
-            selectedGenres={selectedGenres}
-            selectedTags={selectedTags}
-            searchOptions={stories?.map(s => s.title) || []}
-            minPopularity={0}
-            onMinPopularityChange={() => {}}
-            sortByDate={null}
-            onSortByDateChange={() => {}}
-          />
-        </div>
-
-        {/* Stories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredStories.map((story, index) => (
-            <div key={story.id} className="animate-fade-up" style={{animationDelay: `${index * 0.05}s`}}>
-              <div className="hover:scale-105 transition-transform duration-300">
-                <StoryCard
-                  id={story.id}
-                  title={story.title}
-                  description={story.description}
-                  image={story.image}
-                  onClick={() => handleCardClick(story)}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {filteredStories.length === 0 && (
-          <div className="text-center py-16 animate-fade-up">
-            <div className="text-6xl mb-4">🌌</div>
-            <h3 className="text-2xl font-semibold mb-2">Nenhuma história encontrada</h3>
-            <p className="text-textSecondary">Tente ajustar seus filtros de busca</p>
-          </div>
-        )}
-
-        {/* Back to Welcome */}
-        <div className="text-center mt-12">
-          <Link
-            to="/welcome"
-            className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105 inline-block"
-          >
-            ← Voltar ao Início
-          </Link>
-        </div>
-      </div>
-
-      <Modal
-        story={selectedStory}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
+      </motion.section>
     </main>
   );
 }

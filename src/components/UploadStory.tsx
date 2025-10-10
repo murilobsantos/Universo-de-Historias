@@ -1,165 +1,170 @@
 import React, { useState } from "react";
-import useStories from "../hooks/useStories";
+import { useNavigate } from "react-router-dom";
+import storyService from "../services/storyService";
 import useAuthors from "../hooks/useAuthors";
-import { Chapter } from "../types/story";
+import { Story, Chapter } from "../types/story";
 
 function UploadStory() {
-  const { addStory } = useStories();
   const { currentAuthor } = useAuthors();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [genres, setGenres] = useState("");
+  const [genres, setGenres] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [coverUrl, setCoverUrl] = useState("");
+  const [chapters, setChapters] = useState<Chapter[]>([
+    { id: 1, title: "", content: "" },
+  ]);
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const generateDescription = async () => {
-    if (!title) return;
-    setLoading(true);
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: [{ role: 'user', content: `Write a short description for a story titled "${title}".` }],
-          max_tokens: 100,
-        }),
-      });
-      const data = await response.json();
-      setDescription(data.choices[0].message.content.trim());
-    } catch (error) {
-      setMessage("Error generating description.");
-    }
-    setLoading(false);
+  const handleAddChapter = () => {
+    const newId = Math.max(...chapters.map(c => c.id), 0) + 1;
+    setChapters([...chapters, { id: newId, title: "", content: "" }]);
   };
 
-  const addChapter = async () => {
-    if (!title || !description) return;
-    setLoading(true);
-    try {
-      // Generate title
-      const titleResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: [{ role: 'user', content: `Suggest a title for chapter ${chapters.length + 1} of the story "${title}" with description "${description}".` }],
-          max_tokens: 20,
-        }),
-      });
-      const titleData = await titleResponse.json();
-      const chapterTitle = titleData.choices[0].message.content.trim();
+  const handleChapterChange = (index: number, field: "title" | "content", value: string) => {
+    const newChapters = [...chapters];
+    newChapters[index] = { ...newChapters[index], [field]: value };
+    setChapters(newChapters);
+  };
 
-      // Generate content
-      const contentResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: [{ role: 'user', content: `Write a chapter for the story "${title}" with description "${description}". Chapter title: "${chapterTitle}". Make it engaging, at least 160 words.` }],
-          max_tokens: 1500,
-        }),
-      });
-      const contentData = await contentResponse.json();
-      const chapterContent = contentData.choices[0].message.content.trim();
-
-      const newChapter: Chapter = {
-        id: chapters.length + 1,
-        title: chapterTitle,
-        content: chapterContent,
-        comments: [],
-      };
-      setChapters(prev => [...prev, newChapter]);
-    } catch (error) {
-      setMessage("Error generating chapter.");
-    }
-    setLoading(false);
+  const removeChapter = (index: number) => {
+    setChapters(chapters.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentAuthor) {
-      setMessage("You must be logged in to upload a story.");
+      setMessage("Você deve estar logado para criar uma história.");
       return;
     }
-    const genresArray = genres.split(',').map(g => g.trim()).filter(g => g);
-    addStory(title, description, image, currentAuthor.name, chapters, genresArray);
-    setMessage("Story uploaded successfully!");
+    if (!title.trim() || !description.trim() || chapters.length === 0 || !chapters.every(c => c.content.trim())) {
+      setMessage("Preencha todos os campos obrigatórios, incluindo conteúdo de todos os capítulos.");
+      return;
+    }
+    const validChapters = chapters.filter(c => c.content.trim());
+    const newStory: Story = {
+      id: Date.now(),
+      title: title.trim(),
+      description: description.trim(),
+      image: coverUrl.trim() || "https://via.placeholder.com/400x200?text=Capa",
+      author: currentAuthor.name,
+      date: new Date().toISOString(),
+      chapters: validChapters,
+      genres,
+      tags,
+      ratings: { average: 0, count: 0 },
+      comments: [],
+      popularity: 0,
+    };
+    storyService.saveStory(newStory);
+    setMessage("História criada com sucesso!");
     setTitle("");
     setDescription("");
-    setImage("");
-    setChapters([]);
-    setGenres("");
+    setGenres([]);
+    setTags([]);
+    setCoverUrl("");
+    setChapters([{ id: 1, title: "", content: "" }]);
+    setTimeout(() => navigate(`/story/${newStory.id}`), 2000);
   };
 
-  if (!currentAuthor) {
-    return <p className="text-center text-gray-900 dark:text-gray-100">Please login to upload stories.</p>;
-  }
-
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Upload New Story</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-          required
-        />
-        <div className="flex space-x-2">
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6">Nova História</h1>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block mb-1 font-semibold">Título</label>
+          <input
+            type="text"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold">Descrição</label>
           <textarea
-            placeholder="Description"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+            onChange={e => setDescription(e.target.value)}
+            className="w-full p-2 rounded bg-gray-900 text-white"
             rows={4}
             required
           />
-          <button type="button" onClick={generateDescription} disabled={loading} className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
-            Gerar Descrição
-          </button>
         </div>
-        <input
-          type="url"
-          placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-          required
-        />
         <div>
-          <button type="button" onClick={addChapter} disabled={loading} className="bg-green-500 text-white p-2 rounded hover:bg-green-600">
-            Adicionar Capítulo com IA
-          </button>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Capítulos: {chapters.length}</p>
+          <label className="block mb-1 font-semibold">Gêneros (separados por vírgula)</label>
+          <input
+            type="text"
+            value={genres.join(", ")}
+            onChange={e => setGenres(e.target.value.split(",").map(s => s.trim()))}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+          />
         </div>
-        <input
-          type="text"
-          placeholder="Genres (comma separated)"
-          value={genres}
-          onChange={(e) => setGenres(e.target.value)}
-          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-          required
-        />
-        <button type="submit" className="w-full bg-purple-500 text-white p-2 rounded hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700">
-          Upload Story
+        <div>
+          <label className="block mb-1 font-semibold">Tags (separados por vírgula)</label>
+          <input
+            type="text"
+            value={tags.join(", ")}
+            onChange={e => setTags(e.target.value.split(",").map(s => s.trim()))}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold">URL da Capa</label>
+          <input
+            type="text"
+            value={coverUrl}
+            onChange={e => setCoverUrl(e.target.value)}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+          />
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Capítulos</h2>
+          {chapters.map((chapter, index) => (
+            <div key={chapter.id} className="mb-4 border p-4 rounded bg-gray-800">
+              <input
+                type="text"
+                placeholder="Título do capítulo"
+                value={chapter.title}
+                onChange={e => handleChapterChange(index, "title", e.target.value)}
+                className="w-full p-2 rounded mb-2 bg-gray-900 text-white"
+              />
+              <textarea
+                placeholder="Conteúdo do capítulo"
+                value={chapter.content}
+                onChange={e => handleChapterChange(index, "content", e.target.value)}
+                className="w-full p-2 rounded bg-gray-900 text-white"
+                rows={6}
+                required
+              />
+              {chapters.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeChapter(index)}
+                  className="mt-2 px-4 py-2 bg-red-600 rounded hover:bg-red-700 text-white"
+                >
+                  Remover Capítulo
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={handleAddChapter}
+            className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 text-white"
+          >
+            Adicionar Capítulo
+          </button>
+        </div>
+        <button
+          type="submit"
+          className="px-6 py-3 bg-green-600 rounded hover:bg-green-700 font-semibold"
+        >
+          Salvar História
         </button>
       </form>
-      {message && <p className="mt-4 text-center text-gray-900 dark:text-gray-100">{message}</p>}
-      {loading && <p className="mt-4 text-center text-gray-900 dark:text-gray-100">Gerando...</p>}
+      {message && <p className="mt-4 text-center text-green-500">{message}</p>}
     </div>
   );
 }

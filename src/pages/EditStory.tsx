@@ -1,272 +1,210 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import useStories from "../hooks/useStories";
-import useAuthors from "../hooks/useAuthors";
-import { Chapter } from "../types/story";
+import { useParams, useNavigate } from "react-router-dom";
+import storyService from "../services/storyService";
+import { Story, Chapter } from "../types/story";
 
 const AVAILABLE_GENRES = ["Fantasia", "Aventura", "Ficção Científica", "Suspense", "Mistério", "Romance", "Terror", "Drama"];
 
 function EditStory() {
   const { id } = useParams<{ id: string }>();
-  const { stories, updateStory } = useStories();
-  const { currentAuthor } = useAuthors();
   const navigate = useNavigate();
+  const [story, setStory] = useState<Story | null>(null);
+  const [newChapterTitle, setNewChapterTitle] = useState("");
+  const [newChapterContent, setNewChapterContent] = useState("");
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
-  const [content, setContent] = useState("");
-  const [chapterTitle, setChapterTitle] = useState("");
-  const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [message, setMessage] = useState("");
-
-  // Load story data
   useEffect(() => {
-    if (id) {
-      const story = stories.find(s => s.id === parseInt(id));
-      if (story) {
-        setTitle(story.title);
-        setDescription(story.description);
-        setImage(story.image);
-        setSelectedGenres(story.genres || []);
-        setTags(story.tags || []);
-        setChapters(story.chapters || []);
-      }
-    }
-  }, [id, stories]);
+    if (!id) return;
+    const storyId = Number(id);
+    const stories = storyService.getLocalStories();
+    const foundStory = stories.find(s => s.id === storyId) || null;
+    setStory(foundStory);
+  }, [id]);
 
-  const addChapter = () => {
-    if (!content.trim()) return;
-    const newChapter: Chapter = {
-      id: chapters.length + 1,
-      title: chapterTitle.trim() || `Capítulo ${chapters.length + 1}`,
-      content: content.trim(),
-      comments: []
-    };
-    setChapters(prev => [...prev, newChapter]);
-    setContent("");
-    setChapterTitle("");
-  };
-
-  const removeChapter = (index: number) => {
-    setChapters(prev => prev.filter((_, i) => i !== index));
+  const handleChange = (field: keyof Story, value: any) => {
+    if (!story) return;
+    setStory({ ...story, [field]: value });
   };
 
   const handleGenreChange = (genre: string) => {
-    setSelectedGenres(prev =>
-      prev.includes(genre)
-        ? prev.filter(g => g !== genre)
-        : [...prev, genre]
-    );
+    if (!story) return;
+    const genres = story.genres || [];
+    const newGenres = genres.includes(genre)
+      ? genres.filter(g => g !== genre)
+      : [...genres, genre];
+    setStory({ ...story, genres: newGenres });
   };
 
-  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' || e.key === ',') {
-      e.preventDefault();
-      const newTag = tagInput.trim();
-      if (newTag && !tags.includes(newTag)) {
-        setTags(prev => [...prev, newTag]);
-        setTagInput("");
-      }
+  const handleTagChange = (tags: string[]) => {
+    if (!story) return;
+    setStory({ ...story, tags });
+  };
+
+  const addChapter = () => {
+    if (!story || !newChapterContent.trim()) return;
+    const newChapter: Chapter = {
+      id: (story.chapters?.length || 0) + 1,
+      title: newChapterTitle.trim() || `Capítulo ${(story.chapters?.length || 0) + 1}`,
+      content: newChapterContent.trim()
+    };
+    const updatedChapters = [...(story.chapters || []), newChapter];
+    setStory({ ...story, chapters: updatedChapters });
+    setNewChapterTitle("");
+    setNewChapterContent("");
+  };
+
+  const updateChapter = (index: number, field: keyof Chapter, value: any) => {
+    if (!story || !story.chapters) return;
+    const updatedChapters = [...story.chapters];
+    updatedChapters[index] = { ...updatedChapters[index], [field]: value };
+    setStory({ ...story, chapters: updatedChapters });
+  };
+
+  const removeChapter = (index: number) => {
+    if (!story || !story.chapters) return;
+    const updatedChapters = story.chapters.filter((_, i) => i !== index);
+    setStory({ ...story, chapters: updatedChapters });
+  };
+
+  const handleSave = () => {
+    if (!story) return;
+    storyService.updateStory(story.id, story);
+    navigate(`/story/${story.id}`);
+  };
+
+  const handleDelete = () => {
+    if (!story) return;
+    if (window.confirm("Tem certeza que deseja excluir esta história?")) {
+      storyService.deleteStory(story.id);
+      navigate("/");
     }
   };
 
-  const removeTag = (tagToRemove: string) => {
-    setTags(prev => prev.filter(tag => tag !== tagToRemove));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!currentAuthor) {
-      setMessage("Você deve estar logado para editar uma história.");
-      return;
-    }
-    if (!title || !description || chapters.length === 0) {
-      setMessage("Preencha todos os campos obrigatórios.");
-      return;
-    }
-
-    updateStory(parseInt(id!), {
-      title,
-      description,
-      image: image || "https://via.placeholder.com/400x200?text=Capa",
-      chapters,
-      genres: selectedGenres,
-      tags
-    });
-
-    setMessage("História atualizada com sucesso!");
-    setTimeout(() => navigate("/authors"), 2000);
-  };
-
-  if (!currentAuthor) {
-    return <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center">Faça login para editar histórias.</div>;
+  if (!story) {
+    return <div className="p-8 max-w-4xl mx-auto">História não encontrada.</div>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-10 px-4">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">Editar História</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Form Section */}
-          <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md space-y-6">
-            <div>
-              <label className="block text-sm font-medium mb-2">Título *</label>
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6">Editar História</h1>
+      <div className="space-y-6">
+        <div>
+          <label className="block mb-1 font-semibold">Título</label>
+          <input
+            type="text"
+            value={story.title}
+            onChange={e => handleChange("title", e.target.value)}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold">Descrição</label>
+          <textarea
+            value={story.description}
+            onChange={e => handleChange("description", e.target.value)}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+            rows={4}
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold">URL da Capa</label>
+          <input
+            type="text"
+            value={story.image || ""}
+            onChange={e => handleChange("image", e.target.value)}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold">Gêneros</label>
+          <div className="grid grid-cols-2 gap-2">
+            {AVAILABLE_GENRES.map(genre => (
+              <label key={genre} className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={(story.genres || []).includes(genre)}
+                  onChange={() => handleGenreChange(genre)}
+                  className="mr-2"
+                />
+                {genre}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold">Tags (separados por vírgula)</label>
+          <input
+            type="text"
+            value={(story.tags || []).join(", ")}
+            onChange={e => handleTagChange(e.target.value.split(",").map(s => s.trim()))}
+            className="w-full p-2 rounded bg-gray-900 text-white"
+          />
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Capítulos</h2>
+          {(story.chapters || []).map((chapter, index) => (
+            <div key={index} className="mb-4 border p-4 rounded bg-gray-800">
               <input
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Descrição *</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={4}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">URL da Capa</label>
-              <input
-                type="url"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                placeholder="https://exemplo.com/imagem.jpg"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Gêneros</label>
-              <div className="grid grid-cols-2 gap-2">
-                {AVAILABLE_GENRES.map(genre => (
-                  <label key={genre} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedGenres.includes(genre)}
-                      onChange={() => handleGenreChange(genre)}
-                      className="mr-2"
-                    />
-                    {genre}
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Tags (separados por vírgula)</label>
-              <input
-                type="text"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleTagKeyDown}
-                placeholder="Amor, Mistério, Viagem"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              />
-              <div className="flex flex-wrap mt-2 gap-2">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-purple-500 text-white px-3 py-1 rounded-full flex items-center space-x-2"
-                  >
-                    <span>{tag}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeTag(tag)}
-                      className="text-white hover:text-gray-300"
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Adicionar Novo Capítulo</label>
-              <input
-                type="text"
-                value={chapterTitle}
-                onChange={(e) => setChapterTitle(e.target.value)}
-                placeholder="Título do capítulo (opcional)"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 mb-2"
+                placeholder="Título do capítulo"
+                value={chapter.title}
+                onChange={e => updateChapter(index, "title", e.target.value)}
+                className="w-full p-2 rounded mb-2 bg-gray-900 text-white"
               />
               <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+                placeholder="Conteúdo do capítulo"
+                value={chapter.content}
+                onChange={e => updateChapter(index, "content", e.target.value)}
+                className="w-full p-2 rounded bg-gray-900 text-white"
                 rows={6}
-                placeholder="Escreva o conteúdo do capítulo aqui..."
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               />
               <button
                 type="button"
-                onClick={addChapter}
-                className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                onClick={() => removeChapter(index)}
+                className="mt-2 px-4 py-2 bg-red-600 rounded hover:bg-red-700"
               >
-                Adicionar Capítulo
+                Remover Capítulo
               </button>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Capítulos ({chapters.length})</h3>
-              {chapters.length > 0 ? (
-                <ul className="space-y-2">
-                  {chapters.map((chapter, index) => (
-                    <li key={index} className="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-3 rounded">
-                      <span>{chapter.title}</span>
-                      <button
-                        type="button"
-                        onClick={() => removeChapter(index)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        Remover
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-gray-500">Nenhum capítulo adicionado ainda.</p>
-              )}
-            </div>
+          ))}
+          <div className="mb-4 border p-4 rounded bg-gray-800">
+            <h3 className="text-lg font-semibold mb-2">Adicionar Novo Capítulo</h3>
+            <input
+              type="text"
+              placeholder="Título do capítulo"
+              value={newChapterTitle}
+              onChange={e => setNewChapterTitle(e.target.value)}
+              className="w-full p-2 rounded mb-2 bg-gray-900 text-white"
+            />
+            <textarea
+              placeholder="Conteúdo do capítulo"
+              value={newChapterContent}
+              onChange={e => setNewChapterContent(e.target.value)}
+              className="w-full p-2 rounded bg-gray-900 text-white"
+              rows={6}
+            />
             <button
-              type="submit"
-              className="w-full bg-purple-500 text-white p-3 rounded hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700 font-semibold"
+              type="button"
+              onClick={addChapter}
+              className="mt-2 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
             >
-              Atualizar História
+              Adicionar Capítulo
             </button>
-          </form>
-          {/* Preview Section */}
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md space-y-6">
-            <h2 className="text-2xl font-bold mb-4">Preview da História</h2>
-            <div className="border border-gray-300 dark:border-gray-600 rounded overflow-hidden">
-              <img
-                src={image || "https://via.placeholder.com/400x200?text=Capa"}
-                alt="Capa da História"
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2">{title || "Título da História"}</h3>
-                <p className="mb-2">{description || "Descrição da história aparecerá aqui."}</p>
-                <div className="mb-2">
-                  <strong>Gêneros:</strong>{" "}
-                  {selectedGenres.length > 0 ? selectedGenres.join(", ") : "Nenhum gênero selecionado"}
-                </div>
-                <div className="mb-2">
-                  <strong>Tags:</strong>{" "}
-                  {tags.length > 0 ? tags.join(", ") : "Nenhuma tag adicionada"}
-                </div>
-                <div>
-                  <strong>Capítulos:</strong> {chapters.length}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-        {message && <p className="mt-4 text-center text-gray-900 dark:text-gray-100">{message}</p>}
+        <div className="flex space-x-4">
+          <button
+            onClick={handleSave}
+            className="px-6 py-3 bg-green-600 rounded hover:bg-green-700 font-semibold"
+          >
+            Salvar Alterações
+          </button>
+          <button
+            onClick={handleDelete}
+            className="px-6 py-3 bg-red-600 rounded hover:bg-red-700 font-semibold"
+          >
+            Excluir História
+          </button>
+        </div>
       </div>
     </div>
   );

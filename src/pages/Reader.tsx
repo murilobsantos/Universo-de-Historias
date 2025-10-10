@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useStories from "../hooks/useStories";
+import { useDarkMode } from "../contexts/DarkModeContext";
 import { ChevronLeft, ChevronRight, Settings, X } from "lucide-react";
 
 function Reader() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { stories } = useStories();
+  const { isDarkMode } = useDarkMode();
   const story = stories.find(s => s.id === Number(id));
   const [currentChapter, setCurrentChapter] = useState<number | null>(null);
   const [fontSize, setFontSize] = useState(18);
@@ -65,7 +67,7 @@ function Reader() {
 
   if (!story) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark flex items-center justify-center text-white">
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark' : 'bg-backgroundLight'} flex items-center justify-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
         <div className="text-center">
           <div className="text-6xl mb-4">🌌</div>
           <h2 className="text-2xl font-bold mb-2">História não encontrada</h2>
@@ -82,7 +84,7 @@ function Reader() {
 
   if (!story.chapters || story.chapters.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark flex items-center justify-center text-white">
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark' : 'bg-backgroundLight'} flex items-center justify-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Nenhum capítulo disponível</h2>
           <button
@@ -102,7 +104,7 @@ function Reader() {
   const currentIndex = story.chapters.findIndex(c => c.id === currentChapter);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white relative overflow-hidden">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} relative overflow-hidden`}>
       {/* Background stars */}
       <div className="absolute inset-0">
         {[...Array(50)].map((_, i) => (

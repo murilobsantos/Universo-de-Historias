@@ -5,6 +5,7 @@ import ReaderLogin from "../components/ReaderLogin";
 import ReaderRegistration from "../components/ReaderRegistration";
 import useAuthors from "../hooks/useAuthors";
 import useStories from "../hooks/useStories";
+import { useDarkMode } from "../contexts/DarkModeContext";
 import StoryCard from "../components/StoryCard";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,6 +14,7 @@ function Login() {
   const [userType, setUserType] = useState<'author' | 'reader'>('author');
   const { currentAuthor, logout } = useAuthors();
   const { stories, deleteStory } = useStories();
+  const { isDarkMode } = useDarkMode();
   const navigate = useNavigate();
 
   const authorStories = stories.filter(story => story.author === currentAuthor?.name);
@@ -24,7 +26,7 @@ function Login() {
   if (currentAuthor) {
     // Author Dashboard
     return (
-      <div className="min-h-screen bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white p-4">
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} p-4`}>
         <div className="max-w-4xl mx-auto py-10">
           <h2 className="text-2xl font-semibold mb-6">Author Dashboard</h2>
           <p className="text-center mb-6">Welcome, {currentAuthor.name}!</p>
@@ -90,7 +92,7 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark flex flex-col items-center justify-center text-white p-4">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark' : 'bg-backgroundLight'} flex flex-col items-center justify-center ${isDarkMode ? 'text-white' : 'text-black'} p-4`}>
       <div className="bg-cosmic-dark/70 backdrop-blur-xs rounded-lg p-8 max-w-md w-full shadow-lg">
         {/* User Type Tabs */}
         <div className="flex justify-center mb-6 space-x-4">

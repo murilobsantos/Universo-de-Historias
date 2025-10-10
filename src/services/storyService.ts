@@ -1,36 +1,39 @@
-import { Story } from '../types/story';
+import { Story } from "../types/story";
 
-const STORAGE_KEY = 'local-stories';
+const LOCAL_STORIES_KEY = "local-stories";
 
-export function saveStory(story: Story): void {
-  const localStories = getLocalStories();
-  localStories.push(story);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(localStories));
-}
+const storyService = {
+  getLocalStories(): Story[] {
+    const stories = localStorage.getItem(LOCAL_STORIES_KEY);
+    if (!stories) return [];
+    return JSON.parse(stories);
+  },
 
-export function getLocalStories(): Story[] {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    try {
-      return JSON.parse(stored);
-    } catch {
-      return [];
+  saveStory(story: Story) {
+    const stories = this.getLocalStories();
+    const existingIndex = stories.findIndex(s => s.id === story.id);
+    if (existingIndex >= 0) {
+      stories[existingIndex] = story;
+    } else {
+      stories.push(story);
     }
-  }
-  return [];
-}
+    localStorage.setItem(LOCAL_STORIES_KEY, JSON.stringify(stories));
+  },
 
-export function updateStory(id: number, updatedStory: Partial<Story>): void {
-  const localStories = getLocalStories();
-  const index = localStories.findIndex(story => story.id === id);
-  if (index !== -1) {
-    localStories[index] = { ...localStories[index], ...updatedStory };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(localStories));
-  }
-}
+  updateStory(id: number, updatedStory: Story) {
+    const stories = this.getLocalStories();
+    const index = stories.findIndex(s => s.id === id);
+    if (index >= 0) {
+      stories[index] = updatedStory;
+      localStorage.setItem(LOCAL_STORIES_KEY, JSON.stringify(stories));
+    }
+  },
 
-export function deleteStory(id: number): void {
-  const localStories = getLocalStories();
-  const filtered = localStories.filter(story => story.id !== id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
-}
+  deleteStory(id: number) {
+    const stories = this.getLocalStories();
+    const filtered = stories.filter(s => s.id !== id);
+    localStorage.setItem(LOCAL_STORIES_KEY, JSON.stringify(filtered));
+  },
+};
+
+export default storyService;

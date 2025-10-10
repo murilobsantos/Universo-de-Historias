@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useReaders } from "../hooks/useReaders";
 
 function ReaderRegistration() {
+  const { register } = useReaders();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,7 +13,7 @@ function ReaderRegistration() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name && email && password) {
+    if (register(name, email, password, bio)) {
       setMessage("Registration successful!");
       setName("");
       setEmail("");
@@ -19,7 +21,7 @@ function ReaderRegistration() {
       setBio("");
       navigate("/home");
     } else {
-      setMessage("Please fill in all required fields.");
+      setMessage("Email already registered.");
     }
   };
 

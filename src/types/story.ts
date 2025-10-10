@@ -1,3 +1,8 @@
+export interface Rating {
+  average: number;
+  count: number;
+}
+
 export interface Comment {
   id: number;
   author: string;
@@ -9,7 +14,6 @@ export interface Chapter {
   id: number;
   title: string;
   content: string;
-  comments: Comment[];
 }
 
 export interface Story {
@@ -22,7 +26,21 @@ export interface Story {
   chapters: Chapter[];
   genres: string[];
   tags: string[];
-  ratings: { average: number; count: number };
+  ratings: Rating;
   comments: Comment[];
   popularity: number;
+}
+
+export interface Author {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  bio: string;
+  avatarUrl?: string;
+  storiesCount: number;
+  followersCount: number;
+  theme?: string;
+  badges?: string[];
+  background?: string;
 }

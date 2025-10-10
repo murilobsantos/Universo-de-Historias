@@ -1,36 +1,50 @@
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 
 interface StoryCardProps {
-  id: number;
   title: string;
   description: string;
   image: string;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
-};
-
-function StoryCard({ id, title, description, image, onClick }: StoryCardProps) {
+const StoryCard: React.FC<StoryCardProps> = ({ title, description, image, onClick }) => {
   return (
     <motion.div
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer"
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.15)" }}
+      className="bg-white/10 rounded-lg shadow-lg cursor-pointer overflow-hidden group"
       onClick={onClick}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(147, 51, 234, 0.5), 0 0 20px rgba(59, 130, 246, 0.3)" }}
+      transition={{ duration: 0.3 }}
     >
-      <img src={image} alt={title} className="w-full h-48 object-cover" />
+      <motion.img
+        src={image}
+        alt={title}
+        className="w-full h-48 object-cover"
+        loading="lazy"
+        onError={() => console.error(`Failed to load image for "${title}": ${image}`)}
+        whileHover={{ scale: 1.1, rotate: 2 }}
+        transition={{ duration: 0.3 }}
+      />
       <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">{title}</h3>
-        <p className="text-gray-600 dark:text-gray-300">{description}</p>
+        <motion.h3 
+          className="text-xl font-semibold mb-2"
+          whileHover={{ color: "#3b82f6" }}
+        >
+          {title}
+        </motion.h3>
+        <motion.p 
+          className="text-textSecondary text-sm"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          {description}
+        </motion.p>
       </div>
     </motion.div>
   );
-}
+};
 
 export default StoryCard;

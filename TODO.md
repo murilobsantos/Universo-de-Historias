@@ -1,54 +1,32 @@
-# TODO - Correção e Implementações
+# TODO.md - Sprint 3: UI/UX Polimento e Atualização de Mock Data
 
-## 1. Correção do Erro de Persistência nos Comentários
-- [x] Atualizar `interactionService.ts`: Adicionar `chapterId` à interface `LocalComment` e atualizar funções para suportar comentários por capítulo.
-- [x] Modificar `StoryDetail.tsx`: Usar `interactionService` para carregar e adicionar comentários por capítulo, removendo modificação direta de `mockStories.comments`.
-- [x] Testar persistência: Adicionar comentário, recarregar página, verificar se comentário permanece.
+## Tasks from Approved Plan
 
-## 2. Task 1.1: Adicionar Comentários por Parágrafo
-- [x] Atualizar `StoryDetail.tsx`: Implementar sistema visual de comentários inline nos parágrafos (ícone no hover, modal/popover).
-- [x] Atualizar `interactionService.ts`: Adicionar suporte para `paragraphIndex` nos comentários.
-- [x] Testar: Clicar em parágrafo, adicionar comentário, verificar exibição.
+### 1. Atualizar Mock Stories com Imagens Reais (Adicionado pelo Usuário)
+- [x] Pesquisar e adicionar URLs de imagens da internet para as histórias mockadas em src/data/stories.ts (ex: Unsplash, Pexels para temas cósmicos/fantasia).
+- [x] Garantir que as imagens sejam relevantes aos títulos/descrições das histórias.
+- [x] Testar carregamento das imagens no Home.tsx e StoryCard.tsx.
 
-## 3. Task 3.1: Página "Nova História"
-- [x] Criar `NewStory.tsx`: Formulário para título, descrição, gêneros, tags, capa, capítulos dinâmicos.
-- [x] Adicionar rota `/nova` em `App.tsx`.
-- [x] Integrar com `useStories` para salvar histórias localmente.
-- [x] Testar: Criar nova história, verificar se aparece na lista.
+### 2. Task 4.2: Framer Motion para Animações
+- [x] Adicionar staggerChildren em listas de histórias no src/pages/Home.tsx (usar AnimatePresence e variants para StoryCards).
+- [x] Implementar animate open/close no src/components/Modal.tsx (variants para scale/fade).
+- [x] Adicionar page transitions no src/App.tsx (AnimatePresence para rotas, com variants para fade/slide).
 
-## 3. Task 3.3: Editar/Excluir histórias
-- [x] Botões "Editar" e "Excluir" nos cards de histórias do autor
-- [x] Página EditStory.tsx para edição de histórias
-- [x] Rota /editar/:id adicionada
-- [x] Confirmação antes de excluir
-- [x] Navegação funcional entre páginas
+### 3. Task 4.3: Hover States e Transições
+- [x] Expandir hover em src/components/StoryCard.tsx (glow cósmico com boxShadow purple/blue, rotate icons).
+- [x] Adicionar scale e glow em modais e botões no src/components/Modal.tsx e Header.tsx.
 
-## 4. Verificações Finais
-- [x] Garantir que ao clicar em "explorar histórias", o conteúdo apareça corretamente (capítulos, comentários, etc.).
-- [x] Testar responsividade e dark mode.
+### 4. Task 4.4: Responsividade 100%
+- [x] Otimizar grids para mobile em src/pages/Home.tsx (grid-cols-1 em sm, touch-friendly).
+- [x] Garantir menu hambúrguer funcional no src/components/Header.tsx (stagger no mobile menu).
+- [x] Testar em browser (resize window, mobile view).
 
-## 5. Create Reader Page and Enhance Login Page
-- [x] Create `src/pages/Login.tsx` with cosmic theme, tabbed interface for login/registration.
-- [x] Update `src/components/AuthorLogin.tsx` to cosmic theme (glassmorphism, gradients, animations).
-- [x] Update `src/components/AuthorRegistration.tsx` to cosmic theme.
-- [x] Create `src/pages/Reader.tsx` for immersive story reading with cosmic background.
-- [x] Add routes `/login` and `/reader/:id` in `src/App.tsx`.
-- [ ] Test new pages for cosmic theme consistency and functionality.
+### 5. Task 4.5: Lazy loading de imagens
+- [x] Adicionar loading="lazy" em todas as imagens (StoryCard, Home, StoryDetail)
 
-## 6. Próximas Tasks Prioritárias (Sprint 2)
+### Followup Steps
+- [ ] Testar animações e responsividade no browser (yarn dev, interact with pages).
+- [ ] Atualizar progresso.md para marcar Sprint 3 como 100% completa.
+- [ ] Prosseguir para Sprint 4 (lazy loading, skeletons).
 
-### Task 3.3: Finalizar edição e exclusão de histórias
-- [x] Implementar botão "Excluir" funcional em Authors.tsx
-- [x] Adicionar confirmação de exclusão com modal
-- [x] Testar exclusão completa da história e redirecionamento
-
-### Task 3.4: Preview instantâneo aprimorado
-- [ ] Melhorar preview em tempo real no NewStory.tsx
-- [ ] Adicionar preview de capítulos no EditStory.tsx
-- [ ] Otimizar performance do preview
-
-### Task 4.1: Tema Wattpad (laranja + branco + preto)
-- [ ] Atualizar `tailwind.config.js` com cores do Wattpad
-- [ ] Modificar `src/index.css` com nova paleta
-- [ ] Aplicar tema em componentes principais
-- [ ] Testar dark mode com novo tema
+Progresso Atual: 0/9 tasks completas

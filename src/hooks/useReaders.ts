@@ -55,6 +55,11 @@ export const useReaders = () => {
 
   useEffect(() => {
     setReaders(getReaders());
+    // Load current reader from localStorage
+    const saved = localStorage.getItem('currentReader');
+    if (saved) {
+      setCurrentReader(JSON.parse(saved));
+    }
   }, []);
 
   const register = (name: string, email: string, password: string, bio?: string): boolean => {

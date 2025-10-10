@@ -11,11 +11,12 @@ function AuthorLogin() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (login(email.trim(), password.trim())) {
+    const author = login(email.trim(), password.trim());
+    if (author) {
       setMessage("Login successful!");
       setEmail("");
       setPassword("");
-      navigate("/profile/author/1"); // Assuming logged in author id is 1
+      navigate(`/profile/author/${author.id}`);
     } else {
       setMessage("Invalid email or password.");
     }

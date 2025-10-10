@@ -1,14 +1,26 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import StoryCard from "../components/StoryCard";
 import Modal from "../components/Modal";
 import useStories from "../hooks/useStories";
+import { useDarkMode } from "../contexts/DarkModeContext";
 import { Story } from "../types/story";
 
 function Welcome() {
+  console.log("Welcome component rendering");
   const { stories } = useStories();
+  const { isDarkMode } = useDarkMode();
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 500);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const featuredStories = useMemo(() => {
     if (!stories) return [];
@@ -28,9 +40,9 @@ function Welcome() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white">
+    <main className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'}`}>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 pt-24">
+      <section className={`relative min-h-screen flex items-center justify-center px-4 pt-24 ${isDarkMode ? 'text-white' : 'text-black'}`}>
         <div className="absolute inset-0 overflow-hidden">
           {/* Floating particles effect - simplified */}
           <div className="absolute top-20 left-10 w-2 h-2 bg-cyanSoft rounded-full animate-float"></div>
@@ -120,7 +132,6 @@ function Welcome() {
               <div key={story.id} className="animate-fade-up" style={{animationDelay: `${index * 0.1}s`}}>
                 <div className="hover:scale-105 transition-transform duration-300">
                   <StoryCard
-                    id={story.id}
                     title={story.title}
                     description={story.description}
                     image={story.image}
@@ -142,8 +153,18 @@ function Welcome() {
         </div>
       </section>
 
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-8 right-8 bg-gradient-to-r from-primary to-secondary text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-40"
+        >
+          🔝
+        </button>
+      )}
+
       {/* Footer */}
-      <footer className="bg-cosmic-deep border-t border-white/10 py-12 px-4">
+      <footer className={`${isDarkMode ? 'bg-cosmic-deep border-t border-white/10' : 'bg-gray-100 border-t border-gray-300'} py-12 px-4`}>
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-3 mb-6">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
