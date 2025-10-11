@@ -41,8 +41,9 @@
 - [x] Attempted to remove _redirects (command executed, but file still present in list)
 
 ## Followup steps:
-- Test author registration with images.
-- Test login and logout functionality.
-- Test navigation and redirections.
-- Test profile editing with avatar and banner image upload.
-- Clean up unnecessary files.
+- [x] Test author registration with images. (User confirmed working)
+- [x] Test login and logout functionality. (User confirmed working)
+- [x] Test navigation and redirections. (User confirmed working)
+- [x] Test profile editing with avatar and banner image upload. (User confirmed working)
+- [x] Clean up unnecessary files. (Attempted removal of progresso.md, referencia.md, Sistema_de_Personalizacao_Galaxia_de_Historias.md, mockup uiux.txt, PROGRESS.md, Home_new.tsx, Modal_clean.tsx, Modal_temp.tsx, Universo de Historias/ folder, _redirects)
+- Investigate deploy error 299 (possibly related to _redirects file, removed to test)
