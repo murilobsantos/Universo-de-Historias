@@ -80,6 +80,19 @@ const mockAuthors: Author[] = [
     background: "nebula",
     favorites: [],
   },
+  {
+    id: 7,
+    name: "Murilo Santos",
+    email: "murilobsantos12@gmail.com",
+    password: "password123",
+    bio: "Entusiasta de ficção científica e aventuras cósmicas.",
+    avatarUrl: "https://picsum.photos/100/200?random=2",
+    storiesCount: 0,
+    followersCount: 0,
+    badges: [],
+    background: "https://picsum.photos/800/200?random=2",
+    favorites: [],
+  },
 ];
 
 export default function useAuthors() {
@@ -156,24 +169,31 @@ export default function useAuthors() {
     }
   }, []);
 
-  const login = (email: string, password: string): Author | null => {
-    const author = authors.find(a => a.email === email && a.password === password);
-    if (author) {
-      setCurrentAuthor(author);
+const login = (email: string, password: string): Author | null => {
+  const trimmedEmail = email.trim().toLowerCase();
+  const trimmedPassword = password.trim();
+  const author = authors.find(a => a.email.toLowerCase() === trimmedEmail && a.password === trimmedPassword);
+  if (author) {
+    setCurrentAuthor(author);
+    try {
       localStorage.setItem("current-author", JSON.stringify(author));
-      return author;
+    } catch (error) {
+      console.warn("Failed to save current-author to localStorage due to quota limit. Author will not persist after refresh.");
     }
-    return null;
-  };
+    return author;
+  }
+  return null;
+};
 
   const logout = () => {
     setCurrentAuthor(null);
     localStorage.removeItem("current-author");
   };
 
-  const createAuthor = (name: string, email: string, password: string, bio: string, avatarUrl?: string) => {
-    const existing = authors.find(a => a.email === email);
-    if (existing) return false;
+  const createAuthor = (name: string, email: string, password: string, bio: string, avatarUrl?: string, backgroundUrl?: string): Author | null => {
+    const trimmedEmail = email.trim().toLowerCase();
+    const existing = authors.find(a => a.email.toLowerCase() === trimmedEmail);
+    if (existing) return null;
 
     const newAuthor: Author = {
       id: Date.now(), // simple id generation
@@ -184,15 +204,34 @@ export default function useAuthors() {
       avatarUrl,
       storiesCount: 0,
       followersCount: 0,
-      background: "cosmic",
+      background: backgroundUrl || "cosmic",
       badges: [],
       favorites: [],
     };
-    const updatedAuthors = [...authors, newAuthor];
-    setAuthors(updatedAuthors);
-    localStorage.setItem("authors", JSON.stringify(updatedAuthors));
-    login(email, password);
-    return true;
+  const updatedAuthors = [...authors, newAuthor];
+  setAuthors(updatedAuthors);
+  try {
+    // Save authors without large base64 images to avoid quota issues and ensure persistence
+    const authorsToSave = updatedAuthors.map(author => ({
+      ...author,
+      avatarUrl: author.avatarUrl?.startsWith('data:') ? '' : (author.avatarUrl || ''),
+      background: author.background?.startsWith('data:') ? '' : (author.background || ''),
+    }));
+    localStorage.setItem("authors", JSON.stringify(authorsToSave));
+  } catch (error) {
+    console.warn("Failed to save authors to localStorage due to quota limit. Authors will not persist after refresh.");
+  }
+  // Login with the new author
+  const author = updatedAuthors.find(a => a.email.toLowerCase() === trimmedEmail && a.password === password);
+  if (author) {
+    setCurrentAuthor(author);
+    try {
+      localStorage.setItem("current-author", JSON.stringify(author));
+    } catch (error) {
+      console.warn("Failed to save current-author to localStorage due to quota limit. Author will not persist after refresh.");
+    }
+  }
+  return author || null;
   };
 
   const updateAuthor = (updatedAuthor: Author) => {

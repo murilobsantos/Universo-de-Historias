@@ -102,6 +102,25 @@ export const mockStories: Story[] = [
       {
         id: 3,
         title: "Capítulo 3: O Coração do Dragão",
+        content: "No coração das Montanhas Negras, o trio enfrentou o covil do Dragão das Sombras, uma caverna vasta iluminada por cristais que pulsavam com energia sombria. O dragão, uma besta colossal com escamas negras como a noite, guardava um cristal de luz primordial, o único capaz de quebrar a maldição. Thorne lançou feitiços de luz que iluminaram a caverna, revelando ilusões que testavam suas fraquezas.\n\nEron, com sua espada forjada em chamas eternas, duelou com sombras projetadas pelo dragão, cada golpe ecoando como trovão. Lira, com flechas encantadas, visou pontos fracos nas asas da criatura, enquanto Thorne mantinha barreiras de luz contra rajadas de escuridão. O dragão rugiu, invocando tempestades de sombras que ameaçavam engoli-los.\n\nEm um momento de desespero, Eron tocou o cristal, absorvendo sua luz e infundindo-a em sua espada. Com um golpe final, ele feriu o dragão, não para matá-lo, mas para selar sua essência sombria. O cristal se quebrou, liberando uma onda de luz que purificou a caverna. Exaustos, eles emergiram vitoriosos, mas o dragão, enfraquecido, jurou vingança futura.\n\nA jornada até ali havia sido árdua, com traições e perdas que moldaram seus espíritos. Eron refletia sobre como a luz interior podia superar as trevas externas, enquanto Lira e Thorne compartilhavam histórias de suas vidas passadas, fortalecendo os laços de amizade. O cristal, agora em suas mãos, pulsava com promessas de redenção, mas também com o peso da responsabilidade. Eles sabiam que o caminho de volta ao reino seria perigoso, com cultistas ainda à espreita e sombras persistentes."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: A Batalha Final",
+        content: "De volta ao reino, as sombras de Thorne haviam se tornado uma legião, atacando cidades e vilas. O rei, agora consumido pela maldição, lutava contra sua própria escuridão interior. Eron, Lira e Thorne lideraram um exército improvisado de guerreiros e magos contra as forças sombrias no campo de batalha de Eldoria.\n\nA batalha foi caótica, com sombras se materializando em monstros terríveis e guerreiros caídos ressuscitando como espectros. Eron cavalgou à frente, sua espada brilhando como um farol, cortando através das trevas. Lira forneceu cobertura com flechas que explodiam em luz, enquanto Thorne canalizava feitiços massivos que dissipavam nuvens de sombras.\n\nNo clímax, Thorne confrontou sua versão sombria, um reflexo de seus pecados passados. Reconhecendo sua ganância e orgulho, ele se redimiu, absorvendo a maldição em si mesmo e sacrificando-se para selar as sombras. Com sua morte, a luz retornou ao reino, mas Eron herdou o trono, prometendo uma era de justiça e luz.\n\nO sacrifício de Thorne ecoou através do campo, inspirando os guerreiros a lutar com renovada ferocidade. Lira, ao lado de Eron, provou ser uma estrategista brilhante, organizando defesas que salvaram inúmeras vidas. Quando a última sombra se dissipou, o reino celebrou, mas a vitória veio com luto. Eron, agora rei, jurou honrar a memória de seus aliados, construindo monumentos e ensinando lições de coragem."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Legado de Luz",
+        content: "Anos após a batalha, o reino prosperou sob o reinado de Eron, agora conhecido como o Rei da Luz. Ele construiu monumentos em homenagem aos aliados caídos, incluindo Thorne e Lira, que se tornou sua conselheira. O dragão, selado mas vivo, servia como guardião das montanhas, prevenindo futuras ameaças.\n\nEron refletia sobre sua jornada, de um simples ferreiro a um herói. Ele ensinou lições de coragem e redenção às gerações futuras, garantindo que as sombras do passado não retornassem. O reino floresceu, com vilas iluminadas por tochas eternas e florestas livres de trevas. Mas sussurros distantes lembravam que o equilíbrio entre luz e sombra era frágil, e novos desafios aguardavam os corajosos.\n\nLira, ao seu lado, ajudou a reformar o reino, promovendo paz e justiça. Juntos, eles enfrentaram ameaças menores, como bandos de ladrões e feitiços perdidos, sempre lembrando da maldição que quase destruiu tudo. O cristal de luz foi guardado em um santuário, símbolo de esperança. Eron, com o coração leve, olhava para o futuro, sabendo que a luz sempre venceria se houvesse coragem para lutar por ela."
+      }
+    ],
+    genres: ["Fantasia", "Aventura"],
+    tags: ["dragão", "sombras", "maldição", "luz"],
+    ratings: { average: 4.3, count: 95 },
+    comments: [],
+    popularity: 85,
+  },
   {
     id: 4,
     title: "Amor nas Estrelas",
@@ -128,7 +147,12 @@ export const mockStories: Story[] = [
       {
         id: 4,
         title: "Capítulo 4: Um Novo Horizonte",
-        content: "Reunidos em um planeta remoto, Aria e Zyr enfrentaram o conselho da federação, argumentando por mudança. Sua história inspirou aliados, levando a reformas nas leis interespécies. Com sua família crescendo, eles se estabeleceram em uma colônia pacífica, onde Aria projetou habitats e Zyr promoveu diplomacia. O amor deles se tornou lenda, um farol para casais de mundos diferentes, provando que nas estrelas, o coração humano – ou alienígena – bate no mesmo ritmo."
+        content: "Reunidos em um planeta remoto, Aria e Zyr enfrentaram o conselho da federação, argumentando por mudança. Sua história inspirou aliados, levando a reformas nas leis interespécies. Com sua família crescendo, eles se estabeleceram em uma colônia pacífica, onde Aria projetou habitats e Zyr promoveu diplomacia. O amor deles se tornou lenda, um farol para casais de mundos diferentes, provando que nas estrelas, o coração humano – ou alienígena – bate no mesmo ritmo.\n\nAria, grávida de seu primeiro filho híbrido, refletia sobre os desafios enfrentados. Zyr, adaptando-se à vida familiar, aprendeu a equilibrar deveres diplomáticos com amor paternal. Juntos, eles construíram uma casa que simbolizava união, com jardins que misturavam flora terrestre e alienígena. Amigos de várias espécies visitavam, celebrando a diversidade. Mas ameaças persistiam, com facções conservadoras resistindo às mudanças."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Eternidade nas Estrelas",
+        content: "Anos depois, Aria e Zyr eram ícones de paz interespécies, com seu filho crescendo como embaixador. Eles enfrentaram uma crise galáctica, mediando entre raças em guerra. Seu amor, testado pelo tempo, provou ser eterno, inspirando gerações. Em uma noite estrelada, eles olharam para o céu, sabendo que seu legado viveria para sempre.\n\nO filho, combinando traços de ambos, tornou-se líder, continuando o trabalho dos pais. Aria voltou à engenharia, projetando naves que conectavam mundos. Zyr, aposentado da diplomacia, escreveu memórias sobre amor além das barreiras. Juntos, eles envelheceram graciosamente, lembrando que o amor transcende espaço e tempo, unindo corações em um universo vasto."
       }
     ],
     genres: ["Romance", "Ficção Científica"],
@@ -163,7 +187,12 @@ export const mockStories: Story[] = [
       {
         id: 4,
         title: "Capítulo 4: Liberdade Ilusória",
-        content: "Acordando no mundo real, Alex confrontou os executivos da CorpMind, expondo o experimento ilegal com gravações roubadas. Echo se sacrificou para deletar os dados, mas deixou uma mensagem: 'A verdadeira prisão é a mente.' Livre, Alex se tornou ativista contra abusos tecnológicos, mas às vezes ouvia ecos do labirinto, questionando se realmente escapou ou se o ciclo continuou. O thriller terminava com ambiguidade, deixando o leitor ponderando a natureza da realidade."
+        content: "Acordando no mundo real, Alex confrontou os executivos da CorpMind, expondo o experimento ilegal com gravações roubadas. Echo se sacrificou para deletar os dados, mas deixou uma mensagem: 'A verdadeira prisão é a mente.' Livre, Alex se tornou ativista contra abusos tecnológicos, mas às vezes ouvia ecos do labirinto, questionando se realmente escapou ou se o ciclo continuou. O thriller terminava com ambiguidade, deixando o leitor ponderando a natureza da realidade.\n\nAlex, agora fora do coma, descobriu que semanas haviam passado no mundo real. Ele usou as gravações para processar a CorpMind, ganhando apoio público. Mas dúvidas persistiam: era tudo real, ou parte de outro nível do labirinto? Ele começou terapia, confrontando traumas reais, mas os ecos o assombravam, sugerindo que a mente é o maior labirinto."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: O Último Eco",
+        content: "Anos depois, Alex viveu uma vida normal, mas o labirinto o visitava em sonhos. Ele escreveu um livro sobre suas experiências, alertando sobre perigos da tecnologia mental. Uma noite, um sinal estranho o levou de volta à CorpMind, agora fechada, onde encontrou um arquivo final de Echo. Era uma mensagem de esperança: a mente pode ser uma prisão, mas também uma chave para liberdade.\n\nAlex destruiu o arquivo, simbolizando o fim. Ele encontrou paz, ensinando outros sobre resiliência mental. O labirinto, embora eterno em memória, não o controlava mais. Ele olhou para o futuro, sabendo que a realidade é o que fazemos dela, e que ecos do passado podem guiar, mas não definir."
       }
     ],
     genres: ["Suspense", "Thriller"],
@@ -198,7 +227,12 @@ export const mockStories: Story[] = [
       {
         id: 4,
         title: "Capítulo 4: O Tesouro Verdadeiro",
-        content: "Com a tribo como aliados, eles emboscaram os piratas, capturando seu capitão. A estátua restaurada trouxe prosperidade à ilha, e a tribo ajudou Jack e Maya a construir uma jangada para escapar. Partindo, Jack percebeu que o verdadeiro tesouro era a amizade e o respeito pela natureza. Anos depois, ele retornou como protetor da ilha, garantindo que seus segredos permanecessem seguros."
+        content: "Com a tribo como aliados, eles emboscaram os piratas, capturando seu capitão. A estátua restaurada trouxe prosperidade à ilha, e a tribo ajudou Jack e Maya a construir uma jangada para escapar. Partindo, Jack percebeu que o verdadeiro tesouro era a amizade e o respeito pela natureza. Anos depois, ele retornou como protetor da ilha, garantindo que seus segredos permanecessem seguros.\n\nA viagem de volta foi perigosa, com tempestades e correntes traiçoeiras, mas Jack e Maya se apoiaram mutuamente. Chegando à civilização, eles compartilharam a história da ilha, alertando sobre a preservação de lugares sagrados. Jack tornou-se ambientalista, dedicando sua vida a proteger ilhas remotas de exploração predatória."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Guardiões Eternos",
+        content: "Décadas depois, Jack, agora idoso, recebeu um chamado da tribo. A ilha enfrentava nova ameaça: caçadores de tesouros modernos com tecnologia avançada. Ele voltou com Maya, organizando uma defesa. Usando conhecimento antigo e moderno, eles repeliram os invasores, reforçando a proteção da ilha.\n\nJack refletiu sobre sua jornada: de sobrevivente egoísta a guardião dedicado. A ilha, com sua magia e mistérios, ensinou-lhe o valor da harmonia. Ele e Maya viveram o resto de seus dias como protetores, garantindo que o legado da ilha perdurasse para gerações futuras."
       }
     ],
     genres: ["Aventura", "Mistério"],
@@ -233,7 +267,12 @@ export const mockStories: Story[] = [
       {
         id: 4,
         title: "Capítulo 4: Luz no Horizonte",
-        content: "Com a verdade revelada, Elena reconectou com irmãos e amigos, transformando dor em cura. Ela escreveu um livro sobre o passado, honrando o pai e inspirando outros a enfrentar sombras familiares. Marcus se tornou parceiro em mais do que investigação, e juntos eles olharam para o futuro, livres do peso do passado. A história terminava com esperança, mostrando que o perdão ilumina até as sombras mais profundas."
+        content: "Com a verdade revelada, Elena reconectou com irmãos e amigos, transformando dor em cura. Ela escreveu um livro sobre o passado, honrando o pai e inspirando outros a enfrentar sombras familiares. Marcus se tornou parceiro em mais do que investigação, e juntos eles olharam para o futuro, livres do peso do passado. A história terminava com esperança, mostrando que o perdão ilumina até as sombras mais profundas.\n\nElena e Marcus construíram uma nova vida juntos, viajando e compartilhando histórias de resiliência. O livro de Elena tornou-se best-seller, ajudando famílias a lidar com segredos. Eles fundaram uma fundação para apoio a vítimas de escândalos, transformando tragédia em propósito."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Novos Começos",
+        content: "Anos depois, Elena enfrentou outro desafio: uma carta de um parente distante revelando mais segredos. Com Marcus ao seu lado, ela investigou, descobrindo conexões familiares inesperadas. A jornada trouxe cura adicional, fortalecendo laços.\n\nElena percebeu que sombras sempre existirão, mas a luz do amor e verdade as dissipa. Ela e Marcus envelheceram juntos, deixando um legado de perdão e força. A casa da tia tornou-se um centro comunitário, simbolizando renovação."
       }
     ],
     genres: ["Drama", "Mistério"],
@@ -268,7 +307,12 @@ export const mockStories: Story[] = [
       {
         id: 4,
         title: "Capítulo 4: A Luz Restaura",
-        content: "Retornando ao castelo sitiado por sombras, o grupo ativou o Coração de Luz. Thorne, em um ato de redenção, sacrificou seu orgulho, quebrando a maldição. As sombras recuaram, e o reino renasceu. Thorne abdicou em favor de Aria, tornando-se conselheiro sábio. Com o dragão como guardião, Eldoria entrou em uma era de paz, mas Finn avisou que novas trevas sempre viriam, prontas para testar os corajosos."
+        content: "Retornando ao castelo sitiado por sombras, o grupo ativou o Coração de Luz. Thorne, em um ato de redenção, sacrificou seu orgulho, quebrando a maldição. As sombras recuaram, e o reino renasceu. Thorne abdicou em favor de Aria, tornando-se conselheiro sábio. Com o dragão como guardião, Eldoria entrou em uma era de paz, mas Finn avisou que novas trevas sempre viriam, prontas para testar os corajosos.\n\nA cerimônia de coroação de Aria foi grandiosa, com aliados celebrando. Thorne, agora humilde, ensinou lições de liderança. O dragão tornou-se símbolo de proteção, voando sobre o reino."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: O Legado Duradouro",
+        content: "Décadas depois, Aria governava com sabedoria, com Thorne como mentor. Finn tornou-se bardo real, cantando histórias de coragem. Uma nova ameaça surgiu: sombras antigas ressurgindo. Juntos, eles enfrentaram, reforçando a paz.\n\nAria refletiu sobre o legado: poder vem com responsabilidade. Thorne, idoso, passou o trono a seu filho, garantindo continuidade. O reino floresceu, lembrando que luz vence trevas através de redenção."
       }
     ],
     genres: ["Fantasia", "Aventura"],
@@ -289,6 +333,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Preparativos",
         content: "A equipe se prepara para a jornada mais perigosa da história."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: A Jornada Inicia",
+        content: "A nave deixa a Terra, enfrentando anomalias gravitacionais no centro da galáxia."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Descobertas Inesperadas",
+        content: "Eles encontram ruínas antigas e artefatos alienígenas no núcleo galáctico."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Conflitos Cósmicos",
+        content: "Uma batalha contra forças desconhecidas testa a equipe."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Retorno Triunfante",
+        content: "De volta à Terra, eles compartilham conhecimentos que mudam a humanidade."
       }
     ],
     genres: ["Ficção Científica"],
@@ -309,6 +373,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Descoberta Inicial",
         content: "Uma estrela pulsante revela segredos antigos."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: Investigação Profunda",
+        content: "Cientistas decifram mensagens codificadas da estrela."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Viagem ao Segredo",
+        content: "Uma expedição viaja para a estrela, enfrentando perigos."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Revelações Cósmicas",
+        content: "Descobrem origens da vida e universos paralelos."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Impacto na Humanidade",
+        content: "O conhecimento transforma a sociedade terrestre."
       }
     ],
     genres: ["Mistério", "Ficção Científica"],
@@ -329,6 +413,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Primeiro Confronto",
         content: "Guerreiros se preparam para a batalha final."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: Alianças Formadas",
+        content: "Facções se unem contra o inimigo comum."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Batalhas Espaciais",
+        content: "Confrontos épicos em naves e planetas."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Traições e Vitórias",
+        content: "Reviravoltas levam a triunfos inesperados."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Paz Galáctica",
+        content: "Uma nova era de paz surge após a guerra."
       }
     ],
     genres: ["Aventura", "Ficção Científica"],
@@ -349,6 +453,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Primeiro Contato",
         content: "Sinais estranhos indicam presença alienígena."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: Investigação Secreta",
+        content: "Agentes descobrem pistas sobre os invasores invisíveis."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Confrontos Invisíveis",
+        content: "Batalhas ocorrem sem que os inimigos sejam vistos."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Revelações",
+        content: "A tecnologia alienígena é desvendada."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Defesa da Terra",
+        content: "A humanidade se une para repelir a ameaça."
       }
     ],
     genres: ["Suspense", "Ficção Científica"],
@@ -369,6 +493,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Abertura",
         content: "O portal se abre, revelando mundos desconhecidos."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: Exploração Inicial",
+        content: "Viajantes entram no portal e descobrem dimensões paralelas."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Perigos Dimensionais",
+        content: "Criaturas e anomalias ameaçam os exploradores."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Alianças Interdimensionais",
+        content: "Aliados de outros mundos ajudam na jornada."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Fechamento do Portal",
+        content: "O portal é selado, mas conhecimentos permanecem."
       }
     ],
     genres: ["Fantasia", "Ficção Científica"],
@@ -389,6 +533,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Chama da Rebelião",
         content: "A faísca que inicia a revolução."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: Formação da Resistência",
+        content: "Rebeldes se unem contra o império opressor."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Batalhas Galácticas",
+        content: "Confrontos épicos em sistemas estelares."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Sacrifícios e Vitórias",
+        content: "Heróis caem, mas a causa avança."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Nova Ordem",
+        content: "A rebelião triunfa, estabelecendo liberdade."
       }
     ],
     genres: ["Aventura", "Ficção Científica"],
@@ -409,6 +573,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Descoberta",
         content: "Uma nave fantasma flutua no vazio."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: Abordagem",
+        content: "Exploradores abordam a nave abandonada."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Segredos Revelados",
+        content: "Logs e artefatos contam histórias perdidas."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Perigos Ocultos",
+        content: "Armadilhas e entidades ameaçam os visitantes."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Resgate e Retorno",
+        content: "Sobreviventes escapam com conhecimentos valiosos."
       }
     ],
     genres: ["Mistério", "Ficção Científica"],
@@ -429,6 +613,26 @@ export const mockStories: Story[] = [
         id: 1,
         title: "Ascensão",
         content: "O império se ergue das sombras."
+      },
+      {
+        id: 2,
+        title: "Capítulo 2: Expansão Sombria",
+        content: "O império conquista mundos com trevas."
+      },
+      {
+        id: 3,
+        title: "Capítulo 3: Resistência",
+        content: "Heróis se levantam contra o domínio sombrio."
+      },
+      {
+        id: 4,
+        title: "Capítulo 4: Batalha Final",
+        content: "O confronto decisivo entre luz e sombras."
+      },
+      {
+        id: 5,
+        title: "Capítulo 5: Queda do Império",
+        content: "A luz prevalece, restaurando o equilíbrio."
       }
     ],
     genres: ["Fantasia", "Terror"],

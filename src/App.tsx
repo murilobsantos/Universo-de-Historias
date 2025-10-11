@@ -19,7 +19,11 @@ import AuthorProfile from './pages/AuthorProfile';
 import ReaderProfile from './pages/ReaderProfile';
 import SearchResults from './pages/SearchResults';
 import Favorites from './pages/Favorites';
+import About from './pages/About';
+import TermsAndPrivacy from './pages/TermsAndPrivacy';
+import Contact from './pages/Contact';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   const location = useLocation();
@@ -49,11 +53,15 @@ function App() {
             <Route path="/editar/:id" element={<EditStory />} />
             <Route path="/search" element={<SearchResults />} />
             <Route path="/favorites" element={<Favorites />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/terms" element={<TermsAndPrivacy />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/profile/author/:id" element={<AuthorProfile key={location.pathname} />} />
             <Route path="/profile/reader/:id" element={<ReaderProfile />} />
           </Routes>
         </motion.main>
       </AnimatePresence>
+      <Footer />
     </>
   );
 }

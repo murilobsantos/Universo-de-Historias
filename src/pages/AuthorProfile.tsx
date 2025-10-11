@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import useAuthors from "../hooks/useAuthors";
 import useStories from "../hooks/useStories";
 import { useDarkMode } from "../contexts/DarkModeContext";
-import ThemeSelector from "../components/ThemeSelector";
+
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
 import { Author } from "../types/author";
@@ -22,9 +22,25 @@ function AuthorProfile() {
     avatarUrl: '',
     background: 'cosmic',
   });
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
 
   const authorId = Number(id);
-  const author = authors.find((a: Author) => a.id === authorId);
+  let author = authors.find((a: Author) => a.id === authorId);
+
+  // If the author is the current user, use the currentAuthor to get the latest data including base64 images
+  if (!author && currentAuthor?.id === authorId) {
+    author = currentAuthor;
+  }
 
   const isCurrentAuthor = currentAuthor?.id === authorId;
 
@@ -70,6 +86,9 @@ function AuthorProfile() {
   const authorBadges = getBadges(author);
 
   const getBackgroundClass = (background: string) => {
+    if (background.startsWith('data:')) {
+      return 'bg-cover bg-center';
+    }
     switch (background) {
       case 'cosmic':
         return 'bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900';
@@ -84,15 +103,32 @@ function AuthorProfile() {
     }
   };
 
-  const handleSave = () => {
+  const getBackgroundStyle = (background: string) => {
+    if (background.startsWith('data:')) {
+      return { backgroundImage: `url(${background})` };
+    }
+    return {};
+  };
+
+  const handleSave = async () => {
+    let avatarUrl = editData.avatarUrl;
+    if (avatarFile) {
+      avatarUrl = await fileToBase64(avatarFile);
+    }
+    let background = editData.background;
+    if (backgroundFile) {
+      background = await fileToBase64(backgroundFile);
+    }
     const updatedAuthor = {
       ...author,
       bio: editData.bio,
-      avatarUrl: editData.avatarUrl,
-      background: editData.background,
+      avatarUrl,
+      background,
     };
     updateAuthor(updatedAuthor);
     setEditMode(false);
+    setAvatarFile(null);
+    setBackgroundFile(null);
   };
 
   const handleCancel = () => {
@@ -113,7 +149,7 @@ function AuthorProfile() {
       className={`min-h-screen ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')} text-white`}
     >
       {/* Header Background */}
-      <div key={`header-${editMode ? editData.background : author.background || 'cosmic'}`} className={`relative h-48 sm:h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`}>
+      <div key={`header-${editMode ? editData.background : author.background || 'cosmic'}`} className={`relative h-48 sm:h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`} style={getBackgroundStyle(editMode ? editData.background : author.background || 'cosmic')}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cosmic-dark to-transparent"></div>
       </div>
@@ -160,17 +196,27 @@ function AuthorProfile() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Avatar URL</label>
+                      <label className="block text-sm font-medium mb-2">Avatar (upload de imagem)</label>
                       <input
-                        type="url"
-                        value={editData.avatarUrl}
-                        onChange={(e) => setEditData({ ...editData, avatarUrl: e.target.value })}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-primary"
-                        placeholder="https://exemplo.com/avatar.jpg"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
+                        className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary"
                       />
+                      {avatarFile && <p className="text-xs text-gray-300 mt-1">Arquivo selecionado: {avatarFile.name}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Tema de Fundo</label>
+                      <label className="block text-sm font-medium mb-2">Banner de Fundo (upload de imagem)</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setBackgroundFile(e.target.files?.[0] || null)}
+                        className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary"
+                      />
+                      {backgroundFile && <p className="text-xs text-gray-300 mt-1">Arquivo selecionado: {backgroundFile.name}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Ou selecione um Tema de Fundo</label>
                       <select
                         value={editData.background}
                         onChange={(e) => setEditData({ ...editData, background: e.target.value })}

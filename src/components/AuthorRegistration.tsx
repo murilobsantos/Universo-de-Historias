@@ -3,21 +3,60 @@ import { useNavigate } from "react-router-dom";
 import useAuthors from "../hooks/useAuthors";
 
 function AuthorRegistration() {
-  const { createAuthor } = useAuthors();
+  const { createAuthor, login } = useAuthors();
   const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    createAuthor(name, bio, avatarUrl);
-    setMessage("Registration successful!");
-    setName("");
-    setBio("");
-    setAvatarUrl("");
-    navigate("/home");
+    try {
+      let avatarUrl = "";
+      let backgroundUrl = "";
+      if (avatarFile) {
+        avatarUrl = await fileToBase64(avatarFile);
+      }
+      if (backgroundFile) {
+        backgroundUrl = await fileToBase64(backgroundFile);
+      }
+      const result = createAuthor(name, email, password, bio, avatarUrl, backgroundUrl);
+      if (result) {
+        setMessage("Registration successful!");
+        setName("");
+        setEmail("");
+        setPassword("");
+        setBio("");
+        setAvatarFile(null);
+        setBackgroundFile(null);
+        navigate("/home");
+      } else {
+        // Email exists, try to login
+        const loggedIn = login(email, password);
+        if (loggedIn) {
+          setMessage("Logged in successfully!");
+          navigate("/home");
+        } else {
+          setMessage("Email already exists but password is incorrect.");
+        }
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      setMessage("An error occurred during registration.");
+    }
+  };
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
   };
 
   return (
@@ -34,13 +73,41 @@ function AuthorRegistration() {
           autoComplete="name"
         />
         <input
-          type="url"
-          placeholder="Avatar URL (optional)"
-          value={avatarUrl}
-          onChange={(e) => setAvatarUrl(e.target.value)}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="w-full p-2 border border-cosmic-purple rounded bg-cosmic-dark text-white placeholder-cosmic-purple focus:outline-none focus:ring-2 focus:ring-primary"
-          autoComplete="url"
+          required
+          autoComplete="email"
         />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 border border-cosmic-purple rounded bg-cosmic-dark text-white placeholder-cosmic-purple focus:outline-none focus:ring-2 focus:ring-primary"
+          required
+          autoComplete="new-password"
+        />
+        <div>
+          <label className="block text-white mb-1">Avatar (optional)</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
+            className="w-full p-2 border border-cosmic-purple rounded bg-cosmic-dark text-white focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div>
+          <label className="block text-white mb-1">Background (optional)</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setBackgroundFile(e.target.files?.[0] || null)}
+            className="w-full p-2 border border-cosmic-purple rounded bg-cosmic-dark text-white focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
         <textarea
           placeholder="Bio (optional)"
           value={bio}

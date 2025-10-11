@@ -21,10 +21,8 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentAuthor) {
-      navigate(`/profile/author/${currentAuthor.id}`);
-    } else if (currentReader) {
-      navigate(`/profile/reader/${currentReader.id}`);
+    if (currentAuthor || currentReader) {
+      navigate("/home");
     }
   }, [currentAuthor, currentReader, navigate]);
 
@@ -74,7 +72,7 @@ function Login() {
         setMessage("Login bem-sucedido!");
         setEmail("");
         setPassword("");
-        navigate(`/profile/author/${author.id}`);
+        navigate("/home");
         return;
       }
     } else {
@@ -82,12 +80,7 @@ function Login() {
         setMessage("Login bem-sucedido!");
         setEmail("");
         setPassword("");
-        const loggedInReader = JSON.parse(localStorage.getItem('currentReader') || 'null');
-        if (loggedInReader && loggedInReader.id) {
-          navigate(`/profile/reader/${loggedInReader.id}`);
-        } else {
-          navigate("/profile/reader/1"); // fallback
-        }
+        navigate("/home");
         return;
       }
     }

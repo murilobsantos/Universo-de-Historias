@@ -54,7 +54,7 @@ function Header() {
       readerLogout();
     }
     setIsMobileMenuOpen(false);
-    navigate('/');
+    navigate('/login');
   };
 
   const isLoggedIn = !!currentAuthor || !!currentReader;
@@ -152,14 +152,6 @@ function Header() {
               <Link to="/login" className="text-lg hover:text-cyanSoft transition-colors">Login</Link>
             </motion.div>
           )}
-          <motion.button
-            onClick={toggleDarkMode}
-            className="bg-white/20 px-3 py-1 rounded-full hover:bg-white/30 transition-colors"
-            whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }}
-            transition={{ duration: 0.2 }}
-          >
-            {isDarkMode ? '☀️' : '🌙'}
-          </motion.button>
         </nav>
         <div className="md:hidden flex items-center space-x-2 relative">
           <motion.button
@@ -199,6 +191,16 @@ function Header() {
                 </Link>
               </motion.div>
               <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                <Link to="/about" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                  Sobre
+                </Link>
+              </motion.div>
+              <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                <Link to="/terms" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                  Termos
+                </Link>
+              </motion.div>
+              <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -230,17 +232,6 @@ function Header() {
                     <Link to="/favorites" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                       Favoritos
                     </Link>
-                  </motion.div>
-                  <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
-                    <button
-                      onClick={() => {
-                        toggleDarkMode();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="block py-2 w-full text-left hover:text-cyanSoft transition-colors"
-                    >
-                      {isDarkMode ? "Modo Claro" : "Modo Escuro"}
-                    </button>
                   </motion.div>
                   <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(239, 68, 68, 0.5)" }} transition={{ duration: 0.2 }}>
                     <button onClick={handleLogout} className="block py-2 text-left hover:text-red-400 transition-colors w-full">
