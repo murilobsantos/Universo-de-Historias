@@ -101,36 +101,36 @@ function StoryDetail() {
   const relatedStories = stories.filter(s => s.id !== story.id).slice(0, 3);
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} p-4 md:p-8`}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} p-4 sm:p-6 md:p-8`}>
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition-colors"
+        className="mb-4 px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition-colors text-sm sm:text-base"
       >
         ← Voltar
       </button>
 
       {/* Header Section */}
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-8">
           {/* Cover Image */}
           <div className="md:col-span-1">
             <img
               src={story.image}
               alt={story.title}
-              className="w-full h-80 object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+              className="w-full h-64 sm:h-80 object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
               loading="lazy"
             />
             <div className="flex justify-center space-x-4 mt-4">
               <button
                 onClick={handleFavorite}
-                className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+                className="p-2 hover:bg-gray-700 rounded-full transition-colors min-w-[44px] h-[44px] flex items-center justify-center"
                 title="Favoritar"
               >
                 ❤️
               </button>
               <button
                 onClick={handleShare}
-                className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+                className="p-2 hover:bg-gray-700 rounded-full transition-colors min-w-[44px] h-[44px] flex items-center justify-center"
                 title="Compartilhar"
               >
                 📤
@@ -141,15 +141,15 @@ function StoryDetail() {
           {/* Info Section */}
           <div className="md:col-span-2 space-y-4">
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold text-center md:text-left">{story.title}</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center md:text-left">{story.title}</h1>
 
             {/* Subtitle/Tagline */}
-            <p className="text-xl italic text-center md:text-left text-purple-300">
+            <p className="text-lg sm:text-xl italic text-center md:text-left text-purple-300">
               {story.genres.join(" • ")} Aventura
             </p>
 
             {/* Metadata */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start space-x-4 text-sm">
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start space-y-2 sm:space-y-0 sm:space-x-4 text-sm">
               <span className="flex items-center">
                 <span className="mr-1">👤</span> {story.author}
               </span>
@@ -197,7 +197,7 @@ function StoryDetail() {
             <div className="flex justify-center md:justify-start">
               <button
                 onClick={() => navigate(`/story/${story.id}/chapter/1`)}
-                className="px-8 py-3 bg-purple-600 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-lg"
+                className="px-6 sm:px-8 py-3 bg-purple-600 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-base sm:text-lg"
               >
                 Começar a Ler
               </button>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Author } from "../types/story";
+import { Author } from "../types/author";
 
 const mockAuthors: Author[] = [
   {
@@ -8,12 +8,12 @@ const mockAuthors: Author[] = [
     email: "joao@example.com",
     password: "password123",
     bio: "Escritor apaixonado por ficção científica e aventuras épicas.",
-    avatarUrl: "https://via.placeholder.com/50/6b5cff/ffffff?text=JS",
+    avatarUrl: "https://ui-avatars.com/api/?name=JS&size=50&background=6b5cff&color=fff",
     storiesCount: 5,
     followersCount: 120,
-    theme: "cosmic",
     badges: ["Autor Revelação"],
     background: "cosmic",
+    favorites: [],
   },
   {
     id: 2,
@@ -21,12 +21,12 @@ const mockAuthors: Author[] = [
     email: "maria@example.com",
     password: "password123",
     bio: "Especialista em histórias de mistério e suspense.",
-    avatarUrl: "https://via.placeholder.com/50/ff8a3c/ffffff?text=MS",
+    avatarUrl: "https://ui-avatars.com/api/?name=MS&size=50&background=ff8a3c&color=fff",
     storiesCount: 3,
     followersCount: 85,
-    theme: "nebula",
     badges: ["Mestre das Palavras"],
     background: "nebula",
+    favorites: [],
   },
   {
     id: 3,
@@ -34,12 +34,12 @@ const mockAuthors: Author[] = [
     email: "pedro@example.com",
     password: "password123",
     bio: "Explorador de mundos alternativos e viagens no tempo.",
-    avatarUrl: "https://via.placeholder.com/50/0ff/000000?text=PO",
+    avatarUrl: "https://ui-avatars.com/api/?name=PO&size=50&background=0ff&color=000",
     storiesCount: 4,
     followersCount: 95,
-    theme: "galaxy",
     badges: ["Contador de Estrelas"],
     background: "galaxy",
+    favorites: [],
   },
   {
     id: 4,
@@ -47,12 +47,12 @@ const mockAuthors: Author[] = [
     email: "ana@example.com",
     password: "password123",
     bio: "Contadora de fábulas e lendas encantadas.",
-    avatarUrl: "https://via.placeholder.com/50/080808/ffffff?text=AC",
+    avatarUrl: "https://ui-avatars.com/api/?name=AC&size=50&background=080808&color=fff",
     storiesCount: 2,
     followersCount: 60,
-    theme: "stars",
     badges: ["Autor Revelação"],
     background: "stars",
+    favorites: [],
   },
   {
     id: 5,
@@ -60,12 +60,12 @@ const mockAuthors: Author[] = [
     email: "carlos@example.com",
     password: "password123",
     bio: "Hacker de palavras, especialista em thrillers tecnológicos.",
-    avatarUrl: "https://via.placeholder.com/50/6b5cff/ffffff?text=CF",
+    avatarUrl: "https://ui-avatars.com/api/?name=CF&size=50&background=6b5cff&color=fff",
     storiesCount: 6,
     followersCount: 150,
-    theme: "cosmic",
     badges: ["Mestre das Palavras"],
     background: "cosmic",
+    favorites: [],
   },
   {
     id: 6,
@@ -73,12 +73,12 @@ const mockAuthors: Author[] = [
     email: "luisa@example.com",
     password: "password123",
     bio: "Cavaleira das letras, mestre em fantasia medieval.",
-    avatarUrl: "https://via.placeholder.com/50/ff8a3c/ffffff?text=LP",
+    avatarUrl: "https://ui-avatars.com/api/?name=LP&size=50&background=ff8a3c&color=fff",
     storiesCount: 4,
     followersCount: 110,
-    theme: "nebula",
     badges: ["Contador de Estrelas"],
     background: "nebula",
+    favorites: [],
   },
 ];
 
@@ -87,18 +87,72 @@ export default function useAuthors() {
   const [currentAuthor, setCurrentAuthor] = useState<Author | null>(null);
 
   useEffect(() => {
+    const dataMigrated = localStorage.getItem("dataMigrated");
     // Load authors from localStorage, default to mock if none
     const savedAuthors = localStorage.getItem("authors");
+    let loadedAuthors: Author[] = [];
     if (savedAuthors) {
-      setAuthors(JSON.parse(savedAuthors));
+      try {
+        const parsedAuthors = JSON.parse(savedAuthors);
+        if (!dataMigrated) {
+          // Migrate old data to new structure
+          loadedAuthors = parsedAuthors.map((oldAuthor: any) => ({
+            id: oldAuthor.id,
+            name: oldAuthor.name,
+            email: oldAuthor.email,
+            password: oldAuthor.password,
+            bio: oldAuthor.bio || '',
+            avatarUrl: oldAuthor.avatarUrl || oldAuthor.avatar || '',
+            background: oldAuthor.background || 'cosmic',
+            badges: oldAuthor.badges || [],
+            storiesCount: oldAuthor.storiesCount || 0,
+            followersCount: oldAuthor.followersCount || 0,
+            favorites: oldAuthor.favorites || [],
+          }));
+          localStorage.setItem("authors", JSON.stringify(loadedAuthors));
+          localStorage.setItem("dataMigrated", "true");
+        } else {
+          loadedAuthors = parsedAuthors;
+        }
+      } catch (e) {
+        console.error("Error loading authors:", e);
+        loadedAuthors = mockAuthors;
+      }
     } else {
-      setAuthors(mockAuthors);
-      localStorage.setItem("authors", JSON.stringify(mockAuthors));
+      loadedAuthors = mockAuthors;
+      localStorage.setItem("authors", JSON.stringify(loadedAuthors));
+      localStorage.setItem("dataMigrated", "true");
     }
+    setAuthors(loadedAuthors);
+
     // Load current author from localStorage
     const saved = localStorage.getItem("current-author");
     if (saved) {
-      setCurrentAuthor(JSON.parse(saved));
+      try {
+        const parsedCurrent = JSON.parse(saved);
+        if (!dataMigrated) {
+          const migratedCurrent: Author = {
+            id: parsedCurrent.id,
+            name: parsedCurrent.name,
+            email: parsedCurrent.email,
+            password: parsedCurrent.password,
+            bio: parsedCurrent.bio || '',
+            avatarUrl: parsedCurrent.avatarUrl || parsedCurrent.avatar || '',
+            background: parsedCurrent.background || 'cosmic',
+            badges: parsedCurrent.badges || [],
+            storiesCount: parsedCurrent.storiesCount || 0,
+            followersCount: parsedCurrent.followersCount || 0,
+            favorites: parsedCurrent.favorites || [],
+          };
+          localStorage.setItem("current-author", JSON.stringify(migratedCurrent));
+          localStorage.setItem("dataMigrated", "true");
+          setCurrentAuthor(migratedCurrent);
+        } else {
+          setCurrentAuthor(parsedCurrent);
+        }
+      } catch (e) {
+        console.error("Error loading current author:", e);
+      }
     }
   }, []);
 
@@ -130,7 +184,9 @@ export default function useAuthors() {
       avatarUrl,
       storiesCount: 0,
       followersCount: 0,
-      theme: "default",
+      background: "cosmic",
+      badges: [],
+      favorites: [],
     };
     const updatedAuthors = [...authors, newAuthor];
     setAuthors(updatedAuthors);

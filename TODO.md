@@ -18,12 +18,51 @@
 - [x] Update progress documentation
   - [x] Update progresso.md with completed tasks
   - [x] Update TODO.md to reflect new status
+- [x] Install Framer Motion and implement animations
+  - [x] Install framer-motion package
+  - [x] Add stagger animations to StoryCard components
+  - [x] Add slide-in animations to Modal components
+  - [x] Add fade-in animations to Header navigation
+  - [x] Add hover scale effects to interactive elements
+- [x] Implement comments by paragraph in StoryDetail
+  - [x] Add comment icons next to paragraphs on hover
+  - [x] Create paragraph comment modal/popover
+  - [x] Store paragraph comments in localStorage
+  - [x] Update comment count display
+- [x] Ensure full responsiveness
+  - [x] Test and fix mobile layouts (< 640px): Stack grids vertically, ensure buttons touch-friendly, fix overflows in Home.tsx, StoryDetail.tsx, Header.tsx
+  - [x] Test and fix tablet layouts (640px - 1024px): Adjust column counts (e.g., 2 columns), optimize spacing in profiles (AuthorProfile.tsx, ReaderProfile.tsx)
+  - [x] Optimize grid columns and spacing: Add xl: variants, container max-widths globally
+  - [x] Update modals (Modal.tsx, ParagraphModal.tsx): Full-screen on mobile, responsive forms
+  - [x] Verify with browser dev tools and build test
 
 ## Next Steps
-- Add Framer Motion animations
-- Implement comments by paragraph in StoryDetail
-- Ensure full responsiveness
-- Add search functionality
-- Implement favorites/bookmarks system
-- Add ratings and reviews
-- Prepare for backend integration
+- [ ] Add global search functionality
+  - [ ] Create search component in Header
+  - [ ] Implement search by title, author, tags
+  - [ ] Display search results page
+- [ ] Implement favorites/bookmarks system
+  - [ ] Add favorite button to stories
+  - [ ] Create favorites page
+  - [ ] Persist favorites in localStorage
+- [ ] Add ratings and reviews
+  - [ ] Add star rating component
+  - [ ] Store ratings in localStorage
+  - [ ] Display average rating on story cards
+- [ ] Implement dark mode complete
+  - [ ] Integrate DarkModeContext globally
+  - [ ] Add dark mode toggle in Header
+  - [ ] Ensure all components support dark mode
+- [ ] Fix persistence bug for likes/followers
+  - [ ] Implement global counters in localStorage
+  - [ ] Update interactionService to persist counters
+- [ ] Prepare for backend integration
+  - [ ] Create mock API services
+  - [ ] Structure API routes documentation
+  - [ ] Plan authentication system
+- [ ] Code review for production readiness
+  - [ ] Check for console errors and warnings
+  - [ ] Review performance optimizations
+  - [ ] Test build process
+  - [ ] Ensure accessibility compliance
+  - [ ] Verify security best practices

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import { addComment, getParagraphComments } from '../services/interactionService';
+import interactionService from '../services/interactionService';
 
 interface ParagraphModalProps {
   isOpen: boolean;
   onClose: () => void;
   storyId: number;
   paragraphIndex: number;
-  chapterId: number;
   onCommentAdded?: () => void;
 }
 
@@ -16,7 +15,6 @@ const ParagraphModal: React.FC<ParagraphModalProps> = ({
   onClose,
   storyId,
   paragraphIndex,
-  chapterId,
   onCommentAdded
 }) => {
   const [newCommentAuthor, setNewCommentAuthor] = useState('');
@@ -24,12 +22,12 @@ const ParagraphModal: React.FC<ParagraphModalProps> = ({
 
   if (!isOpen) return null;
 
-  const comments = getParagraphComments(storyId, paragraphIndex);
+  const comments = interactionService.getParagraphComments(storyId, paragraphIndex);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newCommentAuthor.trim() && newCommentText.trim()) {
-      addComment(storyId, newCommentAuthor.trim(), newCommentText.trim(), paragraphIndex, chapterId);
+      interactionService.addComment(storyId, newCommentAuthor.trim(), newCommentText.trim(), paragraphIndex);
       setNewCommentAuthor('');
       setNewCommentText('');
       if (onCommentAdded) {
@@ -54,8 +52,8 @@ const ParagraphModal: React.FC<ParagraphModalProps> = ({
 
           <div className="space-y-4 mb-6">
             {comments.length > 0 ? (
-              comments.map(comment => (
-                <div key={comment.id} className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+              comments.map((comment, index) => (
+                <div key={`${comment.storyId}-${comment.paragraphIndex}-${index}`} className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
                   <div className="flex justify-between items-start mb-2">
                     <strong className="text-gray-900 dark:text-gray-100">{comment.author}</strong>
                     <span className="text-sm text-gray-500 dark:text-gray-400">

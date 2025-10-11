@@ -4,8 +4,10 @@ export interface Author {
   email: string;
   password: string; // Note: In production, hash passwords
   bio: string;
-  avatar?: string;
-  background?: string; // URL or color/theme
-  badges?: string[]; // Array of badge names
+  avatarUrl?: string;
+  background?: string;
+  badges?: string[];
+  storiesCount: number;
+  followersCount: number;
   favorites: number[];
 }

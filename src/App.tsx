@@ -5,6 +5,7 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
+import Welcome from './pages/Welcome';
 import { AnimatePresence, motion } from 'framer-motion';
 import Home from './pages/Home';
 import Category from './pages/Category';
@@ -12,11 +13,12 @@ import StoryDetail from './pages/StoryDetail';
 import ChapterReader from './pages/ChapterReader';
 import NewStory from './pages/NewStory';
 import EditStory from './pages/EditStory';
-import Welcome from './pages/Welcome';
 import Login from './pages/Login';
 import Reader from './pages/Reader';
 import AuthorProfile from './pages/AuthorProfile';
 import ReaderProfile from './pages/ReaderProfile';
+import SearchResults from './pages/SearchResults';
+import Favorites from './pages/Favorites';
 import Header from './components/Header';
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/nova" element={<NewStory />} />
             <Route path="/editar/:id" element={<EditStory />} />
+            <Route path="/search" element={<SearchResults />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/profile/author/:id" element={<AuthorProfile key={location.pathname} />} />
             <Route path="/profile/reader/:id" element={<ReaderProfile />} />
           </Routes>

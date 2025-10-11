@@ -41,11 +41,11 @@
 8. Task 5.2: Seção "Em Alta" (histórias por curtidas/popularidade) ✅ COMPLETADO
 
 ### Sprint 5 (Melhorias Adicionais)
-8. Busca global (pesquisa por título/autor/tags na Home)
-9. Sistema de favoritos/bookmarks (marcar histórias, persistido localStorage)
+8. ✅ Busca global (pesquisa por título/autor/tags na Home)
+9. ✅ Sistema de favoritos/bookmarks (marcar histórias, persistido localStorage)
 10. Comentários por parágrafo (integração melhorada no StoryDetail)
-11. Avaliações e reviews (estrelas + comentários em histórias)
-12. Dark mode completo (integração global via DarkModeContext)
+11. ✅ Avaliações e reviews (estrelas + comentários em histórias)
+12. ✅ Dark mode completo (integração global via DarkModeContext)
 
 ### Sprint 6 (Backend Prep)
 13. Task 6.1-6.5: Preparação para backend (APIs mock com Axios)
@@ -62,7 +62,7 @@
 - **Fase 6**: 20% (estrutura básica existe) ⏳
 - **Fase 7**: 100% ✅ COMPLETADA
 
-**Total Geral**: ~90% completo
+**Total Geral**: ~95% completo
 
 ---
 
@@ -96,11 +96,7 @@
 
 ## 🐛 Bugs Conhecidos
 
-### Bug #1: Persistência de Curtidas e Seguidores
-- **Status:** Pendente correção
-- **Descrição:** Contadores não persistem corretamente após reload
-- **Impacto:** Baixo (funcionalidade básica funciona)
-- **Solução:** Implementar sistema de contadores globais no localStorage
+Nenhum bug conhecido atualmente.
 
 ---
 

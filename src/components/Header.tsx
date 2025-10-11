@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from "react-router-dom";
 import { useDarkMode } from "../contexts/DarkModeContext";
 import useAuthors from "../hooks/useAuthors";
 import { useReaders } from "../hooks/useReaders";
+import { Search } from 'lucide-react';
 
 function Header() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -11,6 +12,7 @@ function Header() {
   const { currentReader, logout: readerLogout } = useReaders();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const mobileMenuVariants = {
     hidden: {},
@@ -26,7 +28,24 @@ function Header() {
     visible: { opacity: 1, x: 0 }
   };
 
+  const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   const handleLogout = () => {
     if (currentAuthor) {
@@ -75,11 +94,50 @@ function Header() {
           <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
             <Link to="/home" className="text-lg hover:text-cyanSoft transition-colors">Histórias</Link>
           </motion.div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (searchQuery.trim()) {
+                navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                setSearchQuery('');
+              }
+            }}
+            className="flex items-center space-x-2"
+          >
+            <input
+              type="text"
+              placeholder="Buscar histórias..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="px-3 py-1 rounded bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-cyanSoft"
+            />
+            <button className="p-1 hover:text-cyanSoft transition-colors">
+              <Search size={20} />
+            </button>
+          </form>
+          <button
+            onClick={toggleDarkMode}
+            className={`p-2 rounded-full ${isDarkMode ? 'bg-white/20 hover:bg-white/30' : 'bg-gray-200 hover:bg-gray-300'} transition-colors`}
+            title={isDarkMode ? "Modo Claro" : "Modo Escuro"}
+          >
+            {isDarkMode ? (
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+          </button>
           {isLoggedIn ? (
             <>
-              <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
-                <Link to={profilePath} className="text-lg hover:text-cyanSoft transition-colors">Meu Perfil</Link>
-              </motion.div>
+                  <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                    <Link to={profilePath} className="text-lg hover:text-cyanSoft transition-colors">Meu Perfil</Link>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                    <Link to="/favorites" className="text-lg hover:text-cyanSoft transition-colors">Favoritos</Link>
+                  </motion.div>
               <motion.button
                 onClick={handleLogout}
                 className="text-lg hover:text-red-400 transition-colors"
@@ -122,6 +180,7 @@ function Header() {
           </motion.button>
           {isMobileMenuOpen && (
             <motion.div
+              ref={menuRef}
               className="absolute top-full left-0 right-0 bg-white/10 backdrop-blur-md border-t border-white/20 rounded-b-lg p-4 space-y-4 mt-2"
               variants={mobileMenuVariants}
               initial="hidden"
@@ -139,12 +198,49 @@ function Header() {
                   Histórias
                 </Link>
               </motion.div>
+              <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (searchQuery.trim()) {
+                      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                      setSearchQuery('');
+                      setIsMobileMenuOpen(false);
+                    }
+                  }}
+                  className="py-2"
+                >
+                  <input
+                    type="text"
+                    placeholder="Buscar histórias..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-3 py-2 rounded bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-cyanSoft"
+                  />
+                </form>
+              </motion.div>
               {isLoggedIn ? (
                 <>
                   <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
                     <Link to={profilePath} className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                       Meu Perfil
                     </Link>
+                  </motion.div>
+                  <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                    <Link to="/favorites" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                      Favoritos
+                    </Link>
+                  </motion.div>
+                  <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                    <button
+                      onClick={() => {
+                        toggleDarkMode();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="block py-2 w-full text-left hover:text-cyanSoft transition-colors"
+                    >
+                      {isDarkMode ? "Modo Claro" : "Modo Escuro"}
+                    </button>
                   </motion.div>
                   <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(239, 68, 68, 0.5)" }} transition={{ duration: 0.2 }}>
                     <button onClick={handleLogout} className="block py-2 text-left hover:text-red-400 transition-colors w-full">

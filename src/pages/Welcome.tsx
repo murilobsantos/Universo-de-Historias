@@ -1,18 +1,27 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import StoryCard from "../components/StoryCard";
 import Modal from "../components/Modal";
 import useStories from "../hooks/useStories";
+import useAuthors from "../hooks/useAuthors";
 import { useDarkMode } from "../contexts/DarkModeContext";
 import { Story } from "../types/story";
 
 function Welcome() {
   console.log("Welcome component rendering");
   const { stories } = useStories();
+  const { currentAuthor } = useAuthors();
+  const navigate = useNavigate();
   const { isDarkMode } = useDarkMode();
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    if (currentAuthor) {
+      navigate('/home');
+    }
+  }, [currentAuthor, navigate]);
 
   useEffect(() => {
     const handleScroll = () => {

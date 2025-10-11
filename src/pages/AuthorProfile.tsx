@@ -7,7 +7,7 @@ import { useDarkMode } from "../contexts/DarkModeContext";
 import ThemeSelector from "../components/ThemeSelector";
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
-import { Author } from "../types/story";
+import { Author } from "../types/author";
 import { Edit, BookOpen, Users, Crown, Star, Save, X } from 'lucide-react';
 
 function AuthorProfile() {
@@ -113,22 +113,22 @@ function AuthorProfile() {
       className={`min-h-screen ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')} text-white`}
     >
       {/* Header Background */}
-      <div key={`header-${editMode ? editData.background : author.background || 'cosmic'}`} className={`relative h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`}>
+      <div key={`header-${editMode ? editData.background : author.background || 'cosmic'}`} className={`relative h-48 sm:h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cosmic-dark to-transparent"></div>
       </div>
 
-      <div className="relative -mt-32 px-6 pb-12">
-        <div className="max-w-6xl mx-auto">
+      <div className="relative -mt-24 sm:-mt-32 px-4 sm:px-6 pb-12">
+        <div className="max-w-7xl mx-auto">
           {/* Author Info Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 shadow-2xl border border-white/20"
+            className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-8 mb-8 shadow-2xl border border-white/20"
           >
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-lg border-4 border-white/20">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 sm:gap-6">
+              <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-lg border-4 border-white/20 flex-shrink-0">
                 {author.avatarUrl ? (
                   <img
                     src={author.avatarUrl}
@@ -141,12 +141,12 @@ function AuthorProfile() {
                     }}
                   />
                 ) : null}
-                <div className={`w-full h-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-4xl font-bold text-white ${author.avatarUrl ? 'hidden' : ''}`}>
+                <div className={`w-full h-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-2xl sm:text-4xl font-bold text-white ${author.avatarUrl ? 'hidden' : ''}`}>
                   {author.name.charAt(0).toUpperCase()}
                 </div>
               </div>
 
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 {editMode ? (
                   <div className="mb-4 space-y-4">
                     <div>
@@ -183,7 +183,7 @@ function AuthorProfile() {
                       </select>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <button
                         onClick={handleSave}
                         className="bg-green-500/20 hover:bg-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2"
@@ -202,35 +202,34 @@ function AuthorProfile() {
                   </div>
                 ) : (
                   <>
-                    <div className="flex items-center gap-4 mb-2">
-                      <h1 className="text-3xl font-bold">{author.name}</h1>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-2">
+                      <h1 className="text-2xl sm:text-3xl font-bold truncate">{author.name}</h1>
                       {isCurrentAuthor && !editMode && (
                         <button
                           onClick={() => setEditMode(true)}
-                          className="bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2"
+                          className="bg-primary/20 hover:bg-primary/30 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center gap-2"
                         >
-                          <Edit size={16} />
+                          <Edit size={14} className="sm:w-4 sm:h-4" />
                           Editar Perfil
                         </button>
                       )}
                     </div>
-                    <p className="text-gray-300 mb-4">{author.bio || 'Criador de mundos incríveis e histórias inesquecíveis.'}</p>
-                    <ThemeSelector />
-                    <div className="flex flex-wrap gap-6 text-sm text-gray-300 mt-4">
+                    <p className="text-gray-300 mb-4 text-sm leading-relaxed">{author.bio || 'Criador de mundos incríveis e histórias inesquecíveis.'}</p>
+                    <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm text-gray-300 mt-4">
                       <div className="flex items-center gap-2">
-                        <BookOpen size={16} />
+                        <BookOpen size={14} className="sm:w-4 sm:h-4" />
                         <span>{author.storiesCount} histórias publicadas</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Users size={16} />
+                        <Users size={14} className="sm:w-4 sm:h-4" />
                         <span>{author.followersCount} seguidores</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Crown size={16} />
-                        <span>Visualizações Totais: {totalViews}</span>
+                        <Crown size={14} className="sm:w-4 sm:h-4" />
+                        <span>Visualizações Totais: {totalViews.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Star size={16} />
+                        <Star size={14} className="sm:w-4 sm:h-4" />
                         <span>Avaliação Média: {averageRating.toFixed(1)}/5</span>
                       </div>
                     </div>
@@ -242,7 +241,7 @@ function AuthorProfile() {
             {/* Badges */}
             {authorBadges && authorBadges.length > 0 && (
               <motion.div
-                className="absolute top-4 right-4 flex space-x-1"
+                className="relative mt-4 flex flex-wrap gap-1 sm:absolute sm:top-4 sm:right-4"
                 initial="hidden"
                 animate="visible"
                 variants={{
@@ -259,16 +258,16 @@ function AuthorProfile() {
                   let icon;
                   switch (badge.toLowerCase()) {
                     case 'autor revelação':
-                      icon = <Crown size={12} />;
+                      icon = <Crown size={10} className="sm:w-3 sm:h-3" />;
                       break;
                     case 'mestre das palavras':
-                      icon = <BookOpen size={12} />;
+                      icon = <BookOpen size={10} className="sm:w-3 sm:h-3" />;
                       break;
                     case 'contador de estrelas':
-                      icon = <Star size={12} />;
+                      icon = <Star size={10} className="sm:w-3 sm:h-3" />;
                       break;
                     default:
-                      icon = <Crown size={12} />;
+                      icon = <Crown size={10} className="sm:w-3 sm:h-3" />;
                   }
                   return (
                     <motion.div
@@ -278,10 +277,10 @@ function AuthorProfile() {
                         visible: { scale: 1, opacity: 1 }
                       }}
                       whileHover={{ scale: 1.1, y: -2 }}
-                      className="bg-primary/70 rounded-full p-1 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer"
+                      className="bg-primary/70 rounded-full p-1 sm:p-1.5 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer"
                     >
                       {icon}
-                      <span>{badge}</span>
+                      <span className="hidden sm:inline">{badge}</span>
                     </motion.div>
                   );
                 })}
@@ -296,10 +295,10 @@ function AuthorProfile() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mb-8"
           >
-            <h2 className="text-xl font-bold mb-4">Vitrine de Destaques</h2>
+            <h2 className="text-lg sm:text-xl font-bold mb-4">Vitrine de Destaques</h2>
             {authorStories.length > 0 ? (
               <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-7xl mx-auto"
                 initial="hidden"
                 animate="visible"
                 variants={{
@@ -324,26 +323,26 @@ function AuthorProfile() {
                       }}
                       whileHover={{ scale: 1.05, y: -5, boxShadow: "0 10px 30px rgba(59, 130, 246, 0.3)" }}
                       transition={{ duration: 0.3 }}
-                      className="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20 cursor-pointer overflow-hidden group"
+                      className="bg-white/10 backdrop-blur-md rounded-lg p-3 sm:p-4 border border-white/20 cursor-pointer overflow-hidden group"
                     >
                       <motion.img
                         src={story.image}
                         alt={story.title}
-                        className="w-full h-32 object-cover rounded mb-2 group-hover:scale-110 transition-transform duration-300"
+                        className="w-full h-24 sm:h-32 object-cover rounded mb-2 group-hover:scale-110 transition-transform duration-300"
                         loading="lazy"
                       />
-                      <motion.h3 
-                        className="font-semibold text-sm"
+                      <motion.h3
+                        className="font-semibold text-xs sm:text-sm"
                         whileHover={{ color: "#3b82f6" }}
                       >
                         {story.title}
                       </motion.h3>
-                      <p className="text-xs text-gray-300">{story.popularity} leituras</p>
+                      <p className="text-xs text-gray-300">{story.popularity.toLocaleString()} leituras</p>
                     </motion.div>
                   ))}
               </motion.div>
             ) : (
-              <p className="text-gray-300">Nenhuma história para destacar ainda.</p>
+              <p className="text-gray-300 text-sm">Nenhuma história para destacar ainda.</p>
             )}
           </motion.div>
 
@@ -379,11 +378,11 @@ function AuthorProfile() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">Histórias do Autor</h2>
+              <h2 className="text-xl sm:text-2xl font-bold">Histórias do Autor</h2>
             </div>
 
             {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto">
                 {Array.from({ length: 6 }).map((_, index) => (
                   <motion.div
                     key={`skeleton-story-${index}`}
@@ -402,7 +401,7 @@ function AuthorProfile() {
                 ))}
               </div>
             ) : authorStories.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto">
                 {authorStories.map((story, index) => (
                   <motion.div
                     key={story.id}

@@ -5,10 +5,11 @@ interface StoryCardProps {
   title: string;
   description: string;
   image: string;
+  storyId?: string;
   onClick: () => void;
 }
 
-const StoryCard: React.FC<StoryCardProps> = ({ title, description, image, onClick }) => {
+const StoryCard: React.FC<StoryCardProps> = ({ title, description, image, storyId, onClick }) => {
   return (
     <motion.div
       className="bg-white/10 rounded-lg shadow-lg cursor-pointer overflow-hidden group"
