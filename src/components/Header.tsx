@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDarkMode } from "../contexts/DarkModeContext";
 import useAuthors from "../hooks/useAuthors";
 import { useReaders } from "../hooks/useReaders";
@@ -26,6 +26,8 @@ function Header() {
     visible: { opacity: 1, x: 0 }
   };
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     if (currentAuthor) {
       authorLogout();
@@ -33,6 +35,7 @@ function Header() {
       readerLogout();
     }
     setIsMobileMenuOpen(false);
+    navigate('/');
   };
 
   const isLoggedIn = !!currentAuthor || !!currentReader;
@@ -136,11 +139,26 @@ function Header() {
                   Histórias
                 </Link>
               </motion.div>
-              <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
-                <Link to="/login" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                  Login
-                </Link>
-              </motion.div>
+              {isLoggedIn ? (
+                <>
+                  <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                    <Link to={profilePath} className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                      Meu Perfil
+                    </Link>
+                  </motion.div>
+                  <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(239, 68, 68, 0.5)" }} transition={{ duration: 0.2 }}>
+                    <button onClick={handleLogout} className="block py-2 text-left hover:text-red-400 transition-colors w-full">
+                      Logout
+                    </button>
+                  </motion.div>
+                </>
+              ) : (
+                <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                  <Link to="/login" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                    Login
+                  </Link>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </div>

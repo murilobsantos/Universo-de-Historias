@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import useAuthors from "../hooks/useAuthors";
 import useStories from "../hooks/useStories";
+import { useDarkMode } from "../contexts/DarkModeContext";
 import ThemeSelector from "../components/ThemeSelector";
 import StoryCard from "../components/StoryCard";
 import { Author } from "../types/story";
@@ -12,66 +13,44 @@ function AuthorProfile() {
   const { id } = useParams<{ id: string }>();
   const { authors, currentAuthor, updateAuthor } = useAuthors();
   const { stories } = useStories();
+  const { isDarkMode } = useDarkMode();
+
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState({
+    bio: '',
+    avatarUrl: '',
+    background: 'cosmic',
+  });
 
   const authorId = Number(id);
   const author = authors.find((a: Author) => a.id === authorId);
 
-  const getBackgroundClass = (background: string) => {
-    switch (background) {
-      case 'cosmic':
-        return 'bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900';
-      case 'nebula':
-        return 'bg-gradient-to-br from-pink-900 via-purple-900 to-indigo-900';
-      case 'galaxy':
-        return 'bg-gradient-to-br from-blue-900 via-purple-900 to-black';
-      case 'stars':
-        return 'bg-gradient-to-br from-gray-900 via-blue-900 to-black';
-      default:
-        return 'bg-gradient-to-br from-gray-800 to-gray-900';
-    }
-  };
+  const isCurrentAuthor = currentAuthor?.id === authorId;
 
-  const [editMode, setEditMode] = useState(false);
-  const [editData, setEditData] = useState({
-    bio: author?.bio || '',
-    avatarUrl: author?.avatarUrl || '',
-    background: author?.background || 'cosmic',
-  });
-
-  const handleSave = () => {
+  useEffect(() => {
     if (author) {
-      const updatedAuthor = {
-        ...author,
-        bio: editData.bio,
-        avatarUrl: editData.avatarUrl,
-        background: editData.background,
-      };
-      updateAuthor(updatedAuthor);
-      setEditMode(false);
+      setEditData({
+        bio: author.bio || '',
+        avatarUrl: author.avatarUrl || '',
+        background: author.background || 'cosmic',
+      });
     }
-  };
-
-  const handleCancel = () => {
-    setEditData({
-      bio: author?.bio || '',
-      avatarUrl: author?.avatarUrl || '',
-      background: author?.background || 'cosmic',
-    });
-    setEditMode(false);
-  };
+  }, [author]);
 
   if (!author) {
     return (
-      <div className="p-8 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
-        <Link to="/home" className="text-blue-500 underline">Voltar para histórias</Link>
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} flex items-center justify-center p-8`}>
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
+          <Link to="/home" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300">
+            Voltar para histórias
+          </Link>
+        </div>
       </div>
     );
   }
 
   const authorStories = stories.filter(s => s.author === author.name);
-  const isCurrentAuthor = currentAuthor?.id === author.id;
-
   const totalViews = authorStories.reduce((sum, story) => sum + story.popularity, 0);
   const averageRating = authorStories.length > 0 ? authorStories.reduce((sum, story) => sum + story.ratings.average, 0) / authorStories.length : 0;
 
@@ -89,12 +68,47 @@ function AuthorProfile() {
 
   const authorBadges = getBadges(author);
 
+  const getBackgroundClass = (background: string) => {
+    switch (background) {
+      case 'cosmic':
+        return 'bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900';
+      case 'nebula':
+        return 'bg-gradient-to-br from-pink-900 via-purple-900 to-indigo-900';
+      case 'galaxy':
+        return 'bg-gradient-to-br from-blue-900 via-purple-900 to-black';
+      case 'stars':
+        return 'bg-gradient-to-br from-gray-900 via-blue-900 to-black';
+      default:
+        return 'bg-gradient-to-br from-gray-800 to-gray-900';
+    }
+  };
+
+  const handleSave = () => {
+    const updatedAuthor = {
+      ...author,
+      bio: editData.bio,
+      avatarUrl: editData.avatarUrl,
+      background: editData.background,
+    };
+    updateAuthor(updatedAuthor);
+    setEditMode(false);
+  };
+
+  const handleCancel = () => {
+    setEditData({
+      bio: author.bio || '',
+      avatarUrl: author.avatarUrl || '',
+      background: author.background || 'cosmic',
+    });
+    setEditMode(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`min-h-screen ${getBackgroundClass(editMode ? editData.background : author?.background || 'cosmic')} text-white`}
+      className={`min-h-screen ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')} text-white`}
     >
       {/* Header Background */}
       <div className={`relative h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`}>
@@ -112,18 +126,23 @@ function AuthorProfile() {
             className="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 shadow-2xl border border-white/20"
           >
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              {author.avatarUrl ? (
-                <img
-                  src={author.avatarUrl}
-                  alt={author.name}
-                  className="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white/20"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-32 h-32 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-4xl font-bold text-white shadow-lg">
+              <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-lg border-4 border-white/20">
+                {author.avatarUrl ? (
+                  <img
+                    src={author.avatarUrl}
+                    alt={author.name}
+                    className="w-full h-full object-cover hidden-fallback"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.classList.add('hidden');
+                      (e.currentTarget.nextElementSibling as HTMLElement)?.classList.remove('hidden');
+                    }}
+                  />
+                ) : null}
+                <div className={`w-full h-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-4xl font-bold text-white ${author.avatarUrl ? 'hidden' : ''}`}>
                   {author.name.charAt(0).toUpperCase()}
                 </div>
-              )}
+              </div>
 
               <div className="flex-1">
                 {editMode ? (
@@ -183,7 +202,7 @@ function AuthorProfile() {
                   <>
                     <div className="flex items-center gap-4 mb-2">
                       <h1 className="text-3xl font-bold">{author.name}</h1>
-                      {isCurrentAuthor && (
+                      {isCurrentAuthor && !editMode && (
                         <button
                           onClick={() => setEditMode(true)}
                           className="bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2"
@@ -234,7 +253,7 @@ function AuthorProfile() {
                   }
                 }}
               >
-                {authorBadges.map((badge, index) => {
+                {authorBadges.map((badge: string, index: number) => {
                   let icon;
                   switch (badge.toLowerCase()) {
                     case 'autor revelação':
@@ -411,4 +430,4 @@ function AuthorProfile() {
   );
 }
 
-export { AuthorProfile };
+export default AuthorProfile;

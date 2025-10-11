@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useReaders } from '../hooks/useReaders';
 import useStories from '../hooks/useStories';
@@ -12,6 +12,14 @@ function ReaderProfile() {
   const { readers, currentReader, updateReader } = useReaders();
   const { stories } = useStories();
   const { isDarkMode } = useDarkMode();
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time for data fetch
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const reader = readers.find(r => r.id === Number(id));
   const isCurrentReader = currentReader?.id === reader?.id;
@@ -50,6 +58,64 @@ function ReaderProfile() {
     setEditMode(false);
   };
 
+  if (loading) {
+    return (
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'}`}>
+        <div className="relative -mt-32 px-6 pb-12">
+          <div className="max-w-6xl mx-auto">
+            {/* Skeleton for Reader Info Card */}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 shadow-2xl border border-white/20">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                <div className="w-32 h-32 rounded-full bg-white/10 animate-pulse"></div>
+                <div className="flex-1 space-y-4">
+                  <div className="h-8 w-64 bg-white/10 rounded animate-pulse"></div>
+                  <div className="h-4 w-48 bg-white/10 rounded animate-pulse"></div>
+                  <div className="h-4 w-32 bg-white/10 rounded animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Skeleton for Favorite Stories */}
+            <div className="animate-fade-up">
+              <div className="flex items-center justify-between mb-6">
+                <div className="h-8 w-48 bg-white/10 rounded animate-pulse"></div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="bg-white/10 rounded-lg shadow-lg overflow-hidden">
+                    <div className="w-full h-48 bg-white/10 rounded-t-lg animate-pulse"></div>
+                    <div className="p-4">
+                      <div className="h-6 mb-2 bg-white/10 rounded animate-pulse"></div>
+                      <div className="h-4 bg-white/10 rounded animate-pulse"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Skeleton for Reading History */}
+            <div className="animate-fade-up mt-12">
+              <div className="h-8 w-48 bg-white/10 rounded animate-pulse mb-6"></div>
+              <div className="space-y-4">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
+                    <div className="flex justify-between items-center">
+                      <div className="space-y-2">
+                        <div className="h-5 w-64 bg-white/10 rounded animate-pulse"></div>
+                        <div className="h-4 w-48 bg-white/10 rounded animate-pulse"></div>
+                      </div>
+                      <div className="h-10 w-32 bg-white/10 rounded-full animate-pulse"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!reader) {
     return (
       <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} flex items-center justify-center`}>
@@ -81,23 +147,28 @@ function ReaderProfile() {
           {/* Reader Info Card */}
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 shadow-2xl border border-white/20 animate-fade-up">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              {reader.avatar ? (
-                <img
-                  src={reader.avatar}
-                  alt={reader.name}
-                  className="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white/20"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-32 h-32 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-4xl font-bold text-white shadow-lg">
+              <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-lg border-4 border-white/20">
+                {reader.avatar ? (
+                  <img
+                    src={reader.avatar}
+                    alt={reader.name}
+                    className="w-full h-full object-cover hidden-fallback"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.classList.add('hidden');
+                      (e.currentTarget.nextElementSibling as HTMLElement)?.classList.remove('hidden');
+                    }}
+                  />
+                ) : null}
+                <div className={`w-full h-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-4xl font-bold text-white ${reader.avatar ? 'hidden' : ''}`}>
                   {reader.name.charAt(0).toUpperCase()}
                 </div>
-              )}
+              </div>
 
               <div className="flex-1">
                 <div className="flex items-center gap-4 mb-2">
                   <h1 className="text-3xl font-bold">{reader.name}</h1>
-                  {reader.id === 1 && !editMode && ( // Assuming current user check
+                  {isCurrentReader && !editMode && (
                     <button
                       onClick={() => setEditMode(true)}
                       className="bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2"

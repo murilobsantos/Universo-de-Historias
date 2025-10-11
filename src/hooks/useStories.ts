@@ -11,12 +11,10 @@ export default function useStories() {
     const localStories = storyService.getLocalStories();
     if (localStories.length > 0) {
       setStories(localStories);
-      console.log("Loaded stories from localStorage:", localStories.map(s => ({ title: s.title, image: s.image })));
     } else {
       setStories(mockStories);
       // Save mock to localStorage
       mockStories.forEach(story => storyService.saveStory(story));
-      console.log("Loaded mock stories:", mockStories.map(s => ({ title: s.title, image: s.image })));
     }
   }, []);
 

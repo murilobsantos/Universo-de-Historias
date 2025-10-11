@@ -95,6 +95,7 @@ export const useReaders = () => {
 
   const logout = () => {
     setCurrentReader(null);
+    localStorage.removeItem('currentReader');
   };
 
   const updateReader = (id: number, updates: Partial<Reader>) => {

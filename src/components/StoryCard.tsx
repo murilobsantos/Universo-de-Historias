@@ -23,7 +23,6 @@ const StoryCard: React.FC<StoryCardProps> = ({ title, description, image, onClic
         alt={title}
         className="w-full h-48 object-cover"
         loading="lazy"
-        onError={() => console.error(`Failed to load image for "${title}": ${image}`)}
         whileHover={{ scale: 1.1, rotate: 2 }}
         transition={{ duration: 0.3 }}
       />

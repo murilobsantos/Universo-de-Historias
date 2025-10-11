@@ -15,7 +15,7 @@ import EditStory from './pages/EditStory';
 import Welcome from './pages/Welcome';
 import Login from './pages/Login';
 import Reader from './pages/Reader';
-import { AuthorProfile } from './pages/AuthorProfile';
+import AuthorProfile from './pages/AuthorProfile';
 import ReaderProfile from './pages/ReaderProfile';
 import Header from './components/Header';
 
@@ -45,7 +45,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/nova" element={<NewStory />} />
             <Route path="/editar/:id" element={<EditStory />} />
-            <Route path="/profile/author/:id" element={<AuthorProfile />} />
+            <Route path="/profile/author/:id" element={<AuthorProfile key={location.pathname} />} />
             <Route path="/profile/reader/:id" element={<ReaderProfile />} />
           </Routes>
         </motion.main>

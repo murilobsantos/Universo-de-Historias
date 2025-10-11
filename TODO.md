@@ -24,6 +24,10 @@
 ### 5. Task 4.5: Lazy loading de imagens
 - [x] Adicionar loading="lazy" em todas as imagens (StoryCard, Home, StoryDetail)
 
+### 6. Task 4.6: Skeleton loading
+- [x] Implementar skeletons em Home.tsx para stories e recommendations (usando Skeleton component com delay simulado).
+- [x] Estender para StoryDetail (chapters) e profiles se necessário.
+
 ### Followup Steps
 - [ ] Testar animações e responsividade no browser (yarn dev, interact with pages).
 - [ ] Atualizar progresso.md para marcar Sprint 3 como 100% completa.
