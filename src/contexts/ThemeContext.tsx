@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useLayoutEffect } from 'react';
 
 const themes = [
   { id: "noite-estelar", name: "Noite Estelar", bg: "#0a0f1f", accent: "#6b5cff" },
@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState("noite-estelar");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const saved = localStorage.getItem("profile-theme");
     const initialTheme = saved || "noite-estelar";
     setThemeState(initialTheme);

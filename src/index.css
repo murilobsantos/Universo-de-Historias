@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-color: #0a0f1f;
+  --accent-color: #6b5cff;
+}
+
 /* Seus estilos customizados aqui */
 body {
   margin: 0;

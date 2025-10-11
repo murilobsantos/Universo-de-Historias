@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useLayoutEffect, ReactNode } from "react";
 
 interface DarkModeContextType {
   isDarkMode: boolean;
@@ -13,7 +13,7 @@ export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }
     return saved ? JSON.parse(saved) : true;
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     localStorage.setItem("dark-mode", JSON.stringify(isDarkMode));
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
