@@ -72,15 +72,16 @@ function Login() {
         setMessage("Login bem-sucedido!");
         setEmail("");
         setPassword("");
-        navigate("/home");
+        navigate(`/profile/author/${author.id}`);
         return;
       }
     } else {
-      if (loginReader(email.trim(), password.trim())) {
+      const reader = loginReader(email.trim(), password.trim());
+      if (reader) {
         setMessage("Login bem-sucedido!");
         setEmail("");
         setPassword("");
-        navigate("/home");
+        navigate(`/profile/reader/${reader.id}`);
         return;
       }
     }

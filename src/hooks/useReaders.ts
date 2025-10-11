@@ -83,14 +83,14 @@ export const useReaders = () => {
     return true;
   };
 
-  const login = (email: string, password: string): boolean => {
+  const login = (email: string, password: string): Reader | null => {
     const reader = readers.find(r => r.email === email && r.password === password);
     if (reader) {
       setCurrentReader(reader);
       localStorage.setItem('currentReader', JSON.stringify(reader)); // Save logged in reader to localStorage
-      return true;
+      return reader;
     }
-    return false;
+    return null;
   };
 
   const logout = () => {

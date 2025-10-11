@@ -8,9 +8,13 @@
 - [x] Removed invalid @types/react-router-dom dependency from package.json
 - [x] Added missing framer-motion and lucide-react dependencies to package.json
 - [x] Installed @types/lucide-react for TypeScript support
+- [x] Updated AuthorProfile to handle URL backgrounds for mock data
+- [x] Removed mode="wait" from AnimatePresence in App.tsx to fix navigation issues
+- [x] Changed login navigation to go to profile instead of /home
+- [x] Updated useReaders login to return Reader object for navigation
 
 ## Next Steps
 - [x] Install the new dependencies with npm install
-- [ ] Deploy the updated build to your hosting platform (e.g., Netlify, Vercel)
-- [ ] Test the deployed app to ensure the hydration error is resolved
+- [x] Deploy the updated build to your hosting platform (e.g., Netlify, Vercel)
+- [x] Test the deployed app to ensure the hydration error is resolved
 - [ ] If error persists, check console logs for other mismatches or consider disabling prerendering if possible

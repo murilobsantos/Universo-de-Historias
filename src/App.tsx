@@ -31,7 +31,7 @@ function App() {
   return (
     <>
       <Header />
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         <motion.main
           key={location.pathname}
           className="min-h-screen"

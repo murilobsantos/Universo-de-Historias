@@ -17,11 +17,7 @@ function Welcome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  useEffect(() => {
-    if (currentAuthor) {
-      navigate('/home');
-    }
-  }, [currentAuthor, navigate]);
+  // Removed redirect for logged-in users to allow access to welcome page
 
   useEffect(() => {
     const handleScroll = () => {
@@ -172,33 +168,7 @@ function Welcome() {
         </button>
       )}
 
-      {/* Footer */}
-      <footer className={`${isDarkMode ? 'bg-cosmic-deep border-t border-white/10' : 'bg-gray-100 border-t border-gray-300'} py-12 px-4`}>
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-              <circle cx="32" cy="32" r="8" />
-              <circle cx="16" cy="16" r="4" />
-              <circle cx="48" cy="16" r="4" />
-              <circle cx="16" cy="48" r="4" />
-              <circle cx="48" cy="48" r="4" />
-              <line x1="32" y1="8" x2="32" y2="16" />
-              <line x1="32" y1="48" x2="32" y2="56" />
-              <line x1="8" y1="32" x2="16" y2="32" />
-              <line x1="48" y1="32" x2="56" y2="32" />
-            </svg>
-            <span className="text-2xl font-bold">Galáxia de Histórias</span>
-          </div>
 
-          <p className="text-textSecondary mb-8">© 2025 Galáxia de Histórias. Todos os direitos reservados.</p>
-
-          <div className="flex justify-center space-x-8 text-textSecondary">
-            <a href="#" className="hover:text-white transition-colors">Contato</a>
-            <a href="#" className="hover:text-white transition-colors">Termos</a>
-            <a href="#" className="hover:text-white transition-colors">Sobre</a>
-          </div>
-        </div>
-      </footer>
 
       <Modal
         story={selectedStory}

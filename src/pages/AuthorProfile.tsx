@@ -104,7 +104,7 @@ function AuthorProfile() {
   };
 
   const getBackgroundStyle = (background: string) => {
-    if (background.startsWith('data:')) {
+    if (background && (background.startsWith('http') || background.startsWith('data:'))) {
       return { backgroundImage: `url(${background})` };
     }
     return {};
