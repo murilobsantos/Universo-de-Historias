@@ -46,4 +46,4 @@
 - [x] Test navigation and redirections. (User confirmed working)
 - [x] Test profile editing with avatar and banner image upload. (User confirmed working)
 - [x] Clean up unnecessary files. (Attempted removal of progresso.md, referencia.md, Sistema_de_Personalizacao_Galaxia_de_Historias.md, mockup uiux.txt, PROGRESS.md, Home_new.tsx, Modal_clean.tsx, Modal_temp.tsx, Universo de Historias/ folder, _redirects)
-- Investigate deploy error 299 (possibly related to _redirects file, removed to test)
+- [x] Investigate deploy error 299 (React error #299 - hydration mismatch; added back _redirects file for SPA routing on Netlify)
