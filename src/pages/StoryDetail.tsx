@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useStories from "../hooks/useStories";
 import { useDarkMode } from "../contexts/DarkModeContext";
+import Skeleton from "../components/Skeleton";
 import { Story } from "../types/story";
 
 function StoryDetail() {
@@ -10,6 +11,7 @@ function StoryDetail() {
   const { stories } = useStories();
   const { isDarkMode } = useDarkMode();
   const [story, setStory] = useState<Story | null>(null);
+  const [loading, setLoading] = useState(true);
   const [showFullSynopsis, setShowFullSynopsis] = useState(false);
 
   useEffect(() => {
@@ -17,6 +19,7 @@ function StoryDetail() {
     const storyId = Number(id);
     const foundStory = stories.find(s => s.id === storyId) || null;
     setStory(foundStory);
+    setLoading(false);
     if (storyId) {
       localStorage.setItem('last-read-story', storyId.toString());
     }
@@ -31,6 +34,62 @@ function StoryDetail() {
     // Placeholder for share functionality
     console.log("Shared story", story?.title);
   };
+
+  if (loading) {
+    return (
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} p-4 md:p-8`}>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            {/* Cover Image Skeleton */}
+            <div className="md:col-span-1">
+              <Skeleton className="w-full h-80 rounded-lg" />
+            </div>
+            {/* Info Section Skeleton */}
+            <div className="md:col-span-2 space-y-4">
+              <Skeleton className="h-12 w-3/4" />
+              <Skeleton className="h-6 w-1/2" />
+              <div className="flex space-x-4">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-10 w-32" />
+            </div>
+          </div>
+          {/* Chapters Skeleton */}
+          <div className="mb-8">
+            <Skeleton className="h-8 w-32 mb-4" />
+            <div className="flex space-x-2">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} className="h-10 w-24" />
+              ))}
+            </div>
+          </div>
+          {/* Related Stories Skeleton */}
+          <div className="mt-16">
+            <Skeleton className="h-8 w-48 mb-6" />
+            <div className="grid md:grid-cols-3 gap-6">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="bg-gray-800 rounded-lg overflow-hidden">
+                  <Skeleton className="w-full h-32" />
+                  <div className="p-4">
+                    <Skeleton className="h-6 mb-2" />
+                    <Skeleton className="h-4 mb-2" />
+                    <div className="flex justify-between">
+                      <Skeleton className="h-3 w-16" />
+                      <Skeleton className="h-3 w-12" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!story) {
     return <div className="p-8 max-w-4xl mx-auto">História não encontrada.</div>;

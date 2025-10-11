@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import useStories from "../hooks/useStories";
+import useAuthors from "../hooks/useAuthors";
 import { useDarkMode } from "../contexts/DarkModeContext";
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
 
 function Home() {
-  const { stories, getRecommendations, getTopStories } = useStories();
+  const { stories, loading, getRecommendations, getTopStories } = useStories();
+  const { currentAuthor } = useAuthors();
   const { isDarkMode } = useDarkMode();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const containerVariants = {
     hidden: { opacity: 1 },
@@ -89,7 +84,7 @@ function Home() {
             {(() => {
               const lastReadId = localStorage.getItem('last-read-story');
               const lastReadNum = lastReadId ? Number(lastReadId) : null;
-              const recommendations = lastReadNum ? getRecommendations(lastReadNum) : getTopStories();
+              const recommendations = lastReadNum ? getRecommendations(lastReadNum, currentAuthor || undefined) : getTopStories();
               return recommendations.map((story) => (
                 <motion.div
                   key={`rec-${story.id}`}
@@ -107,6 +102,54 @@ function Home() {
                 </motion.div>
               ));
             })()}
+          </AnimatePresence>
+        </div>
+      </motion.section>
+
+      {/* Em Alta Section */}
+      <motion.section
+        className="mt-16"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <h2 className="text-3xl font-bold mb-8 text-center">Histórias em Alta</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
+          <AnimatePresence>
+            {loading
+              ? Array.from({ length: 4 }).map((_, index) => (
+                  <motion.div
+                    key={`skeleton-trending-${index}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="bg-white/10 rounded-lg shadow-lg overflow-hidden">
+                      <Skeleton className="w-full h-48 rounded-none" />
+                      <div className="p-4">
+                        <Skeleton className="h-6 mb-2" />
+                        <Skeleton className="h-4" />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              : getTopStories().map((story) => (
+                  <motion.div
+                    key={`trending-${story.id}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <StoryCard
+                      title={story.title}
+                      description={story.description}
+                      image={story.image}
+                      onClick={() => navigate(`/story/${story.id}`)}
+                    />
+                  </motion.div>
+                ))}
           </AnimatePresence>
         </div>
       </motion.section>

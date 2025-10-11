@@ -36,10 +36,9 @@
 5. Task 4.5: Lazy loading de imagens
 
 ### Sprint 4 (Performance e Funcionalidades Extras)
-6. Task 4.6: Skeleton loading
-5. Task 4.6: Skeleton loading
-6. Task 5.1: Sistema de recomendações (baseado em gêneros/popularidade)
-7. Task 5.2: Seção "Em Alta" (histórias por curtidas/popularidade)
+6. Task 4.6: Skeleton loading ✅ COMPLETADO
+7. Task 5.1: Sistema de recomendações (baseado em gêneros/popularidade) ✅ COMPLETADO
+8. Task 5.2: Seção "Em Alta" (histórias por curtidas/popularidade) ✅ COMPLETADO
 
 ### Sprint 5 (Melhorias Adicionais)
 8. Busca global (pesquisa por título/autor/tags na Home)
@@ -78,10 +77,9 @@
 
 **FASE 3: UI/UX e Animações**
 
-1. Task 4.1: Implementar tema Wattpad (laranja + branco + preto)
-2. Task 4.2: Framer Motion para animações
-3. Task 4.3: Hover states e transições
-4. Task 4.4: Responsividade 100%
+1. Task 4.1: Framer Motion para animações
+2. Task 4.2: Hover states e transições
+3. Task 4.3: Responsividade 100%
 
 ---
 

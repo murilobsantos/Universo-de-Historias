@@ -6,13 +6,14 @@ import useStories from "../hooks/useStories";
 import { useDarkMode } from "../contexts/DarkModeContext";
 import ThemeSelector from "../components/ThemeSelector";
 import StoryCard from "../components/StoryCard";
+import Skeleton from "../components/Skeleton";
 import { Author } from "../types/story";
 import { Edit, BookOpen, Users, Crown, Star, Save, X } from 'lucide-react';
 
 function AuthorProfile() {
   const { id } = useParams<{ id: string }>();
   const { authors, currentAuthor, updateAuthor } = useAuthors();
-  const { stories } = useStories();
+  const { stories, loading } = useStories();
   const { isDarkMode } = useDarkMode();
 
   const [editMode, setEditMode] = useState(false);
@@ -381,7 +382,26 @@ function AuthorProfile() {
               <h2 className="text-2xl font-bold">Histórias do Autor</h2>
             </div>
 
-            {authorStories.length > 0 ? (
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <motion.div
+                    key={`skeleton-story-${index}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                  >
+                    <div className="bg-white/10 rounded-lg shadow-lg overflow-hidden">
+                      <Skeleton className="w-full h-48 rounded-none" />
+                      <div className="p-4">
+                        <Skeleton className="h-6 mb-2" />
+                        <Skeleton className="h-4" />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : authorStories.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {authorStories.map((story, index) => (
                   <motion.div
