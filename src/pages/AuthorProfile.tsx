@@ -105,13 +105,14 @@ function AuthorProfile() {
 
   return (
     <motion.div
+      key={editMode ? editData.background : author.background || 'cosmic'}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className={`min-h-screen ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')} text-white`}
     >
       {/* Header Background */}
-      <div className={`relative h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`}>
+      <div key={`header-${editMode ? editData.background : author.background || 'cosmic'}`} className={`relative h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cosmic-dark to-transparent"></div>
       </div>
