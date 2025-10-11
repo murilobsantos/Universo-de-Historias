@@ -5,6 +5,7 @@
 - [x] Changed useEffect to useLayoutEffect in ThemeContext.tsx for CSS variable setting
 - [x] Added default "dark" class to body in index.html
 - [x] Added default CSS variables for theme in index.css
+- [x] Removed invalid @types/react-router-dom dependency from package.json
 
 ## Next Steps
 - [ ] Deploy the updated build to your hosting platform (e.g., Netlify, Vercel)
