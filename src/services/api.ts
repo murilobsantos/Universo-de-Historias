@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   USERS: `${API_BASE_URL}/api/users`,
   USER_BY_ID: (id: string) => `${API_BASE_URL}/api/users/${id}`,
   PROFILE: `${API_BASE_URL}/api/users/profile`,
+  UPDATE_PROFILE: `${API_BASE_URL}/api/users/profile`,
 
   // Stories
   STORIES: `${API_BASE_URL}/api/stories`,

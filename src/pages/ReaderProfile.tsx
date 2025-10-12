@@ -63,17 +63,54 @@ function ReaderProfile() {
     badges: reader?.badges?.join(', ') || '',
   });
 
-  const handleSave = () => {
-    if (reader) {
-      const updates: Partial<typeof reader> = {
-        bio: editData.bio,
-        background: editData.background,
-        badges: editData.badges.split(',').map(b => b.trim()).filter(b => b),
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Você precisa estar logado para salvar alterações');
+        return;
+      }
+
+      let avatarUrl = editData.avatar;
+      if (avatarFile) {
+        avatarUrl = await fileToBase64(avatarFile);
+      }
+
+      const updateData = {
+        profile: {
+          bio: editData.bio,
+          avatar: avatarUrl,
+        }
       };
-      const avatarUpdate = editData.avatar.trim() ? editData.avatar : reader.avatar;
-      updates.avatar = avatarUpdate;
-      updateReader(reader.id, updates);
-      setEditMode(false);
+
+      const response = await fetch(API_ENDPOINTS.UPDATE_PROFILE, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updateData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Update local state
+        setReader(prev => prev ? ({
+          ...prev,
+          bio: editData.bio,
+          avatar: avatarUrl,
+        }) : null);
+        setEditMode(false);
+        setAvatarFile(null);
+        setBackgroundFile(null);
+        alert('Perfil atualizado com sucesso!');
+      } else {
+        const error = await response.json();
+        alert(`Erro ao salvar: ${error.message}`);
+      }
+    } catch (error) {
+      console.error('Erro ao salvar perfil:', error);
+      alert('Erro ao salvar alterações. Tente novamente.');
     }
   };
 

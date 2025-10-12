@@ -154,24 +154,54 @@ function AuthorProfile() {
   };
 
   const handleSave = async () => {
-    let avatarUrl = editData.avatarUrl;
-    if (avatarFile) {
-      avatarUrl = await fileToBase64(avatarFile);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Você precisa estar logado para salvar alterações');
+        return;
+      }
+
+      let avatarUrl = editData.avatarUrl;
+      if (avatarFile) {
+        avatarUrl = await fileToBase64(avatarFile);
+      }
+
+      const updateData = {
+        profile: {
+          bio: editData.bio,
+          avatar: avatarUrl,
+        }
+      };
+
+      const response = await fetch(API_ENDPOINTS.UPDATE_PROFILE, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updateData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Update local state
+        setAuthor(prev => prev ? ({
+          ...prev,
+          bio: editData.bio,
+          avatarUrl: avatarUrl,
+        }) : null);
+        setEditMode(false);
+        setAvatarFile(null);
+        setBackgroundFile(null);
+        alert('Perfil atualizado com sucesso!');
+      } else {
+        const error = await response.json();
+        alert(`Erro ao salvar: ${error.message}`);
+      }
+    } catch (error) {
+      console.error('Erro ao salvar perfil:', error);
+      alert('Erro ao salvar alterações. Tente novamente.');
     }
-    let background = editData.background;
-    if (backgroundFile) {
-      background = await fileToBase64(backgroundFile);
-    }
-    const updatedAuthor = {
-      ...author,
-      bio: editData.bio,
-      avatarUrl,
-      background,
-    };
-    updateAuthor(updatedAuthor);
-    setEditMode(false);
-    setAvatarFile(null);
-    setBackgroundFile(null);
   };
 
   const handleCancel = () => {
