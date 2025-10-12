@@ -521,22 +521,24 @@ function ReaderProfile() {
 
 
 
-                <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm text-textSecondary">
-                  <div className="flex items-center gap-2">
-                    <BookOpen size={14} className="sm:w-4 sm:h-4" />
-                    <span>{totalRead} histórias lidas</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Heart size={14} className="sm:w-4 sm:h-4" />
-                    <span>{favoriteStories.length} favoritos</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Calendar size={14} className="sm:w-4 sm:h-4" />
-                    <span>Membro desde {reader.joinedDate ? reader.joinedDate.toLocaleDateString('pt-BR') : 'N/A'}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Trophy size={14} className="sm:w-4 sm:h-4" />
-                    <span>Conquistas: {reader.badges && reader.badges.length > 0 ? reader.badges.join(', ') : 'Em breve'}</span>
+                <div className="flex flex-col gap-3 text-xs sm:text-sm text-textSecondary">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center gap-2">
+                      <BookOpen size={14} className="w-4 h-4" />
+                      <span>{totalRead} histórias lidas</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Heart size={14} className="w-4 h-4" />
+                      <span>{favoriteStories.length} favoritos</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar size={14} className="w-4 h-4" />
+                      <span>Membro desde {reader.joinedDate ? reader.joinedDate.toLocaleDateString('pt-BR') : 'N/A'}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Trophy size={14} className="w-4 h-4" />
+                      <span>Conquistas: {reader.badges && reader.badges.length > 0 ? reader.badges.join(', ') : 'Em breve'}</span>
+                    </div>
                   </div>
               </div>
               {/* Reader Badges Section */}
@@ -568,7 +570,7 @@ function ReaderProfile() {
                           onClick={() => setBadgeModalOpen(true)}
                         >
                           {badge.icon}
-                          <span className="text-white text-sm font-medium hidden sm:inline">{badge.name}</span>
+                          <span className="text-white text-sm font-medium">{badge.name}</span>
                         </div>
                       ) : null;
                     })
@@ -585,7 +587,7 @@ function ReaderProfile() {
                         onClick={() => setBadgeModalOpen(true)}
                       >
                         {badge.icon}
-                        <span className="text-white text-sm font-medium hidden sm:inline">{badge.name}</span>
+                        <span className="text-white text-sm font-medium">{badge.name}</span>
                       </div>
                     ))
                   )}

@@ -555,7 +555,7 @@ function AuthorProfile() {
                       }}
                       whileHover={{ scale: 1.1, y: -2 }}
                       onClick={() => setBadgeModalOpen(true)}
-                      className="bg-primary/70 rounded-full p-1 sm:p-1.5 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer hover:bg-primary/90 transition-colors"
+                      className="bg-primary/70 rounded-full p-2 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer hover:bg-primary/90 transition-colors"
                       title="Clique para ver todas as conquistas"
                     >
                       {icon}
@@ -570,7 +570,7 @@ function AuthorProfile() {
                   }}
                   whileHover={{ scale: 1.1, y: -2 }}
                   onClick={() => setBadgeModalOpen(true)}
-                  className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-1 sm:p-1.5 shadow-md text-xs font-semibold text-black flex items-center gap-1 cursor-pointer hover:shadow-lg transition-all"
+                  className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-2 shadow-md text-xs font-semibold text-black flex items-center gap-1 cursor-pointer hover:shadow-lg transition-all"
                   title="Ver todas as conquistas disponíveis"
                 >
                   <Award size={10} className="sm:w-3 sm:h-3" />
