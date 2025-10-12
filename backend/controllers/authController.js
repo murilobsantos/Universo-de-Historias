@@ -95,8 +95,8 @@ const register = async (req, res) => {
       });
     }
 
-    console.log('isMongoDBConnected:', isMongoDBConnected());
-    if (isMongoDBConnected()) {
+    console.log('User model loaded:', !!User);
+    if (User) {
       // Usar MongoDB
       const existingUser = await User.findOne({ email: email.toLowerCase() });
       if (existingUser) {
@@ -199,7 +199,7 @@ const login = async (req, res) => {
       });
     }
 
-    if (isMongoDBConnected()) {
+    if (User) {
       // Usar MongoDB
       const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
       if (!user) {
@@ -273,7 +273,7 @@ const verify = async (req, res) => {
     // O middleware auth já verificou o token e colocou o usuário em req.user
     const user = req.user;
 
-    if (isMongoDBConnected()) {
+    if (User) {
       // Usar dados do MongoDB
       return res.json({
         success: true,
