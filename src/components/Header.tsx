@@ -2,14 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from "react-router-dom";
 import { useDarkMode } from "../contexts/DarkModeContext";
-import useAuthors from "../hooks/useAuthors";
-import { useReaders } from "../hooks/useReaders";
+import { useAuth } from "../contexts/AuthContext";
 import { Search } from 'lucide-react';
 
 function Header() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const { currentAuthor, logout: authorLogout } = useAuthors();
-  const { currentReader, logout: readerLogout } = useReaders();
+  const { user, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,17 +46,13 @@ function Header() {
   }, [isMobileMenuOpen]);
 
   const handleLogout = () => {
-    if (currentAuthor) {
-      authorLogout();
-    } else if (currentReader) {
-      readerLogout();
-    }
+    logout();
     setIsMobileMenuOpen(false);
     navigate('/login');
   };
 
-  const isLoggedIn = !!currentAuthor || !!currentReader;
-  const profilePath = currentAuthor ? `/profile/author/${currentAuthor.id}` : currentReader ? `/profile/reader/${currentReader.id}` : '/login';
+  const isLoggedIn = !!user;
+  const profilePath = user ? (user.role === 'author' ? `/profile/author/${user._id}` : `/profile/reader/${user._id}`) : '/login';
 
   useEffect(() => {
     const handleScroll = () => {

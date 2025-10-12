@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthors from "../hooks/useAuthors";
+import { useAuth } from "../contexts/AuthContext";
 
 function AuthorRegistration() {
-  const { createAuthor, login } = useAuthors();
+  const { register } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,52 +12,39 @@ function AuthorRegistration() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
     try {
-      let avatarUrl = "";
-      let backgroundUrl = "";
-      if (avatarFile) {
-        avatarUrl = await fileToBase64(avatarFile);
-      }
-      if (backgroundFile) {
-        backgroundUrl = await fileToBase64(backgroundFile);
-      }
-      const result = createAuthor(name, email, password, bio, avatarUrl, backgroundUrl);
-      if (result) {
+      const success = await register(name, email, password, 'author');
+
+      if (success) {
         setMessage("Registration successful!");
+        // Clear form
         setName("");
         setEmail("");
         setPassword("");
         setBio("");
         setAvatarFile(null);
         setBackgroundFile(null);
-        navigate("/home");
+        // Redirect to author profile
+        navigate("/profile/author/me");
       } else {
-        // Email exists, try to login
-        const loggedIn = login(email, password);
-        if (loggedIn) {
-          setMessage("Logged in successfully!");
-          navigate("/home");
-        } else {
-          setMessage("Email already exists but password is incorrect.");
-        }
+        setMessage("Registration failed. Email may already be in use.");
       }
     } catch (error) {
       console.error("Error during registration:", error);
       setMessage("An error occurred during registration.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
-    });
-  };
+
 
   return (
     <div className="bg-cosmic-dark/70 backdrop-blur-xs p-6 rounded-lg shadow-md max-w-md mx-auto">
@@ -117,9 +104,10 @@ function AuthorRegistration() {
         />
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-primary to-secondary text-white p-2 rounded hover:brightness-110 transition"
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-primary to-secondary text-white p-2 rounded hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Register
+          {loading ? "Registrando..." : "Register"}
         </button>
       </form>
       {message && <p className="mt-4 text-center text-white">{message}</p>}

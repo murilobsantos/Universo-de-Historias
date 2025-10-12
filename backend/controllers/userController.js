@@ -1,4 +1,10 @@
-const User = require('../models/User');
+// Importar User apenas se MongoDB estiver conectado
+let User = null;
+try {
+  User = require('../models/User');
+} catch (error) {
+  console.log('Modelo User não carregado no controlador - modo desenvolvimento');
+}
 
 const getUser = async (req, res) => {
   try {

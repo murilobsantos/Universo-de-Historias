@@ -12,8 +12,13 @@ const storyRoutes = require('./routes/stories');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Conectar ao banco de dados
-connectDB();
+// Conectar ao banco de dados (apenas se MONGODB_URI estiver configurada)
+if (process.env.MONGODB_URI && process.env.MONGODB_URI !== 'mongodb://localhost:27017/universo-historias') {
+  connectDB();
+} else {
+  console.log('⚠️  MongoDB não configurado. Usando modo desenvolvimento sem banco de dados.');
+  console.log('📝 Para configurar MongoDB Atlas, siga as instruções em MONGODB_SETUP.md');
+}
 
 // Middleware
 app.use(cors({

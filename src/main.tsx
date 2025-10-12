@@ -4,6 +4,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { DarkModeProvider } from "./contexts/DarkModeContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { initGA } from "./Analytics";
 import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
@@ -27,13 +28,15 @@ try {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <ErrorBoundary>
-        <DarkModeProvider>
-          <ThemeProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ThemeProvider>
-        </DarkModeProvider>
+        <AuthProvider>
+          <DarkModeProvider>
+            <ThemeProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </ThemeProvider>
+          </DarkModeProvider>
+        </AuthProvider>
       </ErrorBoundary>
     </React.StrictMode>
   );

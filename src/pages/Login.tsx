@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AuthorRegistration from "../components/AuthorRegistration";
 import ReaderRegistration from "../components/ReaderRegistration";
-import useAuthors from "../hooks/useAuthors";
-import { useReaders } from "../hooks/useReaders";
+import { useAuth } from "../contexts/AuthContext";
 import { useDarkMode } from "../contexts/DarkModeContext";
 import { useNavigate } from "react-router-dom";
 
@@ -15,16 +14,20 @@ function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [message, setMessage] = useState("");
   const [loginType, setLoginType] = useState<'author' | 'reader'>('author');
-  const { currentAuthor, logout, login: loginAuthor } = useAuthors();
-  const { currentReader, login: loginReader } = useReaders();
+  const { user, login } = useAuth();
   const { isDarkMode } = useDarkMode();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentAuthor || currentReader) {
-      navigate("/home");
+    if (user) {
+      // Redirect based on user role
+      if (user.role === 'author') {
+        navigate(`/profile/author/${user._id}`);
+      } else {
+        navigate(`/profile/reader/${user._id}`);
+      }
     }
-  }, [currentAuthor, currentReader, navigate]);
+  }, [user, navigate]);
 
   const toggleView = () => {
     setIsLogin(!isLogin);
@@ -59,33 +62,28 @@ function Login() {
     }
   };
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
     if (!validateEmail(email) || !validatePassword(password)) {
       setMessage("Por favor, corrija os erros acima.");
       return;
     }
-    if (loginType === 'author') {
-      const author = loginAuthor(email.trim(), password.trim());
-      if (author) {
+
+    try {
+      const success = await login(email.trim(), password.trim());
+      if (success) {
         setMessage("Login bem-sucedido!");
         setEmail("");
         setPassword("");
-        navigate(`/profile/author/${author.id}`);
-        return;
+        // Navigation will be handled by useEffect when user state updates
+      } else {
+        setMessage("Email ou senha inválidos.");
       }
-    } else {
-      const reader = loginReader(email.trim(), password.trim());
-      if (reader) {
-        setMessage("Login bem-sucedido!");
-        setEmail("");
-        setPassword("");
-        navigate(`/profile/reader/${reader.id}`);
-        return;
-      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setMessage("Erro durante o login.");
     }
-    setMessage("Email ou senha inválidos.");
   };
 
   return (

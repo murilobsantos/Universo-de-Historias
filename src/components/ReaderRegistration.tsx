@@ -1,27 +1,42 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useReaders } from "../hooks/useReaders";
+import { useAuth } from "../contexts/AuthContext";
 
 function ReaderRegistration() {
-  const { register } = useReaders();
+  const { register } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (register(name, email, password, bio)) {
-      setMessage("Registration successful!");
-      setName("");
-      setEmail("");
-      setPassword("");
-      setBio("");
-      navigate("/home");
-    } else {
-      setMessage("Email already registered.");
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const success = await register(name, email, password, 'reader');
+
+      if (success) {
+        setMessage("Registration successful!");
+        // Clear form
+        setName("");
+        setEmail("");
+        setPassword("");
+        setBio("");
+        // Redirect to reader profile
+        navigate("/profile/reader/me");
+      } else {
+        setMessage("Registration failed. Email may already be in use.");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      setMessage("An error occurred during registration.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,9 +80,10 @@ function ReaderRegistration() {
         />
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-primary to-secondary text-white p-2 rounded hover:brightness-110 transition"
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-primary to-secondary text-white p-2 rounded hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Register
+          {loading ? "Registrando..." : "Register"}
         </button>
       </form>
       {message && <p className="mt-4 text-center text-white">{message}</p>}

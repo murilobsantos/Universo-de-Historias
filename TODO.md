@@ -5,6 +5,7 @@
 - [x] Modify paragraph div classes for continuous reading (remove border, padding, adjust spacing)
 - [x] Add toggle button for paragraph comments visibility
 - [x] Wrap chapter comments section in conditional render with toggle button
+- [x] Fix authentication system to persist users and work properly
 - [x] Create backend infrastructure with Express, MongoDB, and basic routing
 - [x] Set up server with package.json and index.js
 - [x] Create User and Story models
