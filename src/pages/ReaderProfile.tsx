@@ -147,6 +147,9 @@ function ReaderProfile() {
 
   const [editMode, setEditMode] = useState(false);
   const [badgeModalOpen, setBadgeModalOpen] = useState(false);
+  const allBadges = getReaderBadges(reader);
+  const [selectedBadges, setSelectedBadges] = useState<string[]>(reader?.selectedBadges || []);
+
   const [editData, setEditData] = useState({
     bio: reader?.bio || '',
     avatar: reader?.avatar || '',
@@ -192,6 +195,7 @@ function ReaderProfile() {
           avatar: avatarUrl,
           background: editData.background,
           backgroundImage: backgroundImageUrl,
+          selectedBadges: selectedBadges,
         }
       };
 
@@ -213,6 +217,7 @@ function ReaderProfile() {
           avatar: avatarUrl,
           background: editData.background,
           backgroundImage: backgroundImageUrl,
+          selectedBadges: selectedBadges,
         }) : null);
         setEditMode(false);
         setAvatarFile(null);
@@ -236,6 +241,7 @@ function ReaderProfile() {
       backgroundImage: reader?.backgroundImage || '',
       badges: reader?.badges?.join(', ') || '',
     });
+    setSelectedBadges(reader?.selectedBadges || []);
     setEditMode(false);
     setAvatarFile(null);
     setBackgroundFile(null);
@@ -467,14 +473,43 @@ function ReaderProfile() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Conquistas (separadas por vírgula)</label>
-                      <input
-                        type="text"
-                        value={editData.badges}
-                        onChange={(e) => setEditData({ ...editData, badges: e.target.value })}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-textSecondary focus:outline-none focus:border-primary"
-                        placeholder="Leitor Ávido, Crítico Literário, etc."
-                      />
+                      <label className="block text-sm font-medium mb-2">Conquistas Exibidas no Perfil</label>
+                      <p className="text-xs text-textSecondary mb-3">Selecione até 5 conquistas para mostrar no seu perfil (das suas conquistas desbloqueadas)</p>
+                      <div className="space-y-2 max-h-40 overflow-y-auto bg-white/5 rounded-lg p-3">
+                        {allBadges.filter(badge => badge.unlocked).map((badge) => (
+                          <label key={badge.id} className="flex items-center space-x-3 cursor-pointer hover:bg-white/5 p-2 rounded">
+                            <input
+                              type="checkbox"
+                              checked={selectedBadges.includes(badge.id)}
+                              onChange={(e) => {
+                                if (e.target.checked && selectedBadges.length >= 5) return;
+                                setSelectedBadges(prev =>
+                                  e.target.checked
+                                    ? [...prev, badge.id]
+                                    : prev.filter(id => id !== badge.id)
+                                );
+                              }}
+                              className="w-4 h-4 text-primary bg-white/10 border-white/20 rounded focus:ring-primary focus:ring-2"
+                            />
+                            <div className="flex items-center space-x-2">
+                              <span className="text-white">{badge.icon}</span>
+                              <span className="text-white text-sm">{badge.name}</span>
+                              <span className={`text-xs uppercase px-2 py-1 rounded-full ${
+                                badge.rarity === 'legendary' ? 'bg-yellow-500/20 text-yellow-400' :
+                                badge.rarity === 'epic' ? 'bg-purple-500/20 text-purple-400' :
+                                badge.rarity === 'rare' ? 'bg-blue-500/20 text-blue-400' :
+                                'bg-gray-500/20 text-gray-400'
+                              }`}>
+                                {badge.rarity}
+                              </span>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                      <p className="text-xs text-textSecondary mt-2">
+                        Selecionadas: {selectedBadges.length}/5
+                        {selectedBadges.length >= 5 && <span className="text-yellow-400 ml-1">(máximo atingido)</span>}
+                      </p>
                     </div>
                   </div>
                 ) : (
@@ -515,21 +550,42 @@ function ReaderProfile() {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {getReaderBadges(reader).filter(badge => badge.unlocked).slice(0, 4).map((badge, index) => (
-                    <div
-                      key={badge.id}
-                      className={`bg-gradient-to-r ${
-                        badge.rarity === 'legendary' ? 'from-yellow-400 to-orange-500' :
-                        badge.rarity === 'epic' ? 'from-purple-400 to-pink-500' :
-                        badge.rarity === 'rare' ? 'from-blue-400 to-cyan-500' :
-                        'from-gray-400 to-gray-500'
-                      } rounded-full p-2 shadow-lg cursor-pointer hover:scale-110 transition-transform duration-300 flex items-center gap-2`}
-                      onClick={() => setBadgeModalOpen(true)}
-                    >
-                      {badge.icon}
-                      <span className="text-white text-sm font-medium hidden sm:inline">{badge.name}</span>
-                    </div>
-                  ))}
+                  {selectedBadges.length > 0 ? (
+                    selectedBadges.slice(0, 5).map((badgeId) => {
+                      const badge = allBadges.find(b => b.id === badgeId);
+                      return badge ? (
+                        <div
+                          key={badge.id}
+                          className={`bg-gradient-to-r ${
+                            badge.rarity === 'legendary' ? 'from-yellow-400 to-orange-500' :
+                            badge.rarity === 'epic' ? 'from-purple-400 to-pink-500' :
+                            badge.rarity === 'rare' ? 'from-blue-400 to-cyan-500' :
+                            'from-gray-400 to-gray-500'
+                          } rounded-full p-2 shadow-lg cursor-pointer hover:scale-110 transition-transform duration-300 flex items-center gap-2`}
+                          onClick={() => setBadgeModalOpen(true)}
+                        >
+                          {badge.icon}
+                          <span className="text-white text-sm font-medium hidden sm:inline">{badge.name}</span>
+                        </div>
+                      ) : null;
+                    })
+                  ) : (
+                    getReaderBadges(reader).filter(badge => badge.unlocked).slice(0, 4).map((badge, index) => (
+                      <div
+                        key={badge.id}
+                        className={`bg-gradient-to-r ${
+                          badge.rarity === 'legendary' ? 'from-yellow-400 to-orange-500' :
+                          badge.rarity === 'epic' ? 'from-purple-400 to-pink-500' :
+                          badge.rarity === 'rare' ? 'from-blue-400 to-cyan-500' :
+                          'from-gray-400 to-gray-500'
+                        } rounded-full p-2 shadow-lg cursor-pointer hover:scale-110 transition-transform duration-300 flex items-center gap-2`}
+                        onClick={() => setBadgeModalOpen(true)}
+                      >
+                        {badge.icon}
+                        <span className="text-white text-sm font-medium hidden sm:inline">{badge.name}</span>
+                      </div>
+                    ))
+                  )}
                   {getReaderBadges(reader).filter(badge => badge.unlocked).length === 0 && (
                     <div className="text-textSecondary text-sm italic">
                       Nenhuma conquista desbloqueada ainda. Continue lendo para ganhar badges!
