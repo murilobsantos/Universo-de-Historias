@@ -8,8 +8,9 @@ import { API_ENDPOINTS } from "../services/api";
 
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
+import BadgeModal from "../components/BadgeModal";
 import { Author } from "../types/author";
-import { Edit, BookOpen, Users, Crown, Star, Save, X } from 'lucide-react';
+import { Edit, BookOpen, Users, Crown, Star, Save, X, Award, Zap, Trophy, Target, Heart, Eye, TrendingUp } from 'lucide-react';
 
 function AuthorProfile() {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +27,7 @@ function AuthorProfile() {
   });
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+  const [badgeModalOpen, setBadgeModalOpen] = useState(false);
 
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -48,6 +50,7 @@ function AuthorProfile() {
             id: userData.id,
             name: userData.name,
             email: userData.email,
+            password: '', // Not needed for display
             bio: userData.profile?.bio || '',
             avatarUrl: userData.profile?.avatar || '',
             background: 'cosmic', // Default background
@@ -58,9 +61,9 @@ function AuthorProfile() {
           };
           setAuthor(authorData);
           setEditData({
-            bio: authorData.bio,
-            avatarUrl: authorData.avatarUrl,
-            background: authorData.background,
+            bio: authorData.bio || '',
+            avatarUrl: authorData.avatarUrl || '',
+            background: authorData.background || 'cosmic',
           });
         }
       } catch (error) {
@@ -124,6 +127,108 @@ function AuthorProfile() {
     if (totalViews >= 10000) badges.push("Dez Mil Leitores");
     if (averageRating >= 4.5) badges.push("Mestre das Palavras");
     return badges;
+  };
+
+  const getAllBadges = (author: Author) => {
+    const allBadges = [
+      {
+        id: 'estreante',
+        name: 'Autor Estreante',
+        description: 'Publicou sua primeira história',
+        icon: <BookOpen size={20} className="text-blue-400" />,
+        rarity: 'common' as const,
+        unlocked: author.storiesCount >= 1,
+        progress: Math.min(author.storiesCount, 1),
+        maxProgress: 1,
+      },
+      {
+        id: 'escritor-experiente',
+        name: 'Escritor Experiente',
+        description: 'Publicou 5 ou mais histórias',
+        icon: <BookOpen size={20} className="text-green-400" />,
+        rarity: 'rare' as const,
+        unlocked: author.storiesCount >= 5,
+        progress: Math.min(author.storiesCount, 5),
+        maxProgress: 5,
+      },
+      {
+        id: 'influenciador',
+        name: 'Influenciador',
+        description: 'Conquistou 10 seguidores',
+        icon: <Users size={20} className="text-purple-400" />,
+        rarity: 'rare' as const,
+        unlocked: author.followersCount >= 10,
+        progress: Math.min(author.followersCount, 10),
+        maxProgress: 10,
+      },
+      {
+        id: 'celebridade',
+        name: 'Celebridade Literária',
+        description: 'Conquistou 50 seguidores',
+        icon: <Crown size={20} className="text-yellow-400" />,
+        rarity: 'epic' as const,
+        unlocked: author.followersCount >= 50,
+        progress: Math.min(author.followersCount, 50),
+        maxProgress: 50,
+      },
+      {
+        id: 'mil-leitores',
+        name: 'Mil Leitores',
+        description: 'Alcançou 1.000 visualizações totais',
+        icon: <Eye size={20} className="text-cyan-400" />,
+        rarity: 'epic' as const,
+        unlocked: totalViews >= 1000,
+        progress: Math.min(totalViews, 1000),
+        maxProgress: 1000,
+      },
+      {
+        id: 'dez-mil-leitores',
+        name: 'Dez Mil Leitores',
+        description: 'Alcançou 10.000 visualizações totais',
+        icon: <TrendingUp size={20} className="text-orange-400" />,
+        rarity: 'legendary' as const,
+        unlocked: totalViews >= 10000,
+        progress: Math.min(totalViews, 10000),
+        maxProgress: 10000,
+      },
+      {
+        id: 'mestre-palavras',
+        name: 'Mestre das Palavras',
+        description: 'Mantém avaliação média de 4.5 estrelas ou mais',
+        icon: <Star size={20} className="text-yellow-400" />,
+        rarity: 'legendary' as const,
+        unlocked: averageRating >= 4.5,
+      },
+      {
+        id: 'pioneiro-cosmico',
+        name: 'Pioneiro Cósmico',
+        description: 'Um dos primeiros membros da plataforma (exclusivo)',
+        icon: <Zap size={20} className="text-yellow-400" />,
+        rarity: 'legendary' as const,
+        unlocked: author.id <= 10, // First 10 users
+      },
+      {
+        id: 'construtor-mundos',
+        name: 'Construtor de Mundos',
+        description: 'Criou universos complexos e detalhados',
+        icon: <Target size={20} className="text-purple-400" />,
+        rarity: 'epic' as const,
+        unlocked: author.storiesCount >= 10,
+        progress: Math.min(author.storiesCount, 10),
+        maxProgress: 10,
+      },
+      {
+        id: 'coracao-leitor',
+        name: 'Coração de Leitor',
+        description: 'Adicionou 20 histórias aos favoritos',
+        icon: <Heart size={20} className="text-red-400" />,
+        rarity: 'rare' as const,
+        unlocked: author.favorites.length >= 20,
+        progress: Math.min(author.favorites.length, 20),
+        maxProgress: 20,
+      },
+    ];
+    return allBadges;
   };
 
   const authorBadges = getBadges(author);
@@ -396,13 +501,28 @@ function AuthorProfile() {
                         visible: { scale: 1, opacity: 1 }
                       }}
                       whileHover={{ scale: 1.1, y: -2 }}
-                      className="bg-primary/70 rounded-full p-1 sm:p-1.5 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer"
+                      onClick={() => setBadgeModalOpen(true)}
+                      className="bg-primary/70 rounded-full p-1 sm:p-1.5 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer hover:bg-primary/90 transition-colors"
+                      title="Clique para ver todas as conquistas"
                     >
                       {icon}
                       <span className="hidden sm:inline">{badge}</span>
                     </motion.div>
                   );
                 })}
+                <motion.div
+                  variants={{
+                    hidden: { scale: 0, opacity: 0 },
+                    visible: { scale: 1, opacity: 1 }
+                  }}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  onClick={() => setBadgeModalOpen(true)}
+                  className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-1 sm:p-1.5 shadow-md text-xs font-semibold text-black flex items-center gap-1 cursor-pointer hover:shadow-lg transition-all"
+                  title="Ver todas as conquistas disponíveis"
+                >
+                  <Award size={10} className="sm:w-3 sm:h-3" />
+                  <span className="hidden sm:inline">Ver Todas</span>
+                </motion.div>
               </motion.div>
             )}
           </motion.div>
@@ -553,6 +673,14 @@ function AuthorProfile() {
               </div>
             )}
           </motion.div>
+
+          {/* Badge Modal */}
+          <BadgeModal
+            isOpen={badgeModalOpen}
+            onClose={() => setBadgeModalOpen(false)}
+            badges={getAllBadges(author)}
+            authorName={author.name}
+          />
 
           {/* Back Button */}
           <div className="text-center mt-12">
