@@ -17,10 +17,11 @@ interface BadgeModalProps {
   isOpen: boolean;
   onClose: () => void;
   badges: Badge[];
-  authorName: string;
+  userType: 'author' | 'reader';
+  authorName?: string;
 }
 
-const BadgeModal: React.FC<BadgeModalProps> = ({ isOpen, onClose, badges, authorName }) => {
+const BadgeModal: React.FC<BadgeModalProps> = ({ isOpen, onClose, badges, userType, authorName }) => {
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
       case 'common': return 'from-gray-400 to-gray-600';
@@ -60,7 +61,7 @@ const BadgeModal: React.FC<BadgeModalProps> = ({ isOpen, onClose, badges, author
           >
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">🏆 Conquistas de {authorName}</h2>
+                <h2 className="text-2xl font-bold text-white mb-2">🏆 Conquistas {userType === 'reader' ? 'do Leitor' : 'do Autor'}</h2>
                 <p className="text-gray-300">Explore todas as conquistas e badges desbloqueadas</p>
               </div>
               <button

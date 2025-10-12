@@ -6,7 +6,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { API_ENDPOINTS } from '../services/api';
 import StoryCard from '../components/StoryCard';
 import ThemeSelector from '../components/ThemeSelector';
-import { Edit, BookOpen, Heart, Calendar, Trophy, Save, X, Users } from 'lucide-react';
+import BadgeModal from '../components/BadgeModal';
+import { Edit, BookOpen, Heart, Calendar, Trophy, Save, X, Users, Award, Star, Eye, Clock, Target } from 'lucide-react';
 
 function ReaderProfile() {
   const { id } = useParams<{ id: string }>();
@@ -56,6 +57,7 @@ function ReaderProfile() {
   const totalRead = reader?.readingHistory?.length || 0;
 
   const [editMode, setEditMode] = useState(false);
+  const [badgeModalOpen, setBadgeModalOpen] = useState(false);
   const [editData, setEditData] = useState({
     bio: reader?.bio || '',
     avatar: reader?.avatar || '',
@@ -333,31 +335,41 @@ function ReaderProfile() {
                     <span>Conquistas: {reader.badges && reader.badges.length > 0 ? reader.badges.join(', ') : 'Em breve'}</span>
                   </div>
               </div>
-              {/* Add icon for badges */}
-              <div className="relative mt-4 flex flex-wrap gap-1 sm:absolute sm:top-4 sm:right-4">
-                {reader.badges && Array.isArray(reader.badges) && reader.badges.map((badge, index) => {
-                  if (!badge) return null;
-                  let icon;
-                  switch (badge.toLowerCase()) {
-                    case 'leitor ávido':
-                      icon = <Edit size={10} className="sm:w-3 sm:h-3" />;
-                      break;
-                    case 'crítico literário':
-                      icon = <BookOpen size={10} className="sm:w-3 sm:h-3" />;
-                      break;
-                    case 'explorador de mundos':
-                      icon = <Users size={10} className="sm:w-3 sm:h-3" />;
-                      break;
-                    default:
-                      icon = <Trophy size={10} className="sm:w-3 sm:h-3" />;
-                  }
-                  return (
-                    <div key={index} className="bg-primary/70 rounded-full p-1 sm:p-1.5 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer">
-                      {icon}
-                      <span className="hidden sm:inline">{badge}</span>
+              {/* Reader Badges Section */}
+              <div className="mt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold">Conquistas do Leitor</h3>
+                  <button
+                    onClick={() => setBadgeModalOpen(true)}
+                    className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                  >
+                    <Trophy size={16} />
+                    Ver Todas
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {getReaderBadges(reader).filter(badge => badge.unlocked).slice(0, 4).map((badge, index) => (
+                    <div
+                      key={badge.id}
+                      className={`bg-gradient-to-r ${
+                        badge.rarity === 'legendary' ? 'from-yellow-400 to-orange-500' :
+                        badge.rarity === 'epic' ? 'from-purple-400 to-pink-500' :
+                        badge.rarity === 'rare' ? 'from-blue-400 to-cyan-500' :
+                        'from-gray-400 to-gray-500'
+                      } rounded-full p-2 shadow-lg cursor-pointer hover:scale-110 transition-transform duration-300 flex items-center gap-2`}
+                      onClick={() => setBadgeModalOpen(true)}
+                    >
+                      {badge.icon}
+                      <span className="text-white text-sm font-medium hidden sm:inline">{badge.name}</span>
                     </div>
-                  );
-                })}
+                  ))}
+                  {getReaderBadges(reader).filter(badge => badge.unlocked).length === 0 && (
+                    <div className="text-textSecondary text-sm italic">
+                      Nenhuma conquista desbloqueada ainda. Continue lendo para ganhar badges!
+                    </div>
+                  )}
+                </div>
               </div>
               </div>
             </div>
@@ -432,6 +444,14 @@ function ReaderProfile() {
               </div>
             )}
           </div>
+
+          {/* Badge Modal */}
+          <BadgeModal
+            isOpen={badgeModalOpen}
+            onClose={() => setBadgeModalOpen(false)}
+            badges={getReaderBadges(reader)}
+            userType="reader"
+          />
 
           {/* Back Button */}
           <div className="text-center mt-12">
