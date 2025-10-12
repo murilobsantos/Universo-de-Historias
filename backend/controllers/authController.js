@@ -140,11 +140,14 @@ const register = async (req, res) => {
         });
       }
 
+      const bcrypt = require('bcryptjs');
+      const hashedPassword = bcrypt.hashSync(password, 10);
+
       const newUser = {
         _id: `mock-user-${Date.now()}`,
         name: name.trim(),
         email: email.toLowerCase().trim(),
-        password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password123
+        password: hashedPassword,
         role,
         profile: { avatar: '', bio: '' },
         stats: { storiesRead: 0, storiesCreated: 0 }
