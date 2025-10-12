@@ -6,6 +6,49 @@ try {
   console.log('Modelo User não carregado no controlador - modo desenvolvimento');
 }
 
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!User) {
+      return res.status(404).json({
+        success: false,
+        message: 'Sistema em modo desenvolvimento'
+      });
+    }
+
+    const user = await User.findById(id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Usuário não encontrado'
+      });
+    }
+
+    res.json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        profile: user.profile,
+        stats: user.stats,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      }
+    });
+
+  } catch (error) {
+    console.error('Erro ao buscar usuário por ID:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+};
+
 const getUser = async (req, res) => {
   try {
     // O usuário já está disponível em req.user devido ao middleware de autenticação
@@ -131,6 +174,7 @@ const getUserStats = async (req, res) => {
 
 module.exports = {
   getUser,
+  getUserById,
   updateUser,
   getUserStats
 };

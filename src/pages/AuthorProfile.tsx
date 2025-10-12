@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import useAuthors from "../hooks/useAuthors";
 import useStories from "../hooks/useStories";
 import { useDarkMode } from "../contexts/DarkModeContext";
+import { API_ENDPOINTS } from "../services/api";
 
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
@@ -12,10 +12,11 @@ import { Edit, BookOpen, Users, Crown, Star, Save, X } from 'lucide-react';
 
 function AuthorProfile() {
   const { id } = useParams<{ id: string }>();
-  const { authors, currentAuthor, updateAuthor } = useAuthors();
   const { stories, loading } = useStories();
   const { isDarkMode } = useDarkMode();
 
+  const [author, setAuthor] = useState<Author | null>(null);
+  const [loadingAuthor, setLoadingAuthor] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState({
     bio: '',
@@ -34,15 +35,46 @@ function AuthorProfile() {
     });
   };
 
-  const authorId = Number(id);
-  let author = authors.find((a: Author) => a.id === authorId);
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      try {
+        const response = await fetch(API_ENDPOINTS.USER_BY_ID(id!));
+        if (response.ok) {
+          const data = await response.json();
+          const userData = data.user;
+          // Convert backend user to Author format
+          const authorData: Author = {
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            bio: userData.profile?.bio || '',
+            avatarUrl: userData.profile?.avatar || '',
+            background: 'cosmic', // Default background
+            storiesCount: userData.stats?.storiesCreated || 0,
+            followersCount: 0, // Not implemented yet
+            badges: [],
+            favorites: [],
+          };
+          setAuthor(authorData);
+          setEditData({
+            bio: authorData.bio,
+            avatarUrl: authorData.avatarUrl,
+            background: authorData.background,
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching author:', error);
+      } finally {
+        setLoadingAuthor(false);
+      }
+    };
 
-  // If the author is the current user, use the currentAuthor to get the latest data including base64 images
-  if (!author && currentAuthor?.id === authorId) {
-    author = currentAuthor;
-  }
+    if (id) {
+      fetchAuthor();
+    }
+  }, [id]);
 
-  const isCurrentAuthor = currentAuthor?.id === authorId;
+  const isCurrentAuthor = false; // TODO: Implement current user check
 
   useEffect(() => {
     if (author) {
@@ -54,14 +86,23 @@ function AuthorProfile() {
     }
   }, [author]);
 
-  if (!author) {
+  if (loadingAuthor || !author) {
     return (
       <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} flex items-center justify-center p-8`}>
         <div className="text-center">
-          <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
-          <Link to="/home" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300">
-            Voltar para histórias
-          </Link>
+          {loadingAuthor ? (
+            <>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <h1 className="text-2xl font-bold mb-6">Carregando perfil...</h1>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
+              <Link to="/home" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300">
+                Voltar para histórias
+              </Link>
+            </>
+          )}
         </div>
       </div>
     );

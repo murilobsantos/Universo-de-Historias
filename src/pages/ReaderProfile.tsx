@@ -1,28 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useReaders } from '../hooks/useReaders';
 import useStories from '../hooks/useStories';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import { API_ENDPOINTS } from '../services/api';
 import StoryCard from '../components/StoryCard';
 import ThemeSelector from '../components/ThemeSelector';
 import { Edit, BookOpen, Heart, Calendar, Trophy, Save, X, Users } from 'lucide-react';
 
 function ReaderProfile() {
   const { id } = useParams<{ id: string }>();
-  const { readers, currentReader, updateReader } = useReaders();
   const { stories } = useStories();
   const { isDarkMode } = useDarkMode();
 
+  const [reader, setReader] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time for data fetch
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchReader = async () => {
+      try {
+        const response = await fetch(API_ENDPOINTS.USER_BY_ID(id!));
+        if (response.ok) {
+          const data = await response.json();
+          const userData = data.user;
+          // Convert backend user to Reader format
+          const readerData = {
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            bio: userData.profile?.bio || '',
+            avatar: userData.profile?.avatar || '',
+            background: 'cosmic', // Default background
+            badges: [],
+            favoriteStories: [], // Not implemented yet
+            readingHistory: [], // Not implemented yet
+            joinedDate: new Date(userData.createdAt),
+          };
+          setReader(readerData);
+        }
+      } catch (error) {
+        console.error('Error fetching reader:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const reader = readers.find(r => r.id === Number(id));
-  const isCurrentReader = currentReader?.id === reader?.id;
+    if (id) {
+      fetchReader();
+    }
+  }, [id]);
+
+  const isCurrentReader = false; // TODO: Implement current user check
   const favoriteStories = stories.filter(s => reader?.favoriteStories?.includes(s.id) || false);
   const totalRead = reader?.readingHistory?.length || 0;
 

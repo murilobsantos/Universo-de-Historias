@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getUser, updateUser, getUserStats } = require('../controllers/userController');
+const { getUser, getUserById, updateUser, getUserStats } = require('../controllers/userController');
 const auth = require('../middleware/auth');
+
+// GET /api/users/:id - Obter dados de um usuário por ID
+router.get('/:id', getUserById);
 
 // GET /api/users/me - Obter dados do usuário logado
 router.get('/me', auth, getUser);
