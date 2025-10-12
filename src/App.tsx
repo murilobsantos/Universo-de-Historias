@@ -50,6 +50,7 @@ function App() {
             <Route path="/reader/:id" element={<Reader />} />
             <Route path="/login" element={<Login />} />
             <Route path="/nova" element={<NewStory />} />
+            <Route path="/upload-story" element={<NewStory />} />
             <Route path="/editar/:id" element={<EditStory />} />
             <Route path="/search" element={<SearchResults />} />
             <Route path="/favorites" element={<Favorites />} />
