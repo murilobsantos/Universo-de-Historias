@@ -9,6 +9,94 @@ import ThemeSelector from '../components/ThemeSelector';
 import BadgeModal from '../components/BadgeModal';
 import { Edit, BookOpen, Heart, Calendar, Trophy, Save, X, Users, Award, Star, Eye, Clock, Target } from 'lucide-react';
 
+// Função para calcular badges do leitor
+const getReaderBadges = (reader: any) => {
+  const badges = [
+    {
+      id: 'first-read',
+      name: 'Primeira Leitura',
+      description: 'Leu sua primeira história',
+      icon: <BookOpen size={20} className="text-white" />,
+      rarity: 'common',
+      unlocked: (reader?.readingHistory?.length || 0) >= 1,
+      progress: Math.min((reader?.readingHistory?.length || 0), 1),
+      maxProgress: 1
+    },
+    {
+      id: 'active-reader',
+      name: 'Leitor Ativo',
+      description: 'Leu 10 histórias',
+      icon: <Eye size={20} className="text-white" />,
+      rarity: 'rare',
+      unlocked: (reader?.readingHistory?.length || 0) >= 10,
+      progress: Math.min((reader?.readingHistory?.length || 0), 10),
+      maxProgress: 10
+    },
+    {
+      id: 'voracious-reader',
+      name: 'Leitor Voraz',
+      description: 'Leu 50 histórias',
+      icon: <Target size={20} className="text-white" />,
+      rarity: 'epic',
+      unlocked: (reader?.readingHistory?.length || 0) >= 50,
+      progress: Math.min((reader?.readingHistory?.length || 0), 50),
+      maxProgress: 50
+    },
+    {
+      id: 'collector',
+      name: 'Colecionador',
+      description: 'Adicionou 20 histórias aos favoritos',
+      icon: <Heart size={20} className="text-white" />,
+      rarity: 'rare',
+      unlocked: (reader?.favoriteStories?.length || 0) >= 20,
+      progress: Math.min((reader?.favoriteStories?.length || 0), 20),
+      maxProgress: 20
+    },
+    {
+      id: 'critic',
+      name: 'Crítico Literário',
+      description: 'Avaliou 10 histórias',
+      icon: <Star size={20} className="text-white" />,
+      rarity: 'epic',
+      unlocked: false, // Not implemented yet
+      progress: 0,
+      maxProgress: 10
+    },
+    {
+      id: 'explorer',
+      name: 'Explorador de Mundos',
+      description: 'Leu histórias de 5 gêneros diferentes',
+      icon: <Users size={20} className="text-white" />,
+      rarity: 'rare',
+      unlocked: false, // Not implemented yet
+      progress: 0,
+      maxProgress: 5
+    },
+    {
+      id: 'founding-member',
+      name: 'Membro Fundador',
+      description: 'Um dos primeiros 10 usuários da plataforma',
+      icon: <Award size={20} className="text-white" />,
+      rarity: 'legendary',
+      unlocked: false, // Would need to check user creation order
+      progress: 0,
+      maxProgress: 1
+    },
+    {
+      id: 'veteran',
+      name: 'Leitor Veterano',
+      description: 'Membro da plataforma há mais de 1 ano',
+      icon: <Clock size={20} className="text-white" />,
+      rarity: 'legendary',
+      unlocked: reader?.joinedDate && (new Date().getTime() - reader.joinedDate.getTime()) > (365 * 24 * 60 * 60 * 1000),
+      progress: reader?.joinedDate ? Math.min((new Date().getTime() - reader.joinedDate.getTime()) / (365 * 24 * 60 * 60 * 1000), 1) : 0,
+      maxProgress: 1
+    }
+  ];
+
+  return badges;
+};
+
 function ReaderProfile() {
   const { id } = useParams<{ id: string }>();
   const { stories } = useStories();
@@ -31,7 +119,8 @@ function ReaderProfile() {
             email: userData.email,
             bio: userData.profile?.bio || '',
             avatar: userData.profile?.avatar || '',
-            background: 'cosmic', // Default background
+            background: userData.profile?.background || 'cosmic', // Default background
+            backgroundImage: userData.profile?.backgroundImage || '',
             badges: [],
             favoriteStories: [], // Not implemented yet
             readingHistory: [], // Not implemented yet
@@ -62,8 +151,22 @@ function ReaderProfile() {
     bio: reader?.bio || '',
     avatar: reader?.avatar || '',
     background: reader?.background || 'cosmic',
+    backgroundImage: reader?.backgroundImage || '',
     badges: reader?.badges?.join(', ') || '',
   });
+
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+
+  // Função para converter arquivo para base64
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
 
   const handleSave = async () => {
     try {
@@ -78,10 +181,17 @@ function ReaderProfile() {
         avatarUrl = await fileToBase64(avatarFile);
       }
 
+      let backgroundImageUrl = editData.backgroundImage;
+      if (backgroundFile) {
+        backgroundImageUrl = await fileToBase64(backgroundFile);
+      }
+
       const updateData = {
         profile: {
           bio: editData.bio,
           avatar: avatarUrl,
+          background: editData.background,
+          backgroundImage: backgroundImageUrl,
         }
       };
 
@@ -101,6 +211,8 @@ function ReaderProfile() {
           ...prev,
           bio: editData.bio,
           avatar: avatarUrl,
+          background: editData.background,
+          backgroundImage: backgroundImageUrl,
         }) : null);
         setEditMode(false);
         setAvatarFile(null);
@@ -121,9 +233,12 @@ function ReaderProfile() {
       bio: reader?.bio || '',
       avatar: reader?.avatar || '',
       background: reader?.background || 'cosmic',
+      backgroundImage: reader?.backgroundImage || '',
       badges: reader?.badges?.join(', ') || '',
     });
     setEditMode(false);
+    setAvatarFile(null);
+    setBackgroundFile(null);
   };
 
   if (loading) {
@@ -202,12 +317,28 @@ function ReaderProfile() {
     );
   }
 
+  // Função para obter classes CSS do tema
+  const getThemeClasses = (theme: string, backgroundImage?: string) => {
+    // Se há imagem de fundo customizada, não usar tema
+    if (backgroundImage) {
+      return '';
+    }
+
+    const themes = {
+      cosmic: 'bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900',
+      nebula: 'bg-gradient-to-b from-indigo-900 via-purple-900 to-pink-900',
+      galaxy: 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900',
+      stars: 'bg-gradient-to-b from-gray-900 via-gray-800 to-black'
+    };
+    return themes[theme as keyof typeof themes] || themes.cosmic;
+  };
+
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'}`}>
+    <div className={`min-h-screen ${getThemeClasses(reader.background, reader.backgroundImage)} text-white ${reader.backgroundImage ? '' : ''}`} style={reader.backgroundImage ? { backgroundImage: `url(${reader.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}>
       {/* Header Background */}
-      <div className={`relative h-48 sm:h-64 ${isDarkMode ? 'bg-gradient-to-r from-primary/20 to-secondary/20' : 'bg-gradient-to-r from-blue-200 to-purple-200'}`}>
+      <div className={`relative h-48 sm:h-64 ${getThemeClasses(reader.background, reader.backgroundImage)}`} style={reader.backgroundImage ? { backgroundImage: `url(${reader.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}>
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cosmic-dark to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/50 to-transparent"></div>
       </div>
 
       <div className="relative -mt-24 sm:-mt-32 px-4 sm:px-6 pb-12">
@@ -278,14 +409,22 @@ function ReaderProfile() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Avatar URL</label>
-                      <input
-                        type="url"
-                        value={editData.avatar}
-                        onChange={(e) => setEditData({ ...editData, avatar: e.target.value })}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-textSecondary focus:outline-none focus:border-primary"
-                        placeholder="https://exemplo.com/avatar.jpg"
-                      />
+                      <label className="block text-sm font-medium mb-2">Avatar</label>
+                      <div className="space-y-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
+                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80"
+                        />
+                        <input
+                          type="url"
+                          value={editData.avatar}
+                          onChange={(e) => setEditData({ ...editData, avatar: e.target.value })}
+                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-textSecondary focus:outline-none focus:border-primary"
+                          placeholder="Ou cole uma URL de imagem..."
+                        />
+                      </div>
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Tema de Fundo</label>
@@ -299,6 +438,27 @@ function ReaderProfile() {
                         <option value="galaxy">Galáxia</option>
                         <option value="stars">Estrelas</option>
                       </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Imagem de Fundo Personalizada</label>
+                      <div className="space-y-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setBackgroundFile(e.target.files?.[0] || null)}
+                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80"
+                        />
+                        <input
+                          type="url"
+                          value={editData.backgroundImage}
+                          onChange={(e) => setEditData({ ...editData, backgroundImage: e.target.value })}
+                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-textSecondary focus:outline-none focus:border-primary"
+                          placeholder="Ou cole uma URL de imagem..."
+                        />
+                        {editData.backgroundImage && (
+                          <p className="text-xs text-textSecondary">⚠️ Imagem personalizada substitui o tema selecionado acima</p>
+                        )}
+                      </div>
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Conquistas (separadas por vírgula)</label>
@@ -315,7 +475,10 @@ function ReaderProfile() {
                   <p className="text-textSecondary mb-4 text-sm leading-relaxed">{reader.bio || 'Leitor apaixonado por histórias incríveis.'}</p>
                 )}
 
-                <ThemeSelector />
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium mb-2">Tema de Perfil</h4>
+                  <ThemeSelector selectedTheme={reader.background} onThemeChange={(theme) => setEditData({ ...editData, background: theme })} />
+                </div>
 
                 <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm text-textSecondary">
                   <div className="flex items-center gap-2">
