@@ -12,6 +12,9 @@ router.get('/me', auth, getUser);
 // PUT /api/users/me - Atualizar dados do usuário logado
 router.put('/me', auth, updateUser);
 
+// PUT /api/users/profile - Atualizar perfil do usuário logado (alias para /me)
+router.put('/profile', auth, updateUser);
+
 // GET /api/users/me/stats - Obter estatísticas do usuário logado
 router.get('/me/stats', auth, getUserStats);
 
