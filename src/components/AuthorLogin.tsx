@@ -24,9 +24,9 @@ function AuthorLogin() {
         setPassword("");
         // Redirect based on user role
         if (user.role === 'author') {
-          navigate(`/profile/author/${user._id}`);
+          navigate(`/profile/author/${user.id}`);
         } else {
-          navigate(`/profile/reader/${user._id}`);
+          navigate(`/profile/reader/${user.id}`);
         }
       } else {
         setMessage("Invalid email or password.");

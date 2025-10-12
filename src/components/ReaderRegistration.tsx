@@ -18,9 +18,9 @@ function ReaderRegistration() {
     setMessage("");
 
     try {
-      const success = await register(name, email, password, 'reader');
+      const user = await register(name, email, password, 'reader');
 
-      if (success) {
+      if (user) {
         setMessage("Registration successful!");
         // Clear form
         setName("");
@@ -28,7 +28,7 @@ function ReaderRegistration() {
         setPassword("");
         setBio("");
         // Redirect to reader profile
-        navigate("/profile/reader/me");
+        navigate(`/profile/reader/${user.id}`);
       } else {
         setMessage("Registration failed. Email may already be in use.");
       }

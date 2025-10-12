@@ -52,7 +52,7 @@ function Header() {
   };
 
   const isLoggedIn = !!user;
-  const profilePath = user ? (user.role === 'author' ? `/profile/author/${user._id}` : `/profile/reader/${user._id}`) : '/login';
+  const profilePath = user ? (user.role === 'author' ? `/profile/author/${user.id}` : `/profile/reader/${user.id}`) : '/login';
 
   useEffect(() => {
     const handleScroll = () => {

@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "mock-user-1",
+    "name": "Test User",
+    "email": "test@example.com",
+    "password": "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "role": "reader",
+    "profile": {
+      "avatar": "",
+      "bio": "Usuário de teste"
+    },
+    "stats": {
+      "storiesRead": 0,
+      "storiesCreated": 0
+    }
+  },
+  {
+    "_id": "mock-user-2",
+    "name": "Test Author",
+    "email": "author@example.com",
+    "password": "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "role": "author",
+    "profile": {
+      "avatar": "",
+      "bio": "Autor de teste"
+    },
+    "stats": {
+      "storiesRead": 0,
+      "storiesCreated": 0
+    }
+  }
+]

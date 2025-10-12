@@ -20,9 +20,9 @@ function AuthorRegistration() {
     setMessage("");
 
     try {
-      const success = await register(name, email, password, 'author');
+      const user = await register(name, email, password, 'author');
 
-      if (success) {
+      if (user) {
         setMessage("Registration successful!");
         // Clear form
         setName("");
@@ -32,7 +32,7 @@ function AuthorRegistration() {
         setAvatarFile(null);
         setBackgroundFile(null);
         // Redirect to author profile
-        navigate("/profile/author/me");
+        navigate(`/profile/author/${user.id}`);
       } else {
         setMessage("Registration failed. Email may already be in use.");
       }

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { API_ENDPOINTS } from '../services/api';
 
 interface User {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   role: 'reader' | 'author';
@@ -19,7 +19,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string, role: 'reader' | 'author') => Promise<boolean>;
+  register: (name: string, email: string, password: string, role: 'reader' | 'author') => Promise<User | null>;
   logout: () => void;
   loading: boolean;
 }
@@ -110,7 +110,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string, role: 'reader' | 'author'): Promise<boolean> => {
+  const register = async (name: string, email: string, password: string, role: 'reader' | 'author'): Promise<User | null> => {
     try {
       const response = await fetch(API_ENDPOINTS.REGISTER, {
         method: 'POST',
@@ -124,15 +124,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         setUser(data.user);
-        return true;
+        return data.user;
       } else {
         const error = await response.json();
         console.error('Registration failed:', error.message);
-        return false;
+        return null;
       }
     } catch (error) {
       console.error('Registration error:', error);
-      return false;
+      return null;
     }
   };
 

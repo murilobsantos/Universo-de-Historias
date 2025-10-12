@@ -74,10 +74,13 @@ const generateToken = (userId) => {
 
 const register = async (req, res) => {
   try {
+    console.log('Register request:', req.body);
     const { name, email, password, role = 'reader' } = req.body;
+    console.log('Destructured:', { name, email, password, role });
 
     // Validações básicas
     if (!name || !email || !password) {
+      console.log('Validation failed: missing fields');
       return res.status(400).json({
         success: false,
         message: 'Nome, email e senha são obrigatórios'
@@ -85,12 +88,14 @@ const register = async (req, res) => {
     }
 
     if (password.length < 6) {
+      console.log('Validation failed: password too short');
       return res.status(400).json({
         success: false,
         message: 'Senha deve ter pelo menos 6 caracteres'
       });
     }
 
+    console.log('isMongoDBConnected:', isMongoDBConnected());
     if (isMongoDBConnected()) {
       // Usar MongoDB
       const existingUser = await User.findOne({ email: email.toLowerCase() });
