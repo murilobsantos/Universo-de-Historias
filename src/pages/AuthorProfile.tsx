@@ -9,6 +9,17 @@ import { API_ENDPOINTS } from "../services/api";
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
 import BadgeModal from "../components/BadgeModal";
+
+interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  unlocked: boolean;
+  progress?: number;
+  maxProgress?: number;
+}
 import { Author } from "../types/author";
 import { Edit, BookOpen, Users, Crown, Star, Save, X, Award, Zap, Trophy, Target, Heart, Eye, TrendingUp } from 'lucide-react';
 

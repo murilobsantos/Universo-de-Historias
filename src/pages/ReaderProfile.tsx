@@ -9,18 +9,29 @@ import ThemeSelector from '../components/ThemeSelector';
 import BadgeModal from '../components/BadgeModal';
 import { Edit, BookOpen, Heart, Calendar, Trophy, Save, X, Users, Award, Star, Eye, Clock, Target } from 'lucide-react';
 
+interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  unlocked: boolean;
+  progress?: number;
+  maxProgress?: number;
+}
+
 // Função para calcular badges do leitor
-const getReaderBadges = (reader: any) => {
+const getReaderBadges = (reader: any): Badge[] => {
   // Para usuários de teste, conceder todas as conquistas
   const isTestUser = reader?.email?.includes('test') || reader?.email?.includes('render') || reader?.name?.toLowerCase().includes('test');
 
-  const badges = [
+  const badges: Badge[] = [
     {
       id: 'first-read',
       name: 'Primeira Leitura',
       description: 'Leu sua primeira história',
       icon: <BookOpen size={20} className="text-white" />,
-      rarity: 'common',
+      rarity: 'common' as const,
       unlocked: isTestUser || (reader?.readingHistory?.length || 0) >= 1,
       progress: Math.min((reader?.readingHistory?.length || 0), 1),
       maxProgress: 1
@@ -30,7 +41,7 @@ const getReaderBadges = (reader: any) => {
       name: 'Leitor Ativo',
       description: 'Leu 10 histórias',
       icon: <Eye size={20} className="text-white" />,
-      rarity: 'rare',
+      rarity: 'rare' as const,
       unlocked: isTestUser || (reader?.readingHistory?.length || 0) >= 10,
       progress: Math.min((reader?.readingHistory?.length || 0), 10),
       maxProgress: 10
@@ -40,7 +51,7 @@ const getReaderBadges = (reader: any) => {
       name: 'Leitor Voraz',
       description: 'Leu 50 histórias',
       icon: <Target size={20} className="text-white" />,
-      rarity: 'epic',
+      rarity: 'epic' as const,
       unlocked: isTestUser || (reader?.readingHistory?.length || 0) >= 50,
       progress: Math.min((reader?.readingHistory?.length || 0), 50),
       maxProgress: 50
@@ -50,7 +61,7 @@ const getReaderBadges = (reader: any) => {
       name: 'Colecionador',
       description: 'Adicionou 20 histórias aos favoritos',
       icon: <Heart size={20} className="text-white" />,
-      rarity: 'rare',
+      rarity: 'rare' as const,
       unlocked: isTestUser || (reader?.favoriteStories?.length || 0) >= 20,
       progress: Math.min((reader?.favoriteStories?.length || 0), 20),
       maxProgress: 20
@@ -60,7 +71,7 @@ const getReaderBadges = (reader: any) => {
       name: 'Crítico Literário',
       description: 'Avaliou 10 histórias',
       icon: <Star size={20} className="text-white" />,
-      rarity: 'epic',
+      rarity: 'epic' as const,
       unlocked: isTestUser, // Conceder para usuários de teste
       progress: isTestUser ? 10 : 0,
       maxProgress: 10
@@ -70,7 +81,7 @@ const getReaderBadges = (reader: any) => {
       name: 'Explorador de Mundos',
       description: 'Leu histórias de 5 gêneros diferentes',
       icon: <Users size={20} className="text-white" />,
-      rarity: 'rare',
+      rarity: 'rare' as const,
       unlocked: isTestUser, // Conceder para usuários de teste
       progress: isTestUser ? 5 : 0,
       maxProgress: 5
@@ -80,7 +91,7 @@ const getReaderBadges = (reader: any) => {
       name: 'Membro Fundador',
       description: 'Um dos primeiros 10 usuários da plataforma',
       icon: <Award size={20} className="text-white" />,
-      rarity: 'legendary',
+      rarity: 'legendary' as const,
       unlocked: isTestUser, // Conceder para usuários de teste
       progress: 1,
       maxProgress: 1
@@ -90,7 +101,7 @@ const getReaderBadges = (reader: any) => {
       name: 'Leitor Veterano',
       description: 'Membro da plataforma há mais de 1 ano',
       icon: <Clock size={20} className="text-white" />,
-      rarity: 'legendary',
+      rarity: 'legendary' as const,
       unlocked: isTestUser || (reader?.joinedDate && (new Date().getTime() - reader.joinedDate.getTime()) > (365 * 24 * 60 * 60 * 1000)),
       progress: reader?.joinedDate ? Math.min((new Date().getTime() - reader.joinedDate.getTime()) / (365 * 24 * 60 * 60 * 1000), 1) : (isTestUser ? 1 : 0),
       maxProgress: 1
