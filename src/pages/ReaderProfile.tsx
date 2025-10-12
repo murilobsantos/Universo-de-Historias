@@ -225,7 +225,7 @@ function ReaderProfile() {
       if (response.ok) {
         const data = await response.json();
         // Update local state
-        setReader(prev => prev ? ({
+        setReader((prev: any) => prev ? ({
           ...prev,
           bio: editData.bio,
           avatar: avatarUrl,
@@ -490,17 +490,17 @@ function ReaderProfile() {
                       <label className="block text-sm font-medium mb-2">Conquistas Exibidas no Perfil</label>
                       <p className="text-xs text-textSecondary mb-3">Selecione até 5 conquistas para mostrar no seu perfil (das suas conquistas desbloqueadas)</p>
                       <div className="space-y-2 max-h-40 overflow-y-auto bg-white/5 rounded-lg p-3">
-                        {allBadges.filter(badge => badge.unlocked).map((badge) => (
+                        {allBadges.filter((badge: Badge) => badge.unlocked).map((badge: Badge) => (
                           <label key={badge.id} className="flex items-center space-x-3 cursor-pointer hover:bg-white/5 p-2 rounded">
                             <input
                               type="checkbox"
                               checked={selectedBadges.includes(badge.id)}
                               onChange={(e) => {
                                 if (e.target.checked && selectedBadges.length >= 5) return;
-                                setSelectedBadges(prev =>
+                                setSelectedBadges((prev: string[]) =>
                                   e.target.checked
                                     ? [...prev, badge.id]
-                                    : prev.filter(id => id !== badge.id)
+                                    : prev.filter((id: string) => id !== badge.id)
                                 );
                               }}
                               className="w-4 h-4 text-primary bg-white/10 border-white/20 rounded focus:ring-primary focus:ring-2"
@@ -567,8 +567,8 @@ function ReaderProfile() {
 
                 <div className="flex flex-wrap gap-2">
                   {selectedBadges.length > 0 ? (
-                    selectedBadges.slice(0, 5).map((badgeId) => {
-                      const badge = allBadges.find(b => b.id === badgeId);
+                    selectedBadges.slice(0, 5).map((badgeId: string) => {
+                      const badge = allBadges.find((b: Badge) => b.id === badgeId);
                       return badge ? (
                         <div
                           key={badge.id}
@@ -586,7 +586,7 @@ function ReaderProfile() {
                       ) : null;
                     })
                   ) : (
-                    getReaderBadges(reader).filter(badge => badge.unlocked).slice(0, 4).map((badge, index) => (
+                    getReaderBadges(reader).filter((badge: Badge) => badge.unlocked).slice(0, 4).map((badge: Badge, index: number) => (
                       <div
                         key={badge.id}
                         className={`bg-gradient-to-r ${
@@ -602,7 +602,7 @@ function ReaderProfile() {
                       </div>
                     ))
                   )}
-                  {getReaderBadges(reader).filter(badge => badge.unlocked).length === 0 && (
+                  {getReaderBadges(reader).filter((badge: Badge) => badge.unlocked).length === 0 && (
                     <div className="text-textSecondary text-sm italic">
                       Nenhuma conquista desbloqueada ainda. Continue lendo para ganhar badges!
                     </div>
@@ -649,7 +649,7 @@ function ReaderProfile() {
 
             {reader.readingHistory && reader.readingHistory.length > 0 ? (
               <div className="space-y-3 sm:space-y-4">
-                {reader.readingHistory.slice(0, 10).map((item, index) => {
+                {reader.readingHistory.slice(0, 10).map((item: any, index: number) => {
                   const story = stories.find(s => s.id === item.storyId);
                   const chapter = story?.chapters?.find(c => c.id === item.chapterId);
                   return (
