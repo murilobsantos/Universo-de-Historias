@@ -16,6 +16,7 @@ function NewStory() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
@@ -63,6 +64,30 @@ function NewStory() {
     setTags(prev => prev.filter(tag => tag !== tagToRemove));
   };
 
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setImageFile(file);
+    if (file) {
+      // Preview da imagem
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImage("");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -86,13 +111,19 @@ function NewStory() {
       // Combinar todos os capítulos em um único conteúdo
       const fullContent = chapters.map(chapter => `${chapter.title}\n\n${chapter.content}`).join('\n\n---\n\n');
 
+      // Se há arquivo de imagem, converter para base64
+      let finalImage = image;
+      if (imageFile) {
+        finalImage = await fileToBase64(imageFile);
+      }
+
       const storyData = {
         title: title.trim(),
         synopsis: description.trim(),
         content: fullContent,
         genres: selectedGenres,
         tags: tags,
-        image: image || "https://via.placeholder.com/400x200?text=Capa"
+        image: finalImage || "https://via.placeholder.com/400x200?text=Capa"
       };
 
       const response = await fetch(API_ENDPOINTS.STORIES, {
@@ -150,14 +181,33 @@ function NewStory() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">URL da Capa</label>
-              <input
-                type="url"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                placeholder="https://exemplo.com/imagem.jpg"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              />
+              <label className="block text-sm font-medium mb-2">Capa da História</label>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Upload de imagem</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageFileChange}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm"
+                  />
+                  {imageFile && <p className="text-xs text-gray-500 mt-1">Arquivo: {imageFile.name}</p>}
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Ou URL da imagem</label>
+                  <input
+                    type="url"
+                    value={imageFile ? "" : image}
+                    onChange={(e) => {
+                      setImage(e.target.value);
+                      if (e.target.value) setImageFile(null); // Limpar arquivo se URL for inserida
+                    }}
+                    placeholder="https://exemplo.com/imagem.jpg"
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm"
+                    disabled={!!imageFile}
+                  />
+                </div>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">Gêneros</label>
