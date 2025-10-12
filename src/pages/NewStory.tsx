@@ -107,7 +107,7 @@ function NewStory() {
       if (response.ok) {
         const data = await response.json();
         setMessage("História criada com sucesso!");
-        setTimeout(() => navigate("/authors"), 2000);
+        setTimeout(() => navigate("/profile/author/" + user.id), 2000);
       } else {
         const error = await response.json();
         setMessage(`Erro ao criar história: ${error.message}`);
