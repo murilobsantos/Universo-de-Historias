@@ -427,37 +427,43 @@ function ReaderProfile() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Tema de Fundo</label>
-                      <select
-                        value={editData.background}
-                        onChange={(e) => setEditData({ ...editData, background: e.target.value })}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary"
-                      >
-                        <option value="cosmic">Cósmico</option>
-                        <option value="nebula">Nebulosa</option>
-                        <option value="galaxy">Galáxia</option>
-                        <option value="stars">Estrelas</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Imagem de Fundo Personalizada</label>
-                      <div className="space-y-2">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => setBackgroundFile(e.target.files?.[0] || null)}
-                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80"
-                        />
-                        <input
-                          type="url"
-                          value={editData.backgroundImage}
-                          onChange={(e) => setEditData({ ...editData, backgroundImage: e.target.value })}
-                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-textSecondary focus:outline-none focus:border-primary"
-                          placeholder="Ou cole uma URL de imagem..."
-                        />
-                        {editData.backgroundImage && (
-                          <p className="text-xs text-textSecondary">⚠️ Imagem personalizada substitui o tema selecionado acima</p>
-                        )}
+                      <label className="block text-sm font-medium mb-2">Personalização de Fundo</label>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-xs font-medium mb-1 text-textSecondary">Tema Pré-definido</label>
+                          <select
+                            value={editData.background}
+                            onChange={(e) => setEditData({ ...editData, background: e.target.value })}
+                            className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary text-sm"
+                          >
+                            <option value="cosmic">Cósmico</option>
+                            <option value="nebula">Nebulosa</option>
+                            <option value="galaxy">Galáxia</option>
+                            <option value="stars">Estrelas</option>
+                          </select>
+                        </div>
+                        <div className="text-center text-textSecondary text-xs">OU</div>
+                        <div>
+                          <label className="block text-xs font-medium mb-1 text-textSecondary">Imagem Personalizada</label>
+                          <div className="space-y-2">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => setBackgroundFile(e.target.files?.[0] || null)}
+                              className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80 text-sm"
+                            />
+                            <input
+                              type="url"
+                              value={editData.backgroundImage}
+                              onChange={(e) => setEditData({ ...editData, backgroundImage: e.target.value })}
+                              className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-textSecondary focus:outline-none focus:border-primary text-sm"
+                              placeholder="Ou cole uma URL de imagem..."
+                            />
+                            {editData.backgroundImage && (
+                              <p className="text-xs text-yellow-400">⚠️ Imagem personalizada substitui o tema selecionado</p>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div>
@@ -476,8 +482,35 @@ function ReaderProfile() {
                 )}
 
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium mb-2">Tema de Perfil</h4>
-                  <ThemeSelector selectedTheme={reader.background} onThemeChange={(theme) => setEditData({ ...editData, background: theme })} />
+                  <h4 className="text-sm font-medium mb-2">Personalização de Fundo</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-textSecondary">Tema Pré-definido</label>
+                      <ThemeSelector selectedTheme={reader.background} onThemeChange={(theme) => setEditData({ ...editData, background: theme })} />
+                    </div>
+                    <div className="text-center text-textSecondary text-xs">OU</div>
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-textSecondary">Imagem Personalizada</label>
+                      <div className="space-y-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setBackgroundFile(e.target.files?.[0] || null)}
+                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80 text-sm"
+                        />
+                        <input
+                          type="url"
+                          value={editData.backgroundImage}
+                          onChange={(e) => setEditData({ ...editData, backgroundImage: e.target.value })}
+                          className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-textSecondary focus:outline-none focus:border-primary text-sm"
+                          placeholder="Ou cole uma URL de imagem..."
+                        />
+                        {editData.backgroundImage && (
+                          <p className="text-xs text-yellow-400">⚠️ Imagem personalizada substitui o tema selecionado</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm text-textSecondary">
