@@ -35,6 +35,8 @@ function ChapterReader() {
       setCurrentChapterIndex(chapterIndex);
       // Save last read chapter
       localStorage.setItem(`last-read-chapter-${storyId}`, chapId.toString());
+      // Mark chapter as read
+      localStorage.setItem(`chapter-read-${storyId}-${chapId}`, 'true');
       // Load comments for this story
       const loadedComments = interactionService.getComments(storyId);
       setComments(loadedComments);

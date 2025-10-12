@@ -186,23 +186,35 @@ function StoryDetail() {
             </div>
             {/* Chapters List */}
             <div className="space-y-2">
-              {filteredChapters.map((chapter) => (
-                <div
-                  key={chapter.id}
-                  className="flex justify-between items-center p-4 bg-gray-800 rounded hover:bg-gray-700 cursor-pointer"
-                  onClick={() => navigate(`/story/${story.id}/chapter/${chapter.id}`)}
-                >
-                  <div>
-                    <h3 className="font-semibold">{chapter.title}</h3>
-                    <p className="text-sm text-gray-400">{chapter.date}</p>
+              {filteredChapters.map((chapter) => {
+                const isRead = localStorage.getItem(`chapter-read-${story.id}-${chapter.id}`) === 'true';
+                return (
+                  <div
+                    key={chapter.id}
+                    className={`flex justify-between items-center p-4 rounded cursor-pointer transition-colors ${
+                      isRead
+                        ? 'bg-green-900 hover:bg-green-800 border-l-4 border-green-500'
+                        : 'bg-gray-800 hover:bg-gray-700'
+                    }`}
+                    onClick={() => navigate(`/story/${story.id}/chapter/${chapter.id}`)}
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className={`font-semibold ${isRead ? 'text-green-300' : ''}`}>
+                          {chapter.title}
+                        </h3>
+                        {isRead && <span className="text-green-400 text-sm">✓ Lido</span>}
+                      </div>
+                      <p className="text-sm text-gray-400">{chapter.date}</p>
+                    </div>
+                    <div className="flex items-center space-x-4 text-sm">
+                      <span>👁 {chapter.views}</span>
+                      <span>💬 {chapter.comments}</span>
+                      <span>❤️ {chapter.likes}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-4 text-sm">
-                    <span>👁 {chapter.views}</span>
-                    <span>💬 {chapter.comments}</span>
-                    <span>❤️ {chapter.likes}</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
