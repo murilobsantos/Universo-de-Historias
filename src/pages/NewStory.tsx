@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useStories from "../hooks/useStories";
 import useAuthors from "../hooks/useAuthors";
+import { useAuth } from "../contexts/AuthContext";
+import { API_ENDPOINTS } from "../services/api";
 import { Chapter } from "../types/story";
 
 const AVAILABLE_GENRES = ["Fantasia", "Aventura", "Ficção Científica", "Suspense", "Mistério", "Romance", "Terror", "Drama"];
@@ -9,6 +11,7 @@ const AVAILABLE_GENRES = ["Fantasia", "Aventura", "Ficção Científica", "Suspe
 function NewStory() {
   const { addStory } = useStories();
   const { currentAuthor } = useAuthors();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -26,8 +29,7 @@ function NewStory() {
     const newChapter: Chapter = {
       id: chapters.length + 1,
       title: chapterTitle.trim() || `Capítulo ${chapters.length + 1}`,
-      content: content.trim(),
-      comments: []
+      content: content.trim()
     };
     setChapters(prev => [...prev, newChapter]);
     setContent("");
@@ -61,22 +63,62 @@ function NewStory() {
     setTags(prev => prev.filter(tag => tag !== tagToRemove));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentAuthor) {
+
+    if (!user) {
       setMessage("Você deve estar logado para criar uma história.");
       return;
     }
+
     if (!title || !description || chapters.length === 0) {
       setMessage("Preencha todos os campos obrigatórios.");
       return;
     }
-    addStory(title, description, image || "https://via.placeholder.com/400x200?text=Capa", currentAuthor.name, chapters, selectedGenres, tags);
-    setMessage("História criada com sucesso!");
-    setTimeout(() => navigate("/authors"), 2000);
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setMessage("Token de autenticação não encontrado. Faça login novamente.");
+        return;
+      }
+
+      // Combinar todos os capítulos em um único conteúdo
+      const fullContent = chapters.map(chapter => `${chapter.title}\n\n${chapter.content}`).join('\n\n---\n\n');
+
+      const storyData = {
+        title: title.trim(),
+        synopsis: description.trim(),
+        content: fullContent,
+        genres: selectedGenres,
+        tags: tags,
+        image: image || "https://via.placeholder.com/400x200?text=Capa"
+      };
+
+      const response = await fetch(API_ENDPOINTS.STORIES, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(storyData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessage("História criada com sucesso!");
+        setTimeout(() => navigate("/authors"), 2000);
+      } else {
+        const error = await response.json();
+        setMessage(`Erro ao criar história: ${error.message}`);
+      }
+    } catch (error) {
+      console.error('Erro ao criar história:', error);
+      setMessage("Erro ao criar história. Tente novamente.");
+    }
   };
 
-  if (!currentAuthor) {
+  if (!user) {
     return <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center">Faça login para criar histórias.</div>;
   }
 
