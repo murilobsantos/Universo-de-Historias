@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+1234import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useStories from "../hooks/useStories";
 import { useDarkMode } from "../contexts/DarkModeContext";
@@ -19,6 +19,7 @@ function ChapterReader() {
   const [chapterRating, setChapterRating] = useState(0);
   const [visibleParagraphComments, setVisibleParagraphComments] = useState<Set<number>>(new Set());
   const [showChapterComments, setShowChapterComments] = useState(false);
+  const [currentChapterIndex, setCurrentChapterIndex] = useState<number>(-1);
 
   useEffect(() => {
     if (!id || !chapterId) return;
@@ -29,6 +30,11 @@ function ChapterReader() {
     if (foundStory) {
       const foundChapter = foundStory.chapters.find(c => c.id === chapId) || null;
       setChapter(foundChapter);
+      // Find current chapter index
+      const chapterIndex = foundStory.chapters.findIndex(c => c.id === chapId);
+      setCurrentChapterIndex(chapterIndex);
+      // Save last read chapter
+      localStorage.setItem(`last-read-chapter-${storyId}`, chapId.toString());
       // Load comments for this story
       const loadedComments = interactionService.getComments(storyId);
       setComments(loadedComments);
@@ -75,6 +81,50 @@ function ChapterReader() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">{story.title}</h1>
         <h2 className="text-2xl font-semibold mb-6 text-purple-300">{chapter.title}</h2>
+
+        {/* Navigation Controls */}
+        <div className="flex justify-between items-center mb-6 p-4 bg-gray-800 rounded-lg">
+          <button
+            onClick={() => {
+              if (currentChapterIndex > 0) {
+                const prevChapter = story.chapters[currentChapterIndex - 1];
+                navigate(`/story/${story.id}/chapter/${prevChapter.id}`);
+              }
+            }}
+            disabled={currentChapterIndex <= 0}
+            className={`px-4 py-2 rounded font-medium transition-colors ${
+              currentChapterIndex <= 0
+                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            ← Capítulo Anterior
+          </button>
+
+          <div className="text-center">
+            <span className="text-sm text-gray-400">
+              Capítulo {currentChapterIndex + 1} de {story.chapters.length}
+            </span>
+          </div>
+
+          <button
+            onClick={() => {
+              if (currentChapterIndex < story.chapters.length - 1) {
+                const nextChapter = story.chapters[currentChapterIndex + 1];
+                navigate(`/story/${story.id}/chapter/${nextChapter.id}`);
+              }
+            }}
+            disabled={currentChapterIndex >= story.chapters.length - 1}
+            className={`px-4 py-2 rounded font-medium transition-colors ${
+              currentChapterIndex >= story.chapters.length - 1
+                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            Próximo Capítulo →
+          </button>
+        </div>
+
         <div>
           {paragraphs.map((paragraph, index) => (
             <div key={index} className="group mb-4 relative">

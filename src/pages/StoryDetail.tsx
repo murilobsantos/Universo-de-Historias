@@ -254,7 +254,12 @@ function StoryDetail() {
 
           {/* Button */}
           <button
-            onClick={() => navigate(`/story/${story.id}/chapter/1`)}
+            onClick={() => {
+              // Find the last read chapter or start from chapter 1
+              const lastReadChapterId = localStorage.getItem(`last-read-chapter-${story.id}`);
+              const chapterToRead = lastReadChapterId ? Number(lastReadChapterId) : 1;
+              navigate(`/story/${story.id}/chapter/${chapterToRead}`);
+            }}
             className="w-full px-6 py-3 bg-purple-600 rounded-lg font-semibold hover:bg-purple-700 transition-colors mb-4"
           >
             Continuar Lendo
