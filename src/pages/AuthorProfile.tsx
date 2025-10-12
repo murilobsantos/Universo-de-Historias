@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import useStories from "../hooks/useStories";
 import { useDarkMode } from "../contexts/DarkModeContext";
+import { useAuth } from "../contexts/AuthContext";
 import { API_ENDPOINTS } from "../services/api";
 
 import StoryCard from "../components/StoryCard";
@@ -74,7 +75,8 @@ function AuthorProfile() {
     }
   }, [id]);
 
-  const isCurrentAuthor = false; // TODO: Implement current user check
+  const { user } = useAuth();
+  const isCurrentAuthor = user?.id === author?.id;
 
   useEffect(() => {
     if (author) {

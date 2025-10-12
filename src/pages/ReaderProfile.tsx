@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import useStories from '../hooks/useStories';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import { useAuth } from '../contexts/AuthContext';
 import { API_ENDPOINTS } from '../services/api';
 import StoryCard from '../components/StoryCard';
 import ThemeSelector from '../components/ThemeSelector';
@@ -49,7 +50,8 @@ function ReaderProfile() {
     }
   }, [id]);
 
-  const isCurrentReader = false; // TODO: Implement current user check
+  const { user } = useAuth();
+  const isCurrentReader = user?.id === reader?.id;
   const favoriteStories = stories.filter(s => reader?.favoriteStories?.includes(s.id) || false);
   const totalRead = reader?.readingHistory?.length || 0;
 
