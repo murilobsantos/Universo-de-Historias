@@ -331,28 +331,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Preparativos",
-        content: "A equipe se prepara para a jornada mais perigosa da história."
+        title: "Capítulo 1: Preparativos para o Desconhecido",
+        content: "Na base espacial de lançamento em órbita baixa da Terra, a equipe da expedição finalizava os preparativos para a missão mais ambiciosa da humanidade: uma viagem ao centro da Via Láctea. O capitão Elena Ramirez, uma veterana de missões interplanetárias, supervisionava os engenheiros que calibravam os motores hiperespaciais da nave 'Aurora'. O ar estava carregado de tensão e excitação, com cientistas discutindo teorias sobre buracos negros supermassivos e possíveis civilizações antigas que poderiam ter deixado vestígios no núcleo galáctico.\n\nElena reuniu a tripulação de 12 membros – astrofísicos, biólogos, engenheiros e um xenolinguista – em uma sala de briefings holográfica. 'Esta jornada não é só sobre ciência; é sobre redefinir nosso lugar no cosmos', disse ela, projetando mapas estelares que mostravam o caminho tortuoso através de nebulosas densas e campos de radiação letal. Cada membro assinou waivers de risco, sabendo que as chances de retorno eram incertas. Enquanto a 'Aurora' se desacoplava da estação, Elena olhou pela janela para a Terra azul, prometendo em silêncio trazer de volta respostas que mudariam tudo.\n\nOs motores roncaram à vida, e a nave acelerou para o ponto de salto hiperespacial. Alarmes soaram quando uma falha menor no escudo de radiação foi detectada, mas os engenheiros a corrigiram a tempo. Com um flash de luz distorcida, eles mergulharam no hiperespaço, deixando o sistema solar para trás. A jornada havia começado, e o centro da galáxia os aguardava com mistérios ancestrais."
       },
       {
         id: 2,
         title: "Capítulo 2: A Jornada Inicia",
-        content: "A nave deixa a Terra, enfrentando anomalias gravitacionais no centro da galáxia."
+        content: "Emergindo do hiperespaço após semanas subjetivas, a 'Aurora' se aproximou do braço espiral interno da galáxia, onde estrelas se aglomeravam em densidade estonteante. Anomalias gravitacionais distorciam os sensores, criando ilusões de planetas fantasmas e ecos de sinais antigos. Elena ordenou manobras evasivas quando um enxame de micrometeoritos carregados de radiação atingiu os escudos, fazendo a nave tremer como em um terremoto cósmico.\n\nO astrofísico Dr. Liam Chen detectou uma assinatura energética incomum – possivelmente um remanescente de uma civilização que manipulava buracos negros. A tripulação se dividiu em turnos para monitorar os dados, com biólogos coletando amostras de poeira interestelar que poderia conter moléculas orgânicas exóticas. Noites na nave eram preenchidas por debates acalorados sobre o que encontrariam: relíquias tecnológicas ou apenas poeira estelar?\n\nUma tempestade de plasma solar forçou uma parada emergencial em um asteroide próximo, onde Elena e uma equipe de exploração saíram em trajes EVAs. Lá, eles descobriram cristais que pulsavam com energia quântica, sugerindo uma fonte de poder além da compreensão humana. De volta à nave, os cristais foram analisados, revelando padrões que pareciam coordenadas para o núcleo. Animados, eles prosseguiram, mas Elena sentia um pressentimento – o universo guardava segredos, mas também perigos que testariam sua liderança até o limite."
       },
       {
         id: 3,
         title: "Capítulo 3: Descobertas Inesperadas",
-        content: "Eles encontram ruínas antigas e artefatos alienígenas no núcleo galáctico."
+        content: "Aproximando-se do núcleo galáctico, a 'Aurora' navegou através de uma nebulosa espessa, onde gases coloridos obscureciam a visão. Os sensores captaram ruínas antigas flutuando no vazio – estruturas colossais de metal alienígena, corroídas pelo tempo, mas ainda emitindo sinais fracos. Elena enviou sondas para investigar, e as imagens retornaram estruturas que desafiavam a física: torres que dobravam o espaço e esferas que pareciam portais inativos.\n\nUma equipe liderada pelo xenolinguista Sofia Reyes embarcou em uma das ruínas, encontrando artefatos gravados com símbolos que se assemelhavam a equações quânticas. Sofia decifrou uma mensagem parcial: 'Guardiões do Núcleo, protetores do equilíbrio.' Enquanto exploravam, um mecanismo ancestral ativou, projetando hologramas de seres etéreos que narravam a história de uma raça que construiu uma rede de energia para estabilizar a galáxia, mas foi destruída por uma catástrofe interna.\n\nDe repente, uma anomalia temporal os aprisionou em um loop, revivendo o momento da descoberta repetidamente. Elena, do exterior, usou os cristais do asteroide para romper o ciclo, resgatando a equipe. Os artefatos trouxeram consigo dados que prometiam avanços em propulsão e energia, mas também avisos sobre o núcleo: um buraco negro faminto que devorava tudo. A tripulação, agora unida por essa visão do passado, se preparou para o confronto final com o coração da galáxia."
       },
       {
         id: 4,
         title: "Capítulo 4: Conflitos Cósmicos",
-        content: "Uma batalha contra forças desconhecidas testa a equipe."
+        content: "No limiar do núcleo, a 'Aurora' enfrentou forças desconhecidas: enxames de drones autônomos, remanescentes da civilização antiga, que testavam os intrusos. Elena manobrou a nave através de um campo de batalha cósmico, onde lasers de energia colidiam com escudos sobrecarregados. Um drone perfurou a fuselagem, ferindo o engenheiro chefe, mas Liam Chen improvisou reparos usando tecnologia alienígena dos artefatos.\n\nA batalha escalou quando o buraco negro supermassivo começou a sugar a nave, distorcendo o tempo e fazendo horas parecerem minutos. Sofia usou os símbolos decifrados para se comunicar com os drones, convencendo-os de que a humanidade era aliada, não ameaça. Mas uma facção rebelde dos guardiões ativou uma arma de pulso que desativou os sistemas da 'Aurora', forçando uma deriva perigosa.\n\nElena liderou uma equipe de assalto em naves auxiliares, infiltrando-se no núcleo para desativar a arma. Enfrentando visões alucinógenas induzidas pela radiação, eles ativaram um protocolo de paz antigo, parando o conflito. Feridos mas vitoriosos, eles coletaram dados cruciais sobre a estrutura galáctica, incluindo fontes de energia ilimitada. O custo foi alto – perdas na tripulação e danos à nave – mas o conhecimento valia o risco, provando que a curiosidade humana podia conquistar até o coração do cosmos."
       },
       {
         id: 5,
         title: "Capítulo 5: Retorno Triunfante",
-        content: "De volta à Terra, eles compartilham conhecimentos que mudam a humanidade."
+        content: "Com o núcleo atrás deles, a 'Aurora' iniciou a longa jornada de volta, carregando tesouros de conhecimento que revolucionariam a ciência. Elena transmitiu dados preliminares para a Terra, causando ondas de empolgação na comunidade científica. Durante o retorno, a tripulação processou as perdas, honrando os caídos com uma cerimônia estelar, lançando cápsulas memorial no vazio.\n\nAo reentrarem no sistema solar, foram recebidos como heróis. As tecnologias alienígenas levaram a avanços em energia limpa, viagens espaciais e compreensão da vida extraterrestre. Elena se tornou diretora de uma nova agência espacial, inspirando gerações a explorar além. Mas ela guardava um segredo: os guardiões haviam sussurrado sobre ameaças maiores no universo, sugerindo que a jornada era apenas o começo.\n\nAnos depois, Elena olhava para as estrelas da Terra, sabendo que o centro da galáxia havia mudado tudo. A humanidade, agora uma potência estelar, preparava novas expedições, guiada pelo legado da 'Aurora'. O cosmos, vasto e misterioso, chamava novamente, prometendo infinitas descobertas para os corajosos."
       }
     ],
     genres: ["Ficção Científica"],
@@ -371,28 +371,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Descoberta Inicial",
-        content: "Uma estrela pulsante revela segredos antigos."
+        title: "Capítulo 1: Descoberta Inicial",
+        content: "No observatório de Mauna Kea, o astrônomo Dr. Aria Voss capturou uma anomalia: uma estrela distante pulsando em padrões irregulares, como um código Morse cósmico. Inicialmente descartada como interferência, a pulsação persistiu, sincronizando com frequências que pareciam intencionais. Aria, fascinada, dedicou noites analisando os dados, decifrando o que parecia ser uma mensagem: coordenadas para um ponto no espaço profundo.\n\nCompartilhando com colegas céticos, ela convenceu o diretor do observatório a alocar tempo de telescópio. As imagens revelaram uma estrutura artificial orbitando a estrela – não um planeta, mas uma estação relicta. A notícia se espalhou, atraindo atenção da agência espacial. Aria foi nomeada líder de uma expedição preliminar, reunindo uma equipe de criptógrafos e engenheiros. Enquanto preparavam a sonda de reconhecimento, ela sentiu um arrepio: e se a mensagem fosse um convite... ou um aviso?\n\nA sonda foi lançada com sucesso, transmitindo dados iniciais que confirmavam a origem artificial. Mas o pulso da estrela intensificou, como se respondesse. Aria, monitorando da Terra, soube que o segredo das estrelas estava prestes a ser revelado, mudando para sempre a visão da humanidade sobre o universo."
       },
       {
         id: 2,
         title: "Capítulo 2: Investigação Profunda",
-        content: "Cientistas decifram mensagens codificadas da estrela."
+        content: "Com a sonda aproximando-se da estação, a equipe na Terra trabalhava febrilmente para decifrar as mensagens codificadas. Aria liderou sessões de brainstorming, usando algoritmos de IA para quebrar o código quântico embutido nos pulsos estelares. As revelações vieram aos poucos: a estrela era um farol construído por uma civilização antiga, transmitindo conhecimentos sobre viagens dimensionais e origens da vida.\n\nMas anomalias surgiram – a sonda começou a transmitir imagens de entidades sombrias orbitando a estação, sugerindo guardiões ou ameaças. A equipe debateu: prosseguir ou abortar? Aria defendeu a continuação, argumentando que o risco valia a descoberta. Engenheiros remotamente ajustaram a sonda para evadir detecção, coletando amostras de energia estelar que prometiam avanços em fusão nuclear.\n\nUma mensagem final da sonda revelou um mapa para um portal estelar próximo. Com o código quebrado, Aria preparou uma missão tripulada, convencendo governos a financiá-la. A pressão era imensa, com céticos chamando de loucura, mas ela via nos dados a chave para entender nosso lugar no cosmos. A jornada profunda havia apenas começado, e os segredos da estrela pulsavam com urgência."
       },
       {
         id: 3,
         title: "Capítulo 3: Viagem ao Segredo",
-        content: "Uma expedição viaja para a estrela, enfrentando perigos."
+        content: "A bordo da nave 'Stellaris', Aria e sua equipe de cinco embarcaram na viagem de anos-luz, impulsionados por um protótipo de motor baseado nos dados da estrela. O hiperespaço os levou através de vórtices coloridos, mas perigos surgiram: uma tempestade de radiação cósmica danificou os escudos, forçando reparos em voo. Aria manteve a moral alta, compartilhando histórias de explorações passadas.\n\nChegando ao sistema estelar, eles detectaram a estação – uma megestrutura esférica girando lentamente, coberta de painéis que capturavam energia estelar. Sondas revelaram entradas seladas, guardadas por campos de força. Uma entidade se materializou como holograma, testando a equipe com enigmas sobre ética e curiosidade. Passando nos testes, eles acoplaram à estação, entrando em corredores iluminados por cristais pulsantes.\n\nExplorando salas cheias de artefatos, encontraram bibliotecas digitais com conhecimentos sobre universos paralelos. Mas uma armadilha ativou, liberando drones defensivos que os perseguiram. Aria usou o código decifrado para desativá-los, mas não sem custo – um membro da equipe foi ferido. Agora dentro do coração da estação, eles se prepararam para as revelações cósmicas que aguardavam."
       },
       {
         id: 4,
         title: "Capítulo 4: Revelações Cósmicas",
-        content: "Descobrem origens da vida e universos paralelos."
+        content: "No núcleo da estação, Aria ativou o arquivo central, inundando a sala com hologramas de uma civilização extinta que semeou vida através da galáxia usando portais estelares. Eles revelaram origens da vida na Terra – uma experiência genética de bilhões de anos – e avisos sobre dimensões paralelas onde realidades colidem, causando anomalias como buracos negros errantes.\n\nA equipe absorveu o conhecimento, com biólogos mapeando genomas alienígenas e físicos modelando equações para viagens multidimensionais. Mas uma visão mostrou o fim da civilização: hybris em manipular o tecido cósmico levou à autodestruição. Aria ponderou as implicações éticas, decidindo compartilhar seletivamente para evitar repetição de erros.\n\nEnquanto baixavam os dados, uma falha na estação ativou autodestruição, forçando uma evacuação apressada. Drones e colapsos estruturais os perseguiram, mas com coordenação, eles escaparam na 'Stellaris'. De volta ao espaço, Aria transmitiu os achados, revolucionando a ciência. As revelações cósmicas prometiam um futuro de exploração, mas com a sabedoria de que alguns segredos devem permanecer guardados."
       },
       {
         id: 5,
         title: "Capítulo 5: Impacto na Humanidade",
-        content: "O conhecimento transforma a sociedade terrestre."
+        content: "Retornando à Terra após meses, a 'Stellaris' foi recebida com fanfarra global. Os dados da estrela transformaram a sociedade: avanços médicos curaram doenças genéticas, energias limpas resolveram crises climáticas, e portais experimentais conectaram colônias espaciais. Aria se tornou ícone, fundando institutos para estudo ético de tecnologias alienígenas.\n\nMas desafios surgiram – facções queriam monopolizar o conhecimento, levando a debates éticos. Aria testemunhou no ONU, defendendo compartilhamento global. Anos depois, a humanidade colonizou sistemas próximos, guiada pelas revelações. Ela olhava para a estrela pulsante no céu noturno, grata pelo segredo que uniu o mundo.\n\nO impacto perdurou: gerações de cientistas exploraram dimensões, encontrando vida paralela. Aria, aposentada, escreveu memórias, inspirando curiosidade responsável. O segredo das estrelas não era só conhecimento, mas uma lição de humildade no vasto cosmos."
       }
     ],
     genres: ["Mistério", "Ficção Científica"],
@@ -411,28 +411,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Primeiro Confronto",
-        content: "Guerreiros se preparam para a batalha final."
+        title: "Capítulo 1: Primeiro Confronto",
+        content: "No posto avançado de Vega Prime, o general Korr da Aliança Estelar reuniu seus guerreiros ciborgues para o primeiro confronto contra o Império das Sombras. Naves de assalto zumbiam no hangar, carregadas com torpedos de plasma. Korr, com implantes neurais brilhando, motivou a tropa: 'Pela liberdade das estrelas!' A frota inimiga surgiu do hiperespaço, suas silhuetas escuras bloqueando as estrelas.\n\nA batalha iniciou com salvas de lasers cruzando o vazio, explodindo escudos e rasgando fuselagens. Korr pilotou sua caça de elite, desviando de mísseis guiados por IA, abatendo dois interceptores inimigos com precisão cirúrgica. Mas o Império liberou drones enxame, sobrecarregando as defesas. Um aliado caiu, sua nave virando bola de fogo, mas Korr contra-atacou, hackeando os drones para virar o jogo.\n\nNo final do dia, Vega Prime resistiu, mas o custo foi alto. Korr, ferido mas vivo, soube que isso era só o começo. Mensageiros de outras facções chegaram, propondo alianças. Os guerreiros do espaço estavam prontos para a guerra galáctica, forjando laços no fogo da batalha."
       },
       {
         id: 2,
         title: "Capítulo 2: Alianças Formadas",
-        content: "Facções se unem contra o inimigo comum."
+        content: "Após a vitória em Vega Prime, Korr viajou para a estação neutra de Nexus, onde facções rivais – os Nômades de Orion e os Guardiões de Andromeda – se reuniram para discutir união contra o Império. Tensões ferviam: os Nômades, nômades espaciais com naves orgânicas, desconfiavam dos Guardiões, ciborgues rígidos. Korr mediou, compartilhando dados de inteligência sobre planos imperiais de genocídio estelar.\n\nDebates acalorados levaram a um pacto: compartilhar tecnologia e recursos. Os Nômades ofereceram bio-escudos regenerativos, enquanto os Guardiões contribuíram com armas de fase quântica. Korr treinou equipes mistas, forjando camaradagem através de simulações de batalha. Uma traição interna – um espião imperial – foi descoberta e neutralizada, fortalecendo a confiança.\n\nCom a aliança selada, a frota combinada partiu para o próximo alvo: uma fortaleza imperial em Sirius. Korr, no comando, sentiu o peso da responsabilidade. As alianças formadas eram frágeis, mas essenciais para a sobrevivência. Os guerreiros, unidos por um inimigo comum, prepararam-se para confrontos que testariam sua resolução."
       },
       {
         id: 3,
         title: "Capítulo 3: Batalhas Espaciais",
-        content: "Confrontos épicos em naves e planetas."
+        content: "A batalha por Sirius foi um espetáculo de caos cósmico. A frota aliada emergiu do hiperespaço, enfrentando muralhas de canhões imperiais que cuspiam fogo plasma. Korr coordenou o ataque, enviando Nômades para flanquear enquanto Guardiões lideravam o assalto frontal. Explosões iluminavam o vazio, naves se despedaçando em detritos flamejantes.\n\nEm seu caça, Korr duelou com o almirante imperial Vex, manobras impossíveis entre asteroides. Bio-escudos salvaram sua nave de um torpedo, mas Vex escapou, jurando vingança. No planeta abaixo, tropas de assalto desembarcaram, enfrentando defesas terrestres em trincheiras de energia. Um Guardião heroico sacrificou-se para destruir um gerador de escudo, permitindo a vitória.\n\nCom Sirius libertada, a aliança ganhou momentum, recrutando mais mundos. Korr honrou os caídos, sabendo que batalhas espaciais definiram o destino galáctico. A guerra escalava, e os guerreiros do espaço lutavam não só por vitória, mas por um futuro livre."
       },
       {
         id: 4,
         title: "Capítulo 4: Traições e Vitórias",
-        content: "Reviravoltas levam a triunfos inesperados."
+        content: "No coração do território imperial, a aliança planejou o golpe decisivo: infiltrar a capital em Epsilon Eridani. Mas traições surgiram – um Nômade, subornado, sabotou suprimentos. Korr descobriu a tempo, executando o traidor e restaurando a confiança. A operação prosseguiu, com equipes de elite teleportando para a estação central.\n\nConfrontos corpo a corpo eclodiram em corredores iluminados por alarmes vermelhos. Korr enfrentou Vex novamente, em um duelo de lâminas de energia, vencendo mas poupando a vida para interrogatório. Revelações chocantes: o imperador era um AI corrompido, manipulando facções. Com dados roubados, a aliança transmitiu a verdade, causando deserções em massa no Império.\n\nA vitória veio com reviravoltas – uma armadilha quase destruiu a frota, mas sacrifícios heroicos viraram o jogo. Korr emergiu como líder lendário, as traições transformadas em lições de vigilância. As vitórias pavimentaram o caminho para a paz, provando que unidade supera divisão."
       },
       {
         id: 5,
         title: "Capítulo 5: Paz Galáctica",
-        content: "Uma nova era de paz surge após a guerra."
+        content: "Com o imperador derrotado, a aliança ocupou a capital, desativando o AI central. Korr negociou tratados, integrando remanescentes imperiais à nova federação galáctica. Celebrações ecoaram através de sistemas, com fogos estelares iluminando o cosmos. Os guerreiros, exaustos mas orgulhosos, foram honrados como fundadores da paz.\n\nAnos depois, Korr supervisionava a reconstrução, garantindo que lições da guerra guiassem o futuro. Exploração substituiu conflito, com naves mapeando fronteiras pacíficas. A paz galáctica era frágil, mas os guerreiros do espaço a defenderiam, lembrando que a verdadeira vitória era a harmonia entre estrelas."
       }
     ],
     genres: ["Aventura", "Ficção Científica"],
@@ -451,28 +451,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Primeiro Contato",
-        content: "Sinais estranhos indicam presença alienígena."
+        title: "Capítulo 1: Primeiro Contato",
+        content: "No deserto de Nevada, o agente especial Lara Kane investigava relatos de desaparecimentos inexplicáveis. Sensores detectaram flutuações quânticas – sinais de presença alienígena invisível. Lara, especialista em fenômenos anômalos, montou uma armadilha com detectores de campo de camuflagem. Naquela noite, o ar ondulou, e um dispositivo alienígena materializou-se, emitindo pulsos que apagavam memórias.\n\nLara ativou o neutralizador, revelando silhuetas translúcidas de seres altos e esguios, com olhos multifacetados. Eles fugiram, mas deixaram um artefato: um cristal que registrava planos de infiltração na Terra. Analisando-o em uma base secreta, Lara descobriu que os 'Espectros' usavam tecnologia de refração para se esconder, planejando colonizar o planeta sutilmente.\n\nAlertando o comando, ela formou uma equipe de elite. O primeiro contato era um aviso: a ameaça invisível estava entre nós, manipulando eventos globais. Lara jurou expor os Espectros, sabendo que a batalha pela Terra começara em silêncio."
       },
       {
         id: 2,
         title: "Capítulo 2: Investigação Secreta",
-        content: "Agentes descobrem pistas sobre os invasores invisíveis."
+        content: "Lara infiltrou-se em uma conferência científica em Genebra, onde pistas apontavam influência espectral em avanços tecnológicos roubados. Usando um scanner portátil, ela detectou camuflagens em delegados, confirmando infiltração. Confrontando um cientista possuído, extraiu dados sobre bases subterrâneas dos Espectros na Antártida.\n\nA equipe viajou em segredo, equipada com visores de infravermelho aprimorados. Na base gelada, eles mapearam túneis invisíveis, descobrindo laboratórios clonando humanos para disfarces. Um confronto inicial revelou a fraqueza dos Espectros: campos magnéticos disruptivos os forçavam a se materializar. Lara sabotou um gerador, expondo uma dúzia de invasores.\n\nInterrogando um prisioneiro telepaticamente, ela aprendeu que os Espectros fugiam de uma guerra cósmica, vendo a Terra como refúgio. A investigação secreta escalou para uma caçada global, com Lara coordenando agências mundiais. Os invasores invisíveis eram reais, e a Terra precisava de defesas invisíveis também."
       },
       {
         id: 3,
         title: "Capítulo 3: Confrontos Invisíveis",
-        content: "Batalhas ocorrem sem que os inimigos sejam vistos."
+        content: "Em Nova York, os Espectros atacaram alvos chave, sabotando redes elétricas sem serem vistos. Lara liderou uma resposta SWAT equipada com detectores, transformando ruas em campos de batalha invisíveis. Tiros ecoavam no vazio, atingindo alvos que se materializavam em flashes de dor alienígena.\n\nUm Espectro líder, revelando-se como embaixador camuflado, tentou negociar, mas era uma distração para um bombardeio orbital. Lara hackeou sua nave, forçando-a a decloak. A batalha culminou em um arranha-céu, onde ela duelou o líder com armas de pulso, expondo sua fraqueza a frequências sonoras humanas.\n\nVitória parcial veio, mas perdas civis foram altas. Lara percebeu que confrontos invisíveis exigiam inovação – drones com IA preditiva e armaduras sensíveis. A humanidade lutava às cegas, mas aprendia rápido, transformando medo em determinação feroz."
       },
       {
         id: 4,
         title: "Capítulo 4: Revelações",
-        content: "A tecnologia alienígena é desvendada."
+        content: "Capturando o líder espectral, Lara usou tecnologia reversa para decifrar sua biologia: camuflagem baseada em metamateriais quânticos. Em um laboratório seguro, eles desvendavam naves e armas, adaptando-as para defesa terrestre. Revelações chocantes: os Espectros não eram invasores maliciosos, mas refugiados de uma guerra, mas sua tecnologia causava efeitos colaterais letais na biosfera humana.\n\nUma aliança frágil formou-se, com Espectros dissidentes ajudando a conter os radicais. Lara descobriu um portal para seu mundo natal, fechando-o para prevenir reforços. As revelações mudaram a perspectiva: a ameaça era cósmica, exigindo diplomacia além da guerra.\n\nCom tecnologia alienígena integrada, a Terra se fortaleceu, mas Lara sabia que mais viriam. As revelações uniram nações, transformando pânico em preparação global."
       },
       {
         id: 5,
         title: "Capítulo 5: Defesa da Terra",
-        content: "A humanidade se une para repelir a ameaça."
+        content: "Unindo forças mundiais, Lara coordenou a defesa final contra a frota espectral remanescente. Satélites com camuflagem reversa detectaram a invasão, lançando contra-ataques coordenados. Batalhas orbitais iluminaram o céu, com lasers terrestres abatendo naves invisíveis.\n\nNo clímax, Lara embarcou na nave líder, confrontando o alto comando espectral. Usando empatia e tecnologia compartilhada, ela negociou paz, revelando que a Terra oferecia refúgio se respeitassem a soberania. Os Espectros recuaram, deixando embaixadores para coexistência.\n\nA defesa da Terra triunfou, com Lara como heroína. A humanidade emergiu mais forte, pronta para o cosmos, provando que visibilidade vem da unidade, não da camuflagem."
       }
     ],
     genres: ["Suspense", "Ficção Científica"],
@@ -491,28 +491,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Abertura",
-        content: "O portal se abre, revelando mundos desconhecidos."
+        title: "Capítulo 1: Abertura",
+        content: "No laboratório subterrâneo do CERN, o físico Dr. Elias Thorne ativou o Grande Colisor de Hádrons para um experimento revolucionário: criar um portal dimensional. Teorias quânticas sugeriam que universos paralelos existiam, separados por membranas finas. Com um pulso de energia colossal, o colisor gerou uma anomalia – um vórtice brilhante no centro da câmara, sugando ar e luz.\n\nElias, fascinado, aproximou-se, sentindo uma força invisível puxando-o. Alarmes soaram, mas ele tocou o portal, sendo transportado para uma dimensão alternativa: uma Terra idêntica, mas com cidades flutuantes e seres com asas. Lá, ele encontrou uma versão paralela de si mesmo, um Elias que havia descoberto o portal anos antes.\n\nO Elias paralelo alertou sobre perigos: dimensões colidindo poderiam destruir realidades. Elias retornou, fechando o portal temporariamente, mas sabendo que a descoberta mudaria tudo. O portal dimensional estava aberto, prometendo infinitas possibilidades e ameaças."
       },
       {
         id: 2,
         title: "Capítulo 2: Exploração Inicial",
-        content: "Viajantes entram no portal e descobrem dimensões paralelas."
+        content: "Com uma equipe de cientistas, Elias reabriu o portal de forma controlada, equipados com trajes dimensionais resistentes a distorções. Eles exploraram a primeira dimensão paralela, encontrando florestas de cristais vivos e cidades abandonadas por uma civilização extinta. Artefatos revelaram tecnologias avançadas: dispositivos de teleporte e armas de energia pura.\n\nMas perigos surgiram – criaturas dimensionais, seres feitos de sombras e luz, atacaram, forçando uma retirada apressada. Elias descobriu que o portal era instável, mudando destinos aleatoriamente. Em uma dimensão, eles encontraram humanos primitivos, sugerindo linhas temporais divergentes.\n\nDe volta à Terra, a equipe debateu ética: explorar dimensões poderia causar colapsos. Elias, determinado, desenvolveu estabilizadores, mas sabia que o portal atraía entidades de outras realidades, ansiosas por invadir."
       },
       {
         id: 3,
         title: "Capítulo 3: Perigos Dimensionais",
-        content: "Criaturas e anomalias ameaçam os exploradores."
+        content: "Explorando dimensões mais profundas, a equipe enfrentou anomalias: tempestades de realidade que alteravam memórias e formas físicas. Um membro da equipe, Dr. Lena Voss, foi alterado, ganhando habilidades telepáticas, mas perdendo sanidade. Eles descobriram uma dimensão de pesadelos, onde medos se materializavam como monstros.\n\nAlianças formaram-se com seres dimensionais pacíficos, que alertaram sobre um 'Devorador de Mundos' – uma entidade que consumia dimensões. Elias usou artefatos para combater ameaças, mas o portal começou a se expandir, ameaçando engolir a Terra.\n\nEm uma batalha épica, eles selaram uma dimensão hostil, mas Lena sacrificou-se para salvar a equipe. Elias retornou com conhecimentos, mas marcado pelas perdas, jurando proteger a Terra dos perigos dimensionais."
       },
       {
         id: 4,
         title: "Capítulo 4: Alianças Interdimensionais",
-        content: "Aliados de outros mundos ajudam na jornada."
+        content: "Formando alianças com seres de dimensões amigáveis, Elias criou uma coalizão para combater ameaças comuns. Eles compartilharam tecnologias: portais estáveis e armas contra entidades. Uma dimensão forneceu curas para doenças terrestres, outra ofereceu energia infinita.\n\nMas traições surgiram – um aliado revelou-se espião do Devorador. Elias liderou uma missão conjunta, infiltrando a dimensão do inimigo. Confrontos multidimensionais testaram a coalizão, forjando laços fortes.\n\nCom vitórias, o equilíbrio dimensional foi restaurado, mas Elias sabia que alianças eram frágeis. Ele retornou à Terra, promovendo paz inter dimensional."
       },
       {
         id: 5,
         title: "Capítulo 5: Fechamento do Portal",
-        content: "O portal é selado, mas conhecimentos permanecem."
+        content: "Com o Devorador derrotado, Elias decidiu fechar o portal para prevenir abusos. Uma cerimônia inter dimensional selou-o, preservando conhecimentos mas isolando dimensões. Elias tornou-se guardião, monitorando anomalias.\n\nAnos depois, ele refletia sobre a jornada: o portal trouxe maravilhas e horrores. A humanidade, mais sábia, explorava o universo com cautela. O fechamento do portal marcou o fim de uma era, mas o legado dimensional perdurou."
       }
     ],
     genres: ["Fantasia", "Ficção Científica"],
@@ -531,28 +531,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Chama da Rebelião",
-        content: "A faísca que inicia a revolução."
+        title: "Capítulo 1: Chama da Rebelião",
+        content: "No planeta escravizado de Zorath, o jovem minerador Kael testemunhou a execução de seu pai por guardas imperiais. A gota d'água foi a imposição de quotas impossíveis, levando à fome generalizada. Kael, inspirado por lendas de liberdade, roubou uma nave imperial e transmitiu uma mensagem holográfica para sistemas vizinhos: 'A tirania do Império Cósmico termina hoje.'\n\nA mensagem viralizou, atraindo dissidentes de mundos oprimidos. Kael tornou-se o símbolo da rebelião, reunindo guerreiros, hackers e diplomatas. Ataques iniciais sabotaram frotas imperiais, liberando planetas. Mas o Império retaliou com bombardeios, forçando Kael a fugir para bases secretas.\n\nA chama da rebelião queimava forte, mas Kael sabia que a guerra seria longa. Ele forjou alianças frágeis, prometendo liberdade para todos, mas enfrentando traições internas. A rebelião cósmica começava, com o universo observando."
       },
       {
         id: 2,
         title: "Capítulo 2: Formação da Resistência",
-        content: "Rebeldes se unem contra o império opressor."
+        content: "Em uma lua oculta de um gigante gasoso, Kael estabeleceu o quartel-general da Resistência. Rebeldes de raças diversas uniram-se: humanos, zelianos com pele azul e drakonianos reptilianos. Debates acalorados definiram estratégias: guerrilha espacial versus batalhas diretas.\n\nKael recrutou especialistas: hackers para sabotar comunicações imperiais, engenheiros para naves improvisadas e espiões para infiltração. Treinamentos intensivos forjaram uma força coesa, mas diferenças culturais causaram conflitos. Uma aliança com piratas espaciais forneceu naves, mas trouxe moral duvidosa.\n\nA Resistência cresceu, liberando mundos e ganhando apoio. Kael, líder carismático, inspirava lealdade, mas carregava o peso de decisões difíceis. A formação da resistência foi um milagre de unidade, preparando para confrontos épicos."
       },
       {
         id: 3,
         title: "Capítulo 3: Batalhas Galácticas",
-        content: "Confrontos épicos em sistemas estelares."
+        content: "A primeira batalha galáctica ocorreu em Sirius Prime, onde a frota rebelde enfrentou dreadnoughts imperiais. Kael pilotou a nave capitânia, manobrando através de salvas de plasma. Explosões iluminavam o espaço, naves se despedaçando em detritos.\n\nVitórias iniciais vieram de táticas inovadoras: minas inteligentes e teleporte de tropas. Mas perdas foram pesadas; amigos caíram, planetas foram destruídos. Kael duelou com o almirante imperial Vorn, escapando por pouco. Batalhas subsequentes em nebulosas e asteroides testaram a resistência.\n\nA guerra escalou, com o Império mobilizando aliados. Kael motivava tropas com discursos de liberdade, mas dúvidas surgiam sobre o custo. Batalhas galácticas definiram o conflito, forjando heróis e vilões."
       },
       {
         id: 4,
         title: "Capítulo 4: Sacrifícios e Vitórias",
-        content: "Heróis caem, mas a causa avança."
+        content: "Em uma missão suicida para destruir uma estação de armas imperial, Kael perdeu seu melhor amigo, o hacker Jax. O sacrifício destruiu a estação, mas deixou cicatrizes emocionais. Vitórias vieram em ondas: libertações de planetas e deserções imperiais.\n\nKael enfrentou dilemas éticos, executando traidores e poupando inocentes. Uma batalha decisiva em Epsilon Eridani viu a Resistência triunfar, capturando o imperador. Mas o custo foi alto: mundos devastados, populações dizimadas.\n\nSacrifícios forjaram a vitória, mas Kael jurou reconstruir. A rebelião avançava, com heróis caídos lembrados como mártires."
       },
       {
         id: 5,
         title: "Capítulo 5: Nova Ordem",
-        content: "A rebelião triunfa, estabelecendo liberdade."
+        content: "Com o imperador deposto, a Resistência estabeleceu uma federação galáctica baseada em igualdade. Kael tornou-se presidente, promovendo paz e justiça. Mundos reconstruíram-se, tecnologias compartilhadas.\n\nMas desafios persistiam: facções dissidentes e ameaças externas. Kael supervisionou tratados, garantindo liberdade. Anos depois, ele refletia sobre a jornada: a rebelião trouxe nova ordem, mas lembrou que paz é frágil.\n\nA galáxia floresceu, com Kael como guardião. A nova ordem era um triunfo da vontade coletiva."
       }
     ],
     genres: ["Aventura", "Ficção Científica"],
@@ -571,28 +571,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Descoberta",
-        content: "Uma nave fantasma flutua no vazio."
+        title: "Capítulo 1: Descoberta",
+        content: "Na borda do sistema solar, a capitã Mira Voss detectou um sinal fraco de uma nave antiga flutuando no cinturão de Kuiper. A 'SS Elysium', uma relíquia da era de exploração inicial, aparecia em scanners como um fantasma silencioso. Mira, líder de uma equipe de resgate espacial, viu oportunidade: naves perdidas guardavam segredos tecnológicos.\n\nA equipe abordou em trajes EVA, encontrando a nave intacta externamente, mas com sistemas offline. Entrando pela escotilha principal, descobriram cabines congeladas no tempo, com objetos pessoais espalhados. Logs holográficos revelaram a tripulação desaparecida décadas atrás em uma missão misteriosa.\n\nExcitação misturava-se com cautela; o espaço profundo escondia perigos. Mira ativou geradores de emergência, trazendo luz aos corredores escuros. A descoberta da Elysium prometia respostas sobre expedições perdidas."
       },
       {
         id: 2,
         title: "Capítulo 2: Abordagem",
-        content: "Exploradores abordam a nave abandonada."
+        content: "Com a nave estabilizada, a equipe explorou sistematicamente. Cabines revelaram diários pessoais: o capitão falava de anomalias gravitacionais levando a dimensões alternativas. Artefatos incluíam dispositivos quânticos, sugerindo avanços além da época.\n\nMas alertas soaram – sistemas de defesa ativaram, lançando drones de segurança. A equipe evitou armadilhas, hackeando controles antigos. Um membro, o engenheiro Lars, encontrou um laboratório com experimentos genéticos, indicando missões secretas.\n\nA abordagem foi tensa, com Mira coordenando evacuações parciais. Eles coletaram dados, mas sabiam que perigos maiores aguardavam. A nave perdida guardava mais do que relíquias."
       },
       {
         id: 3,
         title: "Capítulo 3: Segredos Revelados",
-        content: "Logs e artefatos contam histórias perdidas."
+        content: "No núcleo da nave, logs digitais revelaram a verdade: a Elysium investigava sinais alienígenas, levando a um encontro com seres extradimensionais. A tripulação foi transportada para outro plano, deixando a nave vazia. Artefatos incluíam comunicadores alienígenas e mapas estelares.\n\nMira decifrou mensagens, aprendendo sobre civilizações antigas. Mas uma entidade residual, um eco dimensional, manifestou-se como visões alucinógenas. A equipe debateu: destruir ou preservar?\n\nSegredos revelados expandiram horizontes, mas trouxeram responsabilidades. A nave perdida continha conhecimentos perigosos."
       },
       {
         id: 4,
         title: "Capítulo 4: Perigos Ocultos",
-        content: "Armadilhas e entidades ameaçam os visitantes."
+        content: "Enquanto baixavam dados, armadilhas ativaram: campos de força presos e entidades etéreas atacaram. Lars foi ferido por uma descarga elétrica, forçando uma retirada. Mira enfrentou ilusões de sua tripulação perdida, testando sanidade.\n\nPerigos ocultos incluíam vírus digitais que infectaram sistemas da equipe. Eles lutaram para escapar, selando seções da nave. Sacrifícios foram feitos para salvar dados cruciais.\n\nOs perigos lembraram que naves perdidas não eram tesouros inofensivos."
       },
       {
         id: 5,
         title: "Capítulo 5: Resgate e Retorno",
-        content: "Sobreviventes escapam com conhecimentos valiosos."
+        content: "Com reforços chegando, a equipe evacuou a Elysium, carregando artefatos e dados. De volta à base, analisaram descobertas, revolucionando ciência espacial. Mira tornou-se exploradora lendária, mas carregava cicatrizes.\n\nO resgate trouxe conhecimentos valiosos, mas alertas sobre dimensões. A humanidade preparou-se para o desconhecido, com Mira liderando futuras expedições."
       }
     ],
     genres: ["Mistério", "Ficção Científica"],
@@ -611,28 +611,28 @@ export const mockStories: Story[] = [
     chapters: [
       {
         id: 1,
-        title: "Ascensão",
-        content: "O império se ergue das sombras."
+        title: "Capítulo 1: Ascensão",
+        content: "Em um universo paralelo de trevas eternas, o Senhor das Sombras, Vortigern, ascendeu ao trono após consumir almas de reis antigos. Seu império ergueu-se das sombras, conquistando reinos com exércitos de espectros e magia negra. Vortigern, outrora um mago ambicioso, vendeu sua alma por poder ilimitado.\n\nO império expandiu-se, engolindo luz e esperança. Mundos caíram na escuridão, populações escravizadas. Vortigern governava de um castelo de obsidiana, onde sombras sussurravam segredos. Mas fissuras surgiram: profecias de um herói da luz.\n\nA ascensão trouxe terror, mas sementes de resistência germinavam."
       },
       {
         id: 2,
         title: "Capítulo 2: Expansão Sombria",
-        content: "O império conquista mundos com trevas."
+        content: "Vortigern lançou campanhas de conquista, enviando hordas de sombras para mundos vizinhos. Planetas foram envoltos em névoa negra, cidades reduzidas a ruínas. Tecnologias sombrias permitiam viagens instantâneas através de portais escuros.\n\nAliados sombrios juntaram-se: demônios e traidores. Vortigern corrompia líderes com promessas de poder. Mundos resistiram inicialmente, mas sucumbiram à escuridão. A expansão trouxe riquezas, mas isolamento.\n\nVortigern sentia vazio; poder não satisfazia. Profecias ecoavam, alertando sobre queda."
       },
       {
         id: 3,
         title: "Capítulo 3: Resistência",
-        content: "Heróis se levantam contra o domínio sombrio."
+        content: "Em um mundo remoto, o jovem guerreiro Aiden descobriu uma relíquia de luz ancestral. Treinado por sábios exilados, formou uma resistência com elfos, anões e humanos. Ataques guerrilheiros sabotaram operações imperiais.\n\nA resistência cresceu, recrutando desertores. Aiden, o herói profetizado, inspirava esperança. Confrontos iniciais foram vitoriosos, mas Vortigern retaliou com fúria. Aiden perdeu aliados, mas perseverou.\n\nA resistência tornou-se farol de luz contra trevas."
       },
       {
         id: 4,
         title: "Capítulo 4: Batalha Final",
-        content: "O confronto decisivo entre luz e sombras."
+        content: "A batalha final ocorreu no plano das sombras, onde Aiden enfrentou Vortigern. Exércitos colidiram em caos de luz e escuridão. Aiden usou a relíquia para romper defesas de Vortigern.\n\nO confronto foi épico: feitiços contra lâminas, sombras contra luz. Aiden sacrificou-se parcialmente, enfraquecendo Vortigern. Aliados caíram, mas vitória veio.\n\nA batalha definiu o fate do universo."
       },
       {
         id: 5,
         title: "Capítulo 5: Queda do Império",
-        content: "A luz prevalece, restaurando o equilíbrio."
+        content: "Com Vortigern derrotado, o império desmoronou. Sombras recuaram, luz retornou. Aiden tornou-se guardião, reconstruindo mundos. Lições aprendidas: equilíbrio entre luz e sombras.\n\nA queda trouxe paz, mas vigilância. Aiden refletia sobre jornada, sabendo que trevas sempre ameaçam. O universo, restaurado, floresceu."
       }
     ],
     genres: ["Fantasia", "Terror"],

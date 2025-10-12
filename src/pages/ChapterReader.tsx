@@ -17,6 +17,8 @@ function ChapterReader() {
   const [comments, setComments] = useState<any[]>([]);
   const [chapterComment, setChapterComment] = useState("");
   const [chapterRating, setChapterRating] = useState(0);
+  const [visibleParagraphComments, setVisibleParagraphComments] = useState<Set<number>>(new Set());
+  const [showChapterComments, setShowChapterComments] = useState(false);
 
   useEffect(() => {
     if (!id || !chapterId) return;
@@ -44,6 +46,18 @@ function ChapterReader() {
     setComments(loadedComments);
   };
 
+  const toggleParagraphComments = (index: number) => {
+    const newVisible = new Set(visibleParagraphComments);
+    if (newVisible.has(index)) {
+      newVisible.delete(index);
+      if (activeParagraph === index) setActiveParagraph(null);
+    } else {
+      newVisible.add(index);
+      setActiveParagraph(index);
+    }
+    setVisibleParagraphComments(newVisible);
+  };
+
   if (!story || !chapter) {
     return <div className="p-8 max-w-4xl mx-auto">Capítulo não encontrado.</div>;
   }
@@ -61,21 +75,23 @@ function ChapterReader() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">{story.title}</h1>
         <h2 className="text-2xl font-semibold mb-6 text-purple-300">{chapter.title}</h2>
-        <div className="space-y-6">
+        <div>
           {paragraphs.map((paragraph, index) => (
-            <div key={index} className="group mb-8 p-4 border rounded hover:bg-gray-700 cursor-pointer relative transition-colors">
-              <p className="text-gray-300 leading-relaxed mb-4">{paragraph}</p>
+            <div key={index} className="group mb-4 relative">
+              <p className="text-gray-300 leading-relaxed">{paragraph}</p>
               {/* Display existing comments for this paragraph */}
-              <div className="ml-4 mb-4">
-                {comments
-                  .filter(c => c.paragraphIndex === index)
-                  .map((comment, cIndex) => (
-                    <div key={cIndex} className="bg-gray-800 p-3 rounded mb-2">
-                      <p className="text-sm">{comment.text}</p>
-                      <span className="text-xs text-gray-500">Por {comment.author} em {comment.date}</span>
-                    </div>
-                  ))}
-              </div>
+              {visibleParagraphComments.has(index) && (
+                <div className="ml-4 mb-4">
+                  {comments
+                    .filter(c => c.paragraphIndex === index)
+                    .map((comment, cIndex) => (
+                      <div key={cIndex} className="bg-gray-800 p-3 rounded mb-2">
+                        <p className="text-sm">{comment.text}</p>
+                        <span className="text-xs text-gray-500">Por {comment.author} em {comment.date}</span>
+                      </div>
+                    ))}
+                </div>
+              )}
               {activeParagraph === index && (
                 <div className="mt-4 p-3 bg-gray-900 rounded">
                   <textarea
@@ -94,17 +110,25 @@ function ChapterReader() {
                 </div>
               )}
               <button
-                onClick={() => setActiveParagraph(activeParagraph === index ? null : index)}
+                onClick={() => toggleParagraphComments(index)}
                 className="absolute top-2 right-2 text-xs bg-gray-600 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                Comentar
+                {visibleParagraphComments.has(index) ? "Ocultar" : "Comentários"}
               </button>
             </div>
           ))}
         </div>
 
+        <button
+          onClick={() => setShowChapterComments(!showChapterComments)}
+          className="mt-8 px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition-colors"
+        >
+          {showChapterComments ? "Ocultar Comentários do Capítulo" : "Mostrar Comentários do Capítulo"}
+        </button>
+
         {/* Chapter Comments */}
-        <div className="mt-16 p-6 bg-gray-800 rounded-lg">
+        {showChapterComments && (
+          <div className="mt-8 p-6 bg-gray-800 rounded-lg">
           <h3 className="text-xl font-bold mb-4">Comentários do Capítulo</h3>
           {/* Display chapter comments */}
           <div className="mb-6">
@@ -156,7 +180,8 @@ function ChapterReader() {
           >
             Comentar
           </button>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

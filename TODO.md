@@ -1,20 +1,16 @@
-# TODO: Fix React Hydration Error 299 in Deployment
-
-## Changes Made
-- [x] Changed useEffect to useLayoutEffect in DarkModeContext.tsx for DOM class manipulation
-- [x] Changed useEffect to useLayoutEffect in ThemeContext.tsx for CSS variable setting
-- [x] Added default "dark" class to body in index.html
-- [x] Added default CSS variables for theme in index.css
-- [x] Removed invalid @types/react-router-dom dependency from package.json
-- [x] Added missing framer-motion and lucide-react dependencies to package.json
-- [x] Installed @types/lucide-react for TypeScript support
-- [x] Updated AuthorProfile to handle URL backgrounds for mock data
-- [x] Removed mode="wait" from AnimatePresence in App.tsx to fix navigation issues
-- [x] Changed login navigation to go to profile instead of /home
-- [x] Updated useReaders login to return Reader object for navigation
-
-## Next Steps
-- [x] Install the new dependencies with npm install
-- [x] Deploy the updated build to your hosting platform (e.g., Netlify, Vercel)
-- [x] Test the deployed app to ensure the hydration error is resolved
-- [ ] If error persists, check console logs for other mismatches or consider disabling prerendering if possible
+- [x] Expand all mocked stories to have 5 chapters each with multiple paragraphs and at least 1000 words total per story
+- [x] Update progresso.md with complete project status and constructive recommendations
+- [x] Add state for visible paragraph comments (Set<number>)
+- [x] Add state for showing chapter comments (boolean)
+- [x] Modify paragraph div classes for continuous reading (remove border, padding, adjust spacing)
+- [x] Add toggle button for paragraph comments visibility
+- [x] Wrap chapter comments section in conditional render with toggle button
+- [x] Create backend infrastructure with Express, MongoDB, and basic routing
+- [x] Set up server with package.json and index.js
+- [x] Create User and Story models
+- [x] Create authentication middleware
+- [x] Create auth routes (register, login, verify)
+- [x] Create stories routes (CRUD, comments, likes, favorites)
+- [x] Create users routes (profile, follow, stats, admin)
+- [x] Set up environment variables
+- [x] Install backend dependencies
