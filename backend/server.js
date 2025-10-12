@@ -29,9 +29,13 @@ const startServer = async () => {
     origin: [
       process.env.FRONTEND_URL || 'http://localhost:5173',
       'https://thunderous-fenglisu-5d72ea.netlify.app',
-      'https://thunderous-fenglisu-5d72ea.netlify.app/'
+      'https://thunderous-fenglisu-5d72ea.netlify.app/',
+      'https://universo-backend.onrender.com',
+      'http://localhost:5173'
     ],
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   }));
 
   app.use(bodyParser.json({ limit: '10mb' }));
