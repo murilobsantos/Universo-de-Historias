@@ -128,17 +128,14 @@ function Support() {
   ];
 
   const handleSupport = (packageId: string) => {
+    // TODO: Implementar integração com sistema de pagamento (Stripe, PayPal, etc.)
     const pkg = founderPackages.find(p => p.id === packageId);
-    if (pkg) {
-      // Redirecionar para apoia.se com o valor do pacote
-      const apoiaSeUrl = `https://apoia.se/universo-historias?valor=${pkg.price}`;
-      window.open(apoiaSeUrl, '_blank');
-    }
+    alert(`Funcionalidade de pagamento será implementada em breve!\n\nPacote selecionado: ${pkg?.name}\nValor: $${pkg?.price}\n\nEntre em contato conosco para apoiar este pacote.`);
   };
 
   const handleApoiaSeRedirect = () => {
-    // Link direto para a página do apoia.se
-    window.open('https://apoia.se/universo-historias', '_blank');
+    // Link direto para a página do apoia.se (ajuda adicional)
+    window.open('https://apoia.se/universodehistorias', '_blank');
   };
 
   return (
