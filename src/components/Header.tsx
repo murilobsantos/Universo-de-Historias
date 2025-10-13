@@ -65,7 +65,7 @@ function Header() {
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       isScrolled ? `py-2 ${isDarkMode ? 'bg-white/10 backdrop-blur-md border-b border-white/20' : 'bg-gray-100/80 backdrop-blur-md border-b border-gray-300'}` : `py-6 ${isDarkMode ? 'bg-gradient-to-r from-cosmic-purple via-cosmic-electric to-cosmic-soft' : 'bg-white'}`
-    } ${isDarkMode ? 'text-white' : 'text-black'} shadow-lg`}>
+    } ${isDarkMode ? 'text-white' : 'text-black'} shadow-lg ${isScrolled ? 'bg-opacity-95' : ''}`}>
       <div className="container mx-auto flex justify-between items-center px-4">
         <Link to="/" className="flex items-center space-x-2 md:space-x-3 hover:opacity-80 transition-opacity">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-all duration-10000 ${isScrolled ? 'w-5 h-5 md:w-6 md:h-6' : 'w-6 h-6 md:w-8 md:h-8 animate-twinkle'}`}>
@@ -79,7 +79,7 @@ function Header() {
             <line x1="36" y1="36" x2="48" y2="28" />
             <line x1="48" y1="28" x2="60" y2="20" />
           </svg>
-          <span className={`font-bold transition-all duration-300 ${isScrolled ? 'text-lg md:text-xl' : 'text-2xl md:text-3xl'}`}>Galáxia de Histórias</span>
+          <span className={`font-bold transition-all duration-300 ${isScrolled ? 'text-lg md:text-xl' : 'text-2xl md:text-3xl'}`}>Universo de Histórias</span>
         </Link>
         <nav className="hidden md:flex items-center space-x-6">
           <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>

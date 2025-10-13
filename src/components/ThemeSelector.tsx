@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "../contexts/ThemeContext";
 
 const defaultThemes = [
@@ -27,33 +27,28 @@ function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorProps) {
   const handleChange = isProfileSelector ? onThemeChange : (t: string) => setTheme(t as any);
 
   return (
-    <div className="p-4 bg-gray-800 rounded-lg">
-      <h3 className="text-lg font-semibold mb-4">Escolher Tema de Perfil</h3>
-      <div className="grid grid-cols-1 gap-4">
-        {themes.map((t) => (
-          <label key={t.id} className="flex items-center space-x-4 cursor-pointer">
-            <input
-              type="radio"
-              name="theme"
-              value={t.id}
-              checked={currentTheme === t.id}
-              onChange={() => handleChange(t.id)}
-              className="mr-2"
-            />
-            <div className="flex items-center space-x-2">
-              <div
-                className="w-6 h-6 rounded-full border-2 border-white"
-                style={{ backgroundColor: t.bg }}
-              ></div>
-              <div
-                className="w-6 h-6 rounded-full border-2 border-white"
-                style={{ backgroundColor: t.accent }}
-              ></div>
-              <span>{t.name}</span>
-            </div>
-          </label>
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-2">
+      {themes.map((t) => (
+        <label key={t.id} className="flex items-center space-x-2 cursor-pointer">
+          <input
+            type="radio"
+            name="theme"
+            value={t.id}
+            checked={currentTheme === t.id}
+            onChange={() => handleChange(t.id)}
+            className="sr-only"
+          />
+          <div
+            className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              currentTheme === t.id
+                ? 'bg-primary text-white shadow-lg'
+                : 'bg-white/10 text-textSecondary hover:bg-white/20'
+            }`}
+          >
+            {t.name}
+          </div>
+        </label>
+      ))}
     </div>
   );
 }

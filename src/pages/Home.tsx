@@ -45,7 +45,7 @@ function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-4 md:mb-0 md:mr-6">
               <h2 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                Apoie a Galáxia de Histórias
+                Apoie o Universo de Histórias
               </h2>
               <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-md`}>
                 Junte-se aos nossos fundadores e ajude a manter nossa comunidade de histórias crescendo.
