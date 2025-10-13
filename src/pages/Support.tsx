@@ -128,8 +128,17 @@ function Support() {
   ];
 
   const handleSupport = (packageId: string) => {
-    // TODO: Integrate with Stripe/PayPal
-    alert(`Funcionalidade de pagamento será implementada em breve!\n\nPacote selecionado: ${founderPackages.find(p => p.id === packageId)?.name}`);
+    const pkg = founderPackages.find(p => p.id === packageId);
+    if (pkg) {
+      // Redirecionar para apoia.se com o valor do pacote
+      const apoiaSeUrl = `https://apoia.se/universo-historias?valor=${pkg.price}`;
+      window.open(apoiaSeUrl, '_blank');
+    }
+  };
+
+  const handleApoiaSeRedirect = () => {
+    // Link direto para a página do apoia.se
+    window.open('https://apoia.se/universo-historias', '_blank');
   };
 
   return (
@@ -302,6 +311,15 @@ function Support() {
               Você será parte fundamental da nossa comunidade cósmica!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <motion.button
+                onClick={handleApoiaSeRedirect}
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Heart size={20} className="mr-2" />
+                Ver Todos os Apoiadores
+              </motion.button>
               <div className="text-sm text-gray-400">
                 💝 Junte-se a {Math.floor(Math.random() * 50) + 20} apoiadores incríveis
               </div>
