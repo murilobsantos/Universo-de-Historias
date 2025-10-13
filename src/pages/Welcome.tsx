@@ -72,7 +72,7 @@ function Welcome() {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-up" style={{animationDelay: '0.2s'}}>
-            GALÁXIA DE HISTÓRIAS
+            UNIVERSO DE HISTÓRIAS
           </h1>
 
           <p className="text-xl md:text-2xl text-textSecondary mb-8 animate-fade-up" style={{animationDelay: '0.4s'}}>
@@ -100,6 +100,42 @@ function Welcome() {
         </div>
       </section>
 
+      {/* Support Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-16">Apoie o Universo de Histórias</h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 animate-fade-up">
+              <div className="text-6xl mb-4">👑</div>
+              <h3 className="text-2xl font-semibold mb-4">Seja um Fundador</h3>
+              <p className="text-textSecondary">Junte-se aos primeiros apoiadores e ganhe benefícios exclusivos como badges especiais e acesso antecipado.</p>
+              <a href="/founders" className="inline-block mt-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all duration-300">
+                Ver Fundadores
+              </a>
+            </div>
+
+            <div className="text-center p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 animate-fade-up" style={{animationDelay: '0.2s'}}>
+              <div className="text-6xl mb-4">💝</div>
+              <h3 className="text-2xl font-semibold mb-4">Doação Pontual</h3>
+              <p className="text-textSecondary">Faça uma contribuição única através do nosso apoia.se e ajude a manter a plataforma funcionando.</p>
+              <a href="https://apoia.se/universodehistorias" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all duration-300">
+                Apoiar no apoia.se
+              </a>
+            </div>
+
+            <div className="text-center p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 animate-fade-up" style={{animationDelay: '0.4s'}}>
+              <div className="text-6xl mb-4">📘</div>
+              <h3 className="text-2xl font-semibold mb-4">Biblioteca Crescente</h3>
+              <p className="text-textSecondary">Cada contribuição nos ajuda a expandir nossa coleção de histórias e melhorar a experiência para todos.</p>
+              <a href="/support" className="inline-block mt-4 bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all duration-300">
+                Saiba Mais
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
@@ -107,7 +143,7 @@ function Welcome() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 animate-fade-up">
-              <div className="text-6xl mb-4">📘</div>
+              <div className="text-6xl mb-4">📚</div>
               <h3 className="text-2xl font-semibold mb-4">Biblioteca Diversa</h3>
               <p className="text-textSecondary">Milhares de histórias em diversos gêneros, de ficção científica a romance, esperando para serem descobertas.</p>
             </div>
