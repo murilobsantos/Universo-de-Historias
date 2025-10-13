@@ -21,6 +21,11 @@ const Footer: React.FC = () => {
             </Link>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+            <Link to="/founders" className={`hover:text-cyan-500 transition-colors ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Fundadores
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
             <Link to="/terms" className={`hover:text-cyan-500 transition-colors ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Termos e Privacidade
             </Link>

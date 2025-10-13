@@ -23,6 +23,7 @@ import About from './pages/About';
 import TermsAndPrivacy from './pages/TermsAndPrivacy';
 import Contact from './pages/Contact';
 import Support from './pages/Support';
+import Founders from './pages/Founders';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -58,7 +59,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/terms" element={<TermsAndPrivacy />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/support" element={<Support />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/founders" element={<Founders />} />
             <Route path="/profile/author/:id" element={<AuthorProfile key={location.pathname} />} />
             <Route path="/profile/reader/:id" element={<ReaderProfile />} />
           </Routes>
