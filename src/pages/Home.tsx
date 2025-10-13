@@ -34,6 +34,56 @@ function Home() {
 
   return (
     <main className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} p-4 sm:p-8`}>
+      {/* Support Banner */}
+      <motion.div
+        className="mb-12 max-w-4xl mx-auto"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className={`rounded-2xl p-6 ${isDarkMode ? 'bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/30' : 'bg-gradient-to-r from-purple-100 to-blue-100 border border-purple-200'}`}>
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="mb-4 md:mb-0 md:mr-6">
+              <h2 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Apoie a Galáxia de Histórias
+              </h2>
+              <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-md`}>
+                Junte-se aos nossos fundadores e ajude a manter nossa comunidade de histórias crescendo.
+                Cada contribuição faz a diferença!
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <motion.a
+                href="/founders"
+                className={`inline-flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  isDarkMode
+                    ? 'bg-purple-600 hover:bg-purple-700 text-white'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="mr-2">👑</span>
+                Ver Fundadores
+              </motion.a>
+              <motion.a
+                href="/support"
+                className={`inline-flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  isDarkMode
+                    ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border border-yellow-400/30'
+                    : 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="mr-2">💝</span>
+                Apoiar Projeto
+              </motion.a>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
       <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center">Explorar Histórias</h1>
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto"

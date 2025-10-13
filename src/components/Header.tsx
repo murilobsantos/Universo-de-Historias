@@ -88,6 +88,9 @@ function Header() {
           <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
             <Link to="/home" className="text-lg hover:text-cyanSoft transition-colors">Histórias</Link>
           </motion.div>
+          <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+            <Link to="/founders" className="text-lg hover:text-cyanSoft transition-colors">Fundadores</Link>
+          </motion.div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -182,6 +185,11 @@ function Header() {
               <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
                 <Link to="/home" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                   Histórias
+                </Link>
+              </motion.div>
+              <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
+                <Link to="/founders" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                  Fundadores
                 </Link>
               </motion.div>
               <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
