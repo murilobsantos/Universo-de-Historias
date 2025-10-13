@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useDarkMode } from '../contexts/DarkModeContext';
-import { Coffee, Crown, Star, Zap, Heart, Users, Award, Gift, CheckCircle, Lock, Sparkles } from 'lucide-react';
+import { Coffee, Crown, Star, Zap, Heart, Users, Award, Gift, CheckCircle, Lock, Sparkles, Rocket } from 'lucide-react';
 
 interface FounderPackage {
   id: string;
