@@ -1,19 +1,18 @@
-- [x] Expand all mocked stories to have 5 chapters each with multiple paragraphs and at least 1000 words total per story
-- [x] Update progresso.md with complete project status and constructive recommendations
-- [x] Add state for visible paragraph comments (Set<number>)
-- [x] Add state for showing chapter comments (boolean)
-- [x] Modify paragraph div classes for continuous reading (remove border, padding, adjust spacing)
-- [x] Add toggle button for paragraph comments visibility
-- [x] Wrap chapter comments section in conditional render with toggle button
-- [x] Fix syntax error in ChapterReader.tsx (missing closing parenthesis)
-- [x] Fix syntax error in ChapterReader.tsx (missing closing parenthesis)
-- [x] Fix authentication system to persist users and work properly
-- [x] Create backend infrastructure with Express, MongoDB, and basic routing
-- [x] Set up server with package.json and index.js
-- [x] Create User and Story models
-- [x] Create authentication middleware
-- [x] Create auth routes (register, login, verify)
-- [x] Create stories routes (CRUD, comments, likes, favorites)
-- [x] Create users routes (profile, follow, stats, admin)
-- [x] Set up environment variables
-- [x] Install backend dependencies
+# TODO List for Integration and Mock Removal
+
+## Backend Changes
+- [x] Remove mock mode logic from `backend/controllers/authController.js`
+  - [x] Remove mockUsers array and file persistence
+  - [x] Update register function to always use MongoDB
+  - [x] Update login function to always use MongoDB (remove hardcoded password check)
+  - [x] Update verify function to always use MongoDB
+  - [x] Ensure User model is always loaded and required
+
+## Frontend Changes
+- [x] Add maintenance route to `src/App.tsx`
+  - [x] Import Maintenance component
+  - [x] Add conditional route for /maintenance based on VITE_MAINTENANCE_MODE env var
+
+## Testing and Verification
+- [x] Test backend login with real MongoDB
+- [x] Verify maintenance page integration

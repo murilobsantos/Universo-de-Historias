@@ -1,16 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-// Verificar se MongoDB está conectado
-const isMongoDBConnected = () => {
-  return process.env.MONGODB_URI && process.env.MONGODB_URI !== 'mongodb://localhost:27017/universo-historias';
-};
-
-let userSchema = null;
-let User = null;
-
-if (isMongoDBConnected()) {
-  userSchema = new mongoose.Schema({
+// Sempre usar MongoDB
+const userSchema = new mongoose.Schema({
     name: {
       type: String,
       required: [true, 'Nome é obrigatório'],
