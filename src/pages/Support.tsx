@@ -34,7 +34,7 @@ function Support() {
         'Agradecimento público no site',
         'Suporte ao desenvolvimento da plataforma'
       ],
-      icon: <Coffee size={24} className="text-amber-600" />,
+      icon: <Coffee size="24" className="text-amber-600" />,
       color: 'border-amber-200 bg-amber-50 text-amber-800',
       bgColor: 'bg-amber-500',
       textColor: 'text-amber-600',
@@ -53,7 +53,7 @@ function Support() {
         'Prioridade no suporte',
         'Acesso antecipado a novas histórias'
       ],
-      icon: <Award size={24} className="text-amber-700" />,
+      icon: <Award size="24" className="text-amber-700" />,
       color: 'border-amber-300 bg-amber-100 text-amber-900',
       bgColor: 'bg-amber-600',
       textColor: 'text-amber-700',
@@ -73,7 +73,7 @@ function Support() {
         'Participação em decisões de comunidade',
         'Badge especial de prata no perfil'
       ],
-      icon: <Star size={24} className="text-slate-600" />,
+      icon: <Star size="24" className="text-slate-600" />,
       color: 'border-slate-300 bg-slate-100 text-slate-900',
       bgColor: 'bg-slate-500',
       textColor: 'text-slate-600',
@@ -95,7 +95,7 @@ function Support() {
         'Gift digital exclusivo (arte/wallpaper)',
         'Badge dourado premium no perfil'
       ],
-      icon: <Crown size={24} className="text-yellow-600" />,
+      icon: <Crown size="24" className="text-yellow-600" />,
       color: 'border-yellow-300 bg-yellow-100 text-yellow-900',
       bgColor: 'bg-yellow-500',
       textColor: 'text-yellow-600',
@@ -117,7 +117,7 @@ function Support() {
         'Influência direta no roadmap',
         'Acesso a betas exclusivas'
       ],
-      icon: <Sparkles size={24} className="text-purple-600" />,
+      icon: <Sparkles size="24" className="text-purple-600" />,
       color: 'border-purple-300 bg-purple-100 text-purple-900',
       bgColor: 'bg-purple-500',
       textColor: 'text-purple-600',
