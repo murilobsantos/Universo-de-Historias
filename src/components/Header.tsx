@@ -89,7 +89,12 @@ function Header() {
             <Link to="/home" className="text-lg hover:text-cyanSoft transition-colors">Histórias</Link>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
-            <Link to="/founders" className="text-lg hover:text-cyanSoft transition-colors">Fundadores</Link>
+            <Link to="/founders" className="text-lg hover:text-cyanSoft transition-colors flex items-center space-x-1">
+              <span>Fundadores</span>
+              <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                8
+              </span>
+            </Link>
           </motion.div>
           <form
             onSubmit={(e) => {
@@ -188,8 +193,11 @@ function Header() {
                 </Link>
               </motion.div>
               <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
-                <Link to="/founders" className="block py-2 hover:text-cyanSoft transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-                  Fundadores
+                <Link to="/founders" className="block py-2 hover:text-cyanSoft transition-colors flex items-center justify-between" onClick={() => setIsMobileMenuOpen(false)}>
+                  <span>Fundadores</span>
+                  <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                    8
+                  </span>
                 </Link>
               </motion.div>
               <motion.div variants={mobileItemVariants} whileHover={{ x: 5, boxShadow: "0 0 10px rgba(59, 130, 246, 0.3)" }} transition={{ duration: 0.2 }}>
