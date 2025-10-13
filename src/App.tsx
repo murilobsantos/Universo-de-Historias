@@ -36,7 +36,7 @@ function App() {
       <AnimatePresence>
         <motion.main
           key={location.pathname}
-          className="min-h-screen"
+          className="min-h-screen pt-16"
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
