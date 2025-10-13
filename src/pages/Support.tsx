@@ -294,6 +294,38 @@ function Support() {
           </div>
         </motion.div>
 
+        {/* Additional Support Options */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mb-12"
+        >
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">Outras Formas de Apoiar</h2>
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-4">
+                  <Heart size={32} className="text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Doação Pontual</h3>
+                <p className="text-gray-300 mb-4">
+                  Faça uma doação única através do nosso apoia.se. Toda contribuição ajuda no desenvolvimento da plataforma!
+                </p>
+                <motion.button
+                  onClick={handleApoiaSeRedirect}
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Heart size={20} className="mr-2" />
+                  Apoiar no apoia.se
+                </motion.button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Call to Action */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -307,19 +339,8 @@ function Support() {
               Cada contribuição, por menor que seja, nos ajuda a criar uma experiência incrível para todos os amantes de histórias.
               Você será parte fundamental da nossa comunidade cósmica!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <motion.button
-                onClick={handleApoiaSeRedirect}
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Heart size={20} className="mr-2" />
-                Ver Todos os Apoiadores
-              </motion.button>
-              <div className="text-sm text-gray-400">
-                💝 Junte-se a {Math.floor(Math.random() * 50) + 20} apoiadores incríveis
-              </div>
+            <div className="text-sm text-gray-400">
+              💝 Junte-se a {Math.floor(Math.random() * 50) + 20} apoiadores incríveis
             </div>
           </div>
         </motion.div>
