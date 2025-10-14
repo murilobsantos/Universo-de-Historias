@@ -54,112 +54,112 @@ function AuthorProfile() {
     });
   };
 
-  // Função para calcular badges do autor
-  const getAuthorBadges = (author: Author) => {
-    // Para usuários de teste, conceder todas as conquistas
-    const isTestUser = author?.email?.includes('test') || author?.email?.includes('render') || author?.name?.toLowerCase().includes('test');
+// Função para calcular badges do autor (movida para fora do componente para evitar re-renders)
+const getAuthorBadges = (author: Author, totalViews: number, averageRating: number) => {
+  // Para usuários de teste, conceder todas as conquistas
+  const isTestUser = author?.email?.includes('test') || author?.email?.includes('render') || author?.name?.toLowerCase().includes('test');
 
-    const badges = [
-      {
-        id: 'estreante',
-        name: 'Autor Estreante',
-        description: 'Publicou sua primeira história',
-        icon: <BookOpen size={20} className="text-white" />,
-        rarity: 'common',
-        unlocked: isTestUser || author.storiesCount >= 1,
-        progress: Math.min(author.storiesCount, 1),
-        maxProgress: 1,
-      },
-      {
-        id: 'escritor-experiente',
-        name: 'Escritor Experiente',
-        description: 'Publicou 5 ou mais histórias',
-        icon: <BookOpen size={20} className="text-white" />,
-        rarity: 'rare',
-        unlocked: isTestUser || author.storiesCount >= 5,
-        progress: Math.min(author.storiesCount, 5),
-        maxProgress: 5,
-      },
-      {
-        id: 'influenciador',
-        name: 'Influenciador',
-        description: 'Conquistou 10 seguidores',
-        icon: <Users size={20} className="text-white" />,
-        rarity: 'rare',
-        unlocked: isTestUser || author.followersCount >= 10,
-        progress: Math.min(author.followersCount, 10),
-        maxProgress: 10,
-      },
-      {
-        id: 'celebridade',
-        name: 'Celebridade Literária',
-        description: 'Conquistou 50 seguidores',
-        icon: <Crown size={20} className="text-white" />,
-        rarity: 'epic',
-        unlocked: isTestUser || author.followersCount >= 50,
-        progress: Math.min(author.followersCount, 50),
-        maxProgress: 50,
-      },
-      {
-        id: 'mil-leitores',
-        name: 'Mil Leitores',
-        description: 'Alcançou 1.000 visualizações totais',
-        icon: <Eye size={20} className="text-white" />,
-        rarity: 'epic',
-        unlocked: isTestUser || totalViews >= 1000,
-        progress: Math.min(totalViews, 1000),
-        maxProgress: 1000,
-      },
-      {
-        id: 'dez-mil-leitores',
-        name: 'Dez Mil Leitores',
-        description: 'Alcançou 10.000 visualizações totais',
-        icon: <TrendingUp size={20} className="text-white" />,
-        rarity: 'legendary',
-        unlocked: isTestUser || totalViews >= 10000,
-        progress: Math.min(totalViews, 10000),
-        maxProgress: 10000,
-      },
-      {
-        id: 'mestre-palavras',
-        name: 'Mestre das Palavras',
-        description: 'Mantém avaliação média de 4.5 estrelas ou mais',
-        icon: <Star size={20} className="text-white" />,
-        rarity: 'legendary',
-        unlocked: isTestUser || averageRating >= 4.5,
-      },
-      {
-        id: 'pioneiro-cosmico',
-        name: 'Pioneiro Cósmico',
-        description: 'Um dos primeiros membros da plataforma (exclusivo)',
-        icon: <Zap size={20} className="text-white" />,
-        rarity: 'legendary',
-        unlocked: isTestUser, // Conceder para usuários de teste
-      },
-      {
-        id: 'construtor-mundos',
-        name: 'Construtor de Mundos',
-        description: 'Criou universos complexos e detalhados',
-        icon: <Target size={20} className="text-white" />,
-        rarity: 'epic',
-        unlocked: isTestUser || author.storiesCount >= 10,
-        progress: Math.min(author.storiesCount, 10),
-        maxProgress: 10,
-      },
-      {
-        id: 'coracao-leitor',
-        name: 'Coração de Leitor',
-        description: 'Adicionou 20 histórias aos favoritos',
-        icon: <Heart size={20} className="text-white" />,
-        rarity: 'rare',
-        unlocked: isTestUser || author.favorites.length >= 20,
-        progress: Math.min(author.favorites.length, 20),
-        maxProgress: 20,
-      },
-    ];
+  const badges = [
+    {
+      id: 'estreante',
+      name: 'Autor Estreante',
+      description: 'Publicou sua primeira história',
+      icon: <BookOpen size={20} className="text-white" />,
+      rarity: 'common',
+      unlocked: isTestUser || author.storiesCount >= 1,
+      progress: Math.min(author.storiesCount, 1),
+      maxProgress: 1,
+    },
+    {
+      id: 'escritor-experiente',
+      name: 'Escritor Experiente',
+      description: 'Publicou 5 ou mais histórias',
+      icon: <BookOpen size={20} className="text-white" />,
+      rarity: 'rare',
+      unlocked: isTestUser || author.storiesCount >= 5,
+      progress: Math.min(author.storiesCount, 5),
+      maxProgress: 5,
+    },
+    {
+      id: 'influenciador',
+      name: 'Influenciador',
+      description: 'Conquistou 10 seguidores',
+      icon: <Users size={20} className="text-white" />,
+      rarity: 'rare',
+      unlocked: isTestUser || author.followersCount >= 10,
+      progress: Math.min(author.followersCount, 10),
+      maxProgress: 10,
+    },
+    {
+      id: 'celebridade',
+      name: 'Celebridade Literária',
+      description: 'Conquistou 50 seguidores',
+      icon: <Crown size={20} className="text-white" />,
+      rarity: 'epic',
+      unlocked: isTestUser || author.followersCount >= 50,
+      progress: Math.min(author.followersCount, 50),
+      maxProgress: 50,
+    },
+    {
+      id: 'mil-leitores',
+      name: 'Mil Leitores',
+      description: 'Alcançou 1.000 visualizações totais',
+      icon: <Eye size={20} className="text-white" />,
+      rarity: 'epic',
+      unlocked: isTestUser || totalViews >= 1000,
+      progress: Math.min(totalViews, 1000),
+      maxProgress: 1000,
+    },
+    {
+      id: 'dez-mil-leitores',
+      name: 'Dez Mil Leitores',
+      description: 'Alcançou 10.000 visualizações totais',
+      icon: <TrendingUp size={20} className="text-white" />,
+      rarity: 'legendary',
+      unlocked: isTestUser || totalViews >= 10000,
+      progress: Math.min(totalViews, 10000),
+      maxProgress: 10000,
+    },
+    {
+      id: 'mestre-palavras',
+      name: 'Mestre das Palavras',
+      description: 'Mantém avaliação média de 4.5 estrelas ou mais',
+      icon: <Star size={20} className="text-white" />,
+      rarity: 'legendary',
+      unlocked: isTestUser || averageRating >= 4.5,
+    },
+    {
+      id: 'pioneiro-cosmico',
+      name: 'Pioneiro Cósmico',
+      description: 'Um dos primeiros membros da plataforma (exclusivo)',
+      icon: <Zap size={20} className="text-white" />,
+      rarity: 'legendary',
+      unlocked: isTestUser, // Conceder para usuários de teste
+    },
+    {
+      id: 'construtor-mundos',
+      name: 'Construtor de Mundos',
+      description: 'Criou universos complexos e detalhados',
+      icon: <Target size={20} className="text-white" />,
+      rarity: 'epic',
+      unlocked: isTestUser || author.storiesCount >= 10,
+      progress: Math.min(author.storiesCount, 10),
+      maxProgress: 10,
+    },
+    {
+      id: 'coracao-leitor',
+      name: 'Coração de Leitor',
+      description: 'Adicionou 20 histórias aos favoritos',
+      icon: <Heart size={20} className="text-white" />,
+      rarity: 'rare',
+      unlocked: isTestUser || author.favorites.length >= 20,
+      progress: Math.min(author.favorites.length, 20),
+      maxProgress: 20,
+    },
+  ];
 
-    return badges;
-  };
+  return badges;
+};
 
   useEffect(() => {
     const fetchAuthor = async () => {
@@ -240,8 +240,8 @@ function AuthorProfile() {
     );
   }
 
-  const totalViews = authorStories.reduce((sum, story) => sum + story.popularity, 0);
-  const averageRating = authorStories.length > 0 ? authorStories.reduce((sum, story) => sum + story.ratings.average, 0) / authorStories.length : 0;
+  const totalViews = authorStories?.reduce((sum, story) => sum + story.popularity, 0) || 0;
+  const averageRating = authorStories?.length > 0 ? authorStories.reduce((sum, story) => sum + story.ratings.average, 0) / authorStories.length : 0;
 
   useEffect(() => {
     const fetchAuthorStories = async () => {
@@ -779,7 +779,8 @@ function AuthorProfile() {
           <BadgeModal
             isOpen={badgeModalOpen}
             onClose={() => setBadgeModalOpen(false)}
-            badges={getAuthorBadges(author)}
+            badges={getAuthorBadges(author, totalViews, averageRating)}
+            userType="author"
             authorName={author.name}
           />
 
