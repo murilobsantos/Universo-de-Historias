@@ -207,6 +207,6 @@ Este projeto é distribuído sob a licença MIT. Veja o arquivo `LICENSE` para m
 
 ---
 
-**Desenvolvido com ❤️ por [Seu Nome]**
+**Desenvolvido com ❤️ por Murilo santos**
 
-*Última atualização: Dezembro 2024*
+*Última atualização: outubro de 2025*
