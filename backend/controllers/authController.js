@@ -57,7 +57,7 @@ const register = async (req, res) => {
       message: 'Usuário criado com sucesso',
       token,
       user: {
-        id: user._id,
+        id: user._id.toString(),
         name: user.name,
         email: user.email,
         role: user.role,
@@ -120,7 +120,7 @@ const login = async (req, res) => {
       message: 'Login realizado com sucesso',
       token,
       user: {
-        id: user._id,
+        id: user._id.toString(),
         name: user.name,
         email: user.email,
         role: user.role,
@@ -147,7 +147,7 @@ const verify = async (req, res) => {
     return res.json({
       success: true,
       user: {
-        id: user._id,
+        id: user._id.toString(),
         name: user.name,
         email: user.email,
         role: user.role,
