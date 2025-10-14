@@ -138,6 +138,9 @@ function NewStory() {
       if (response.ok) {
         const data = await response.json();
         setMessage("História criada com sucesso!");
+        // Refresh stories in the hook
+        const { refreshStories } = useStories();
+        refreshStories();
         setTimeout(() => navigate("/profile/author/" + user.id), 2000);
       } else {
         const error = await response.json();

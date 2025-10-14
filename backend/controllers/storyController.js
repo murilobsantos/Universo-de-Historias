@@ -74,6 +74,10 @@ const getStories = async (req, res) => {
       filter.genres = req.query.genre;
     }
 
+    if (req.query.author) {
+      filter.author = req.query.author;
+    }
+
     if (req.query.search) {
       filter.$text = { $search: req.query.search };
     }

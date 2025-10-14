@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import useStories from "../hooks/useStories";
 import { useDarkMode } from "../contexts/DarkModeContext";
 import { useAuth } from "../contexts/AuthContext";
 import { API_ENDPOINTS } from "../services/api";
+import { Story } from "../types/story";
 
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
@@ -25,7 +25,6 @@ import { Edit, BookOpen, Users, Crown, Star, Save, X, Award, Zap, Trophy, Target
 
 function AuthorProfile() {
   const { id } = useParams<{ id: string }>();
-  const { stories, loading } = useStories();
   const { isDarkMode } = useDarkMode();
 
   const [author, setAuthor] = useState<Author | null>(null);
@@ -42,6 +41,10 @@ function AuthorProfile() {
   const [selectedBadges, setSelectedBadges] = useState<string[]>([]);
   const [allBadges, setAllBadges] = useState<any[]>([]);
 
+  // Fetch author's stories from API
+  const [authorStories, setAuthorStories] = useState<Story[]>([]);
+  const [loadingStories, setLoadingStories] = useState(false);
+
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -49,101 +52,6 @@ function AuthorProfile() {
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = error => reject(error);
     });
-  };
-
-  useEffect(() => {
-    const fetchAuthor = async () => {
-      try {
-        const response = await fetch(API_ENDPOINTS.USER_BY_ID(id!));
-        if (response.ok) {
-          const data = await response.json();
-          const userData = data.user;
-          // Convert backend user to Author format
-          const authorData: Author = {
-            id: userData.id,
-            name: userData.name,
-            email: userData.email,
-            password: '', // Not needed for display
-            bio: userData.profile?.bio || '',
-            avatarUrl: userData.profile?.avatar || '',
-            background: 'cosmic', // Default background
-            storiesCount: userData.stats?.storiesCreated || 0,
-            followersCount: 0, // Not implemented yet
-            badges: [],
-            favorites: [],
-          };
-          setAuthor(authorData);
-          setEditData({
-            bio: authorData.bio || '',
-            avatarUrl: authorData.avatarUrl || '',
-            background: authorData.background || 'cosmic',
-          });
-          // Initialize badges
-          const badges = getAuthorBadges(authorData);
-          setAllBadges(badges);
-          setSelectedBadges((authorData as any).selectedBadges || []);
-        }
-      } catch (error) {
-        console.error('Error fetching author:', error);
-      } finally {
-        setLoadingAuthor(false);
-      }
-    };
-
-    if (id) {
-      fetchAuthor();
-    }
-  }, [id]);
-
-  const { user } = useAuth();
-  const isCurrentAuthor = user?.id === author?.id;
-
-  useEffect(() => {
-    if (author) {
-      setEditData({
-        bio: author.bio || '',
-        avatarUrl: author.avatarUrl || '',
-        background: author.background || 'cosmic',
-      });
-    }
-  }, [author]);
-
-  if (loadingAuthor || !author) {
-    return (
-      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} flex items-center justify-center p-8`}>
-        <div className="text-center">
-          {loadingAuthor ? (
-            <>
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <h1 className="text-2xl font-bold mb-6">Carregando perfil...</h1>
-            </>
-          ) : (
-            <>
-              <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
-              <Link to="/home" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300">
-                Voltar para histórias
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  const authorStories = stories.filter(s => s.author === author.name);
-  const totalViews = authorStories.reduce((sum, story) => sum + story.popularity, 0);
-  const averageRating = authorStories.length > 0 ? authorStories.reduce((sum, story) => sum + story.ratings.average, 0) / authorStories.length : 0;
-
-  const getBadges = (author: Author) => {
-    const badges = [];
-    if (author.storiesCount >= 1) badges.push("Autor Estreante");
-    if (author.storiesCount >= 5) badges.push("Escritor Experiente");
-    if (author.followersCount >= 10) badges.push("Influenciador");
-    if (author.followersCount >= 50) badges.push("Celebridade Literária");
-    if (totalViews >= 1000) badges.push("Mil Leitores");
-    if (totalViews >= 10000) badges.push("Dez Mil Leitores");
-    if (averageRating >= 4.5) badges.push("Mestre das Palavras");
-    return badges;
   };
 
   // Função para calcular badges do autor
@@ -253,6 +161,136 @@ function AuthorProfile() {
     return badges;
   };
 
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      try {
+        const response = await fetch(API_ENDPOINTS.USER_BY_ID(id!));
+        if (response.ok) {
+          const data = await response.json();
+          const userData = data.user;
+          // Convert backend user to Author format
+          const authorData: Author = {
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            password: '', // Not needed for display
+            bio: userData.profile?.bio || '',
+            avatarUrl: userData.profile?.avatar || '',
+            background: 'cosmic', // Default background
+            storiesCount: userData.stats?.storiesCreated || 0,
+            followersCount: 0, // Not implemented yet
+            badges: [],
+            favorites: [],
+          };
+          setAuthor(authorData);
+          setEditData({
+            bio: authorData.bio || '',
+            avatarUrl: authorData.avatarUrl || '',
+            background: authorData.background || 'cosmic',
+          });
+          // Initialize badges
+          const badges = getAuthorBadges(authorData);
+          setAllBadges(badges);
+          setSelectedBadges((authorData as any).selectedBadges || []);
+        }
+      } catch (error) {
+        console.error('Error fetching author:', error);
+      } finally {
+        setLoadingAuthor(false);
+      }
+    };
+
+    if (id) {
+      fetchAuthor();
+    }
+  }, [id]);
+
+  const { user } = useAuth();
+  const isCurrentAuthor = user?.id === author?.id;
+
+  useEffect(() => {
+    if (author) {
+      setEditData({
+        bio: author.bio || '',
+        avatarUrl: author.avatarUrl || '',
+        background: author.background || 'cosmic',
+      });
+    }
+  }, [author]);
+
+  if (loadingAuthor || !author) {
+    return (
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} flex items-center justify-center p-8`}>
+        <div className="text-center">
+          {loadingAuthor ? (
+            <>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <h1 className="text-2xl font-bold mb-6">Carregando perfil...</h1>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
+              <Link to="/home" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300">
+                Voltar para histórias
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  const totalViews = authorStories.reduce((sum, story) => sum + story.popularity, 0);
+  const averageRating = authorStories.length > 0 ? authorStories.reduce((sum, story) => sum + story.ratings.average, 0) / authorStories.length : 0;
+
+  useEffect(() => {
+    const fetchAuthorStories = async () => {
+      if (!author) return;
+      setLoadingStories(true);
+      try {
+        const response = await fetch(`${API_ENDPOINTS.STORIES}?author=${author.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          const mappedStories: Story[] = data.stories.map((story: any) => ({
+            id: story._id,
+            title: story.title,
+            description: story.synopsis,
+            image: story.image || "https://via.placeholder.com/400x200?text=Capa",
+            author: story.author?.name || 'Autor Desconhecido',
+            date: story.createdAt,
+            chapters: [],
+            genres: story.genres || [],
+            tags: story.tags || [],
+            ratings: story.ratings || { average: 0, count: 0 },
+            comments: story.comments || [],
+            popularity: story.views || 0
+          }));
+          setAuthorStories(mappedStories);
+        }
+      } catch (error) {
+        console.error('Error fetching author stories:', error);
+      } finally {
+        setLoadingStories(false);
+      }
+    };
+
+    if (author) {
+      fetchAuthorStories();
+    }
+  }, [author?.id]);
+
+  const getBadges = (author: Author) => {
+    const badges = [];
+    if (author.storiesCount >= 1) badges.push("Autor Estreante");
+    if (author.storiesCount >= 5) badges.push("Escritor Experiente");
+    if (author.followersCount >= 10) badges.push("Influenciador");
+    if (author.followersCount >= 50) badges.push("Celebridade Literária");
+    if (totalViews >= 1000) badges.push("Mil Leitores");
+    if (totalViews >= 10000) badges.push("Dez Mil Leitores");
+    if (averageRating >= 4.5) badges.push("Mestre das Palavras");
+    return badges;
+  };
+
   const authorBadges = getBadges(author);
 
   const getBackgroundClass = (background: string) => {
@@ -345,14 +383,13 @@ function AuthorProfile() {
 
   return (
     <motion.div
-      key={editMode ? editData.background : author.background || 'cosmic'}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className={`min-h-screen ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')} text-white`}
     >
       {/* Header Background */}
-      <div key={`header-${editMode ? editData.background : author.background || 'cosmic'}`} className={`relative h-48 sm:h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`} style={getBackgroundStyle(editMode ? editData.background : author.background || 'cosmic')}>
+      <div className={`relative h-48 sm:h-64 ${getBackgroundClass(editMode ? editData.background : author.background || 'cosmic')}`} style={getBackgroundStyle(editMode ? editData.background : author.background || 'cosmic')}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cosmic-dark to-transparent"></div>
       </div>
@@ -684,7 +721,7 @@ function AuthorProfile() {
               <h2 className="text-xl sm:text-2xl font-bold">Histórias do Autor</h2>
             </div>
 
-            {loading ? (
+            {loadingStories ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto">
                 {Array.from({ length: 6 }).map((_, index) => (
                   <motion.div

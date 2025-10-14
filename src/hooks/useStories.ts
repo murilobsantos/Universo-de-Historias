@@ -1,45 +1,55 @@
 import { useEffect, useState } from "react";
 import { Story, Chapter, Author } from "../types/story";
-import { mockStories } from "../data/stories";
-import storyService from "../services/storyService";
+import { API_ENDPOINTS } from "../services/api";
 
 export default function useStories() {
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Load stories from localStorage, default to mock if none
-    const localStories = storyService.getLocalStories();
-    if (localStories.length > 0) {
-      setStories(localStories);
-    } else {
-      setStories(mockStories);
-      // Save mock to localStorage
-      mockStories.forEach(story => storyService.saveStory(story));
+  const fetchStories = async () => {
+    try {
+      const response = await fetch(API_ENDPOINTS.STORIES);
+      if (response.ok) {
+        const data = await response.json();
+        // Map backend stories to frontend format
+        const mappedStories: Story[] = data.stories.map((story: any) => ({
+          id: story._id,
+          title: story.title,
+          description: story.synopsis,
+          image: story.image || "https://via.placeholder.com/400x200?text=Capa",
+          author: story.author?.name || 'Autor Desconhecido',
+          date: story.createdAt,
+          chapters: [], // Not loaded here for performance
+          genres: story.genres || [],
+          tags: story.tags || [],
+          ratings: story.ratings || { average: 0, count: 0 },
+          comments: story.comments || [],
+          popularity: story.views || 0
+        }));
+        setStories(mappedStories);
+      } else {
+        console.error('Failed to fetch stories');
+        setStories([]);
+      }
+    } catch (error) {
+      console.error('Error fetching stories:', error);
+      setStories([]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchStories();
   }, []);
 
   const addStory = (title: string, description: string, image: string, author: string, genres: string[], tags: string[], chapters: Chapter[]) => {
-    const newStory: Story = {
-      id: Date.now(), // simple id generation
-      title,
-      description,
-      image,
-      author,
-      date: new Date().toISOString(),
-      chapters,
-      genres,
-      tags,
-      ratings: { average: 0, count: 0 },
-      comments: [],
-      popularity: 0
-    };
-    storyService.saveStory(newStory);
-    setStories(prev => [...prev, newStory]);
+    // This is now handled by NewStory component directly via API
+    // Refresh stories after creation
+    fetchStories();
   };
 
-  const getRecommendations = (storyId: number, currentAuthor?: Author): Story[] => {
+  const getRecommendations = (storyId: string, currentAuthor?: Author): Story[] => {
     const story = stories.find(s => s.id === storyId);
     if (!story) return [];
     const matchingGenres = story.genres || [];
@@ -51,12 +61,6 @@ export default function useStories() {
       ))
       .sort((a, b) => b.popularity - a.popularity);
 
-    // If currentAuthor is provided, prioritize stories matching author genres/tags
-    if (currentAuthor) {
-      // Note: Author type doesn't have genres/tags, so skip for now or add later
-      // For now, just return top recommendations
-    }
-
     return recommended.slice(0, 4);
   };
 
@@ -66,5 +70,9 @@ export default function useStories() {
       .slice(0, 4);
   };
 
-  return { stories, loading, addStory, getRecommendations, getTopStories };
+  const refreshStories = () => {
+    fetchStories();
+  };
+
+  return { stories, loading, addStory, getRecommendations, getTopStories, refreshStories };
 }
