@@ -1,5 +1,10 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+console.log('🔧 Carregando variáveis de ambiente...');
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Configurada' : 'Não configurada');
+console.log('PORT:', process.env.PORT || '3000 (padrão)');
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL || 'http://localhost:5173 (padrão)');
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -12,9 +17,9 @@ const PORT = process.env.PORT || 3000;
 const startServer = async () => {
   // Conectar ao banco de dados (apenas se MONGODB_URI estiver configurada)
   if (process.env.MONGODB_URI && process.env.MONGODB_URI !== 'mongodb://localhost:27017/universo-historias') {
+    console.log('🔄 Conectando ao MongoDB...');
     await connectDB();
-    // Aguardar um pouco para garantir que a conexão seja estabelecida
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log('✅ Conexão com MongoDB estabelecida.');
   } else {
     console.log('⚠️  MongoDB não configurado. Usando modo desenvolvimento sem banco de dados.');
     console.log('📝 Para configurar MongoDB Atlas, siga as instruções em MONGODB_SETUP.md');

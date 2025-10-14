@@ -1,18 +1,21 @@
-# TODO List for Integration and Mock Removal
+# TODO: Fix Environment Variable and Connection Issues
 
-## Backend Changes
-- [x] Remove mock mode logic from `backend/controllers/authController.js`
-  - [x] Remove mockUsers array and file persistence
-  - [x] Update register function to always use MongoDB
-  - [x] Update login function to always use MongoDB (remove hardcoded password check)
-  - [x] Update verify function to always use MongoDB
-  - [x] Ensure User model is always loaded and required
+## Issues Identified
+- Environment variable not being loaded properly: dotenv is loaded in server.js, but path might be incorrect or .env not present.
+- Connection timing issue: Using setTimeout(2000) as a hack after connectDB, which is unnecessary since connectDB is async.
+- Server restart needed: Normal for environment variables, but ensure proper loading.
 
-## Frontend Changes
-- [x] Add maintenance route to `src/App.tsx`
-  - [x] Import Maintenance component
-  - [x] Add conditional route for /maintenance based on VITE_MAINTENANCE_MODE env var
+## Plan
+- [x] Update backend/server.js to remove setTimeout and ensure proper async handling.
+- [x] Add logging to verify environment variables are loaded.
+- [ ] Improve database connection to handle timing properly.
+- [ ] Test server startup and connection.
 
-## Testing and Verification
-- [x] Test backend login with real MongoDB
-- [x] Verify maintenance page integration
+## Dependent Files
+- backend/server.js
+- backend/config/database.js
+
+## Followup Steps
+- Run the backend server and check logs for connection success.
+- Verify API endpoints work without timing issues.
+- If issues persist, check .env file contents manually.
