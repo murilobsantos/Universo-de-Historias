@@ -279,19 +279,18 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
     }
   }, [author?.id]);
 
-  const getBadges = (author: Author) => {
-    const badges = [];
-    if (author.storiesCount >= 1) badges.push("Autor Estreante");
-    if (author.storiesCount >= 5) badges.push("Escritor Experiente");
-    if (author.followersCount >= 10) badges.push("Influenciador");
-    if (author.followersCount >= 50) badges.push("Celebridade Literária");
-    if (totalViews >= 1000) badges.push("Mil Leitores");
-    if (totalViews >= 10000) badges.push("Dez Mil Leitores");
-    if (averageRating >= 4.5) badges.push("Mestre das Palavras");
-    return badges;
-  };
-
-  const authorBadges = getBadges(author);
+// Função para calcular badges simples (movida para fora do componente)
+const getBadges = (author: Author, totalViews: number, averageRating: number) => {
+  const badges = [];
+  if (author.storiesCount >= 1) badges.push("Autor Estreante");
+  if (author.storiesCount >= 5) badges.push("Escritor Experiente");
+  if (author.followersCount >= 10) badges.push("Influenciador");
+  if (author.followersCount >= 50) badges.push("Celebridade Literária");
+  if (totalViews >= 1000) badges.push("Mil Leitores");
+  if (totalViews >= 10000) badges.push("Dez Mil Leitores");
+  if (averageRating >= 4.5) badges.push("Mestre das Palavras");
+  return badges;
+};
 
   const getBackgroundClass = (background: string) => {
     if (background.startsWith('data:')) {
@@ -564,68 +563,71 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
             </div>
 
             {/* Badges */}
-            {authorBadges && authorBadges.length > 0 && (
-              <motion.div
-                className="relative mt-4 flex flex-wrap gap-1 sm:absolute sm:top-4 sm:right-4"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.1
-                    }
-                  }
-                }}
-              >
-                {authorBadges.map((badge: string, index: number) => {
-                  let icon;
-                  switch (badge.toLowerCase()) {
-                    case 'autor revelação':
-                      icon = <Crown size={10} className="sm:w-3 sm:h-3" />;
-                      break;
-                    case 'mestre das palavras':
-                      icon = <BookOpen size={10} className="sm:w-3 sm:h-3" />;
-                      break;
-                    case 'contador de estrelas':
-                      icon = <Star size={10} className="sm:w-3 sm:h-3" />;
-                      break;
-                    default:
-                      icon = <Crown size={10} className="sm:w-3 sm:h-3" />;
-                  }
-                  return (
-                    <motion.div
-                      key={index}
-                      variants={{
-                        hidden: { scale: 0, opacity: 0 },
-                        visible: { scale: 1, opacity: 1 }
-                      }}
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      onClick={() => setBadgeModalOpen(true)}
-                      className="bg-primary/70 rounded-full p-2 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer hover:bg-primary/90 transition-colors"
-                      title="Clique para ver todas as conquistas"
-                    >
-                      {icon}
-                      <span className="hidden sm:inline">{badge}</span>
-                    </motion.div>
-                  );
-                })}
+            {(() => {
+              const authorBadges = getBadges(author, totalViews, averageRating);
+              return authorBadges && authorBadges.length > 0 && (
                 <motion.div
+                  className="relative mt-4 flex flex-wrap gap-1 sm:absolute sm:top-4 sm:right-4"
+                  initial="hidden"
+                  animate="visible"
                   variants={{
-                    hidden: { scale: 0, opacity: 0 },
-                    visible: { scale: 1, opacity: 1 }
+                    hidden: { opacity: 0 },
+                    visible: {
+                      opacity: 1,
+                      transition: {
+                        staggerChildren: 0.1
+                      }
+                    }
                   }}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  onClick={() => setBadgeModalOpen(true)}
-                  className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-2 shadow-md text-xs font-semibold text-black flex items-center gap-1 cursor-pointer hover:shadow-lg transition-all"
-                  title="Ver todas as conquistas disponíveis"
                 >
-                  <Award size={10} className="sm:w-3 sm:h-3" />
-                  <span className="hidden sm:inline">Ver Todas</span>
+                  {authorBadges.map((badge: string, index: number) => {
+                    let icon;
+                    switch (badge.toLowerCase()) {
+                      case 'autor revelação':
+                        icon = <Crown size={10} className="sm:w-3 sm:h-3" />;
+                        break;
+                      case 'mestre das palavras':
+                        icon = <BookOpen size={10} className="sm:w-3 sm:h-3" />;
+                        break;
+                      case 'contador de estrelas':
+                        icon = <Star size={10} className="sm:w-3 sm:h-3" />;
+                        break;
+                      default:
+                        icon = <Crown size={10} className="sm:w-3 sm:h-3" />;
+                    }
+                    return (
+                      <motion.div
+                        key={index}
+                        variants={{
+                          hidden: { scale: 0, opacity: 0 },
+                          visible: { scale: 1, opacity: 1 }
+                        }}
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        onClick={() => setBadgeModalOpen(true)}
+                        className="bg-primary/70 rounded-full p-2 shadow-md text-xs font-semibold text-white flex items-center gap-1 cursor-pointer hover:bg-primary/90 transition-colors"
+                        title="Clique para ver todas as conquistas"
+                      >
+                        {icon}
+                        <span className="hidden sm:inline">{badge}</span>
+                      </motion.div>
+                    );
+                  })}
+                  <motion.div
+                    variants={{
+                      hidden: { scale: 0, opacity: 0 },
+                      visible: { scale: 1, opacity: 1 }
+                    }}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    onClick={() => setBadgeModalOpen(true)}
+                    className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-2 shadow-md text-xs font-semibold text-black flex items-center gap-1 cursor-pointer hover:shadow-lg transition-all"
+                    title="Ver todas as conquistas disponíveis"
+                  >
+                    <Award size={10} className="sm:w-3 sm:h-3" />
+                    <span className="hidden sm:inline">Ver Todas</span>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            )}
+              );
+            })()}
           </motion.div>
 
           {/* Vitrine de Destaques */}
