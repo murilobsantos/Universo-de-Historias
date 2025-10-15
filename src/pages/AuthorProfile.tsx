@@ -177,7 +177,9 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
-        const response = await fetch(API_ENDPOINTS.USER_BY_ID(id!));
+      const response = await fetch(API_ENDPOINTS.USER_BY_ID(id!), {
+        credentials: 'include',
+      });
         if (response.ok) {
           const data = await response.json();
           const userData = data.user;
@@ -244,7 +246,9 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
       if (!author) return;
       setLoadingStories(true);
       try {
-        const response = await fetch(`${API_ENDPOINTS.STORIES}?author=${author.id}`);
+        const response = await fetch(`${API_ENDPOINTS.STORIES}?author=${author.id}`, {
+          credentials: 'include',
+        });
         if (response.ok) {
           const data = await response.json();
           const mappedStories: Story[] = data.stories.map((story: any) => ({
@@ -350,6 +354,7 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(updateData),
+        credentials: 'include',
       });
 
       if (response.ok) {
