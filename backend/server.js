@@ -15,10 +15,12 @@ const PORT = process.env.PORT || 3000;
 // Middleware CORS - aplicado imediatamente
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'https://thunderous-fenglisu-5d72ea.netlify.app/welcome',
+    process.env.FRONTEND_URL || 'https://thunderous-fenglisu-5d72ea.netlify.app',
     'https://thunderous-fenglisu-5d72ea.netlify.app',
     'https://thunderous-fenglisu-5d72ea.netlify.app/',
+    'https://thunderous-fenglisu-5d72ea.netlify.app/welcome',
     'https://universo-backend.onrender.com',
+    'https://universo-historias-backend.onrender.com',
     'http://localhost:5173',
     'http://localhost:5174'
   ],
