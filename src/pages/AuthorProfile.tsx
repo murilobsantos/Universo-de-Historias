@@ -170,17 +170,17 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
           const userData = data.user;
           // Convert backend user to Author format
           const authorData: Author = {
-            id: userData.id,
-            name: userData.name,
-            email: userData.email,
+            id: typeof userData.id === 'string' ? userData.id : String(userData.id),
+            name: typeof userData.name === 'string' ? userData.name : 'Nome não disponível',
+            email: typeof userData.email === 'string' ? userData.email : '',
             password: '', // Not needed for display
-            bio: userData.profile?.bio || '',
-            avatarUrl: userData.profile?.avatar || '',
+            bio: typeof userData.profile?.bio === 'string' ? userData.profile.bio : '',
+            avatarUrl: typeof userData.profile?.avatar === 'string' ? userData.profile.avatar : '',
             background: 'cosmic', // Default background
-            storiesCount: userData.stats?.storiesCreated || 0,
+            storiesCount: typeof userData.stats?.storiesCreated === 'number' ? userData.stats.storiesCreated : 0,
             followersCount: 0, // Not implemented yet
-            badges: [],
-            favorites: [],
+            badges: Array.isArray(userData.badges) ? userData.badges : [],
+            favorites: Array.isArray(userData.favorites) ? userData.favorites : [],
           };
           setAuthor(authorData);
           setEditData({
@@ -252,18 +252,18 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
         if (response.ok) {
           const data = await response.json();
           const mappedStories: Story[] = data.stories.map((story: any) => ({
-            id: story._id,
-            title: story.title,
-            description: story.synopsis,
-            image: story.image || "https://via.placeholder.com/400x200?text=Capa",
-            author: story.author?.name || 'Autor Desconhecido',
-            date: story.createdAt,
+            id: story._id ? story._id.toString() : 'unknown',
+            title: typeof story.title === 'string' ? story.title : 'Título não disponível',
+            description: typeof story.synopsis === 'string' ? story.synopsis : 'Descrição não disponível',
+            image: typeof story.image === 'string' ? story.image : "https://via.placeholder.com/400x200?text=Capa",
+            author: typeof story.author?.name === 'string' ? story.author.name : 'Autor Desconhecido',
+            date: typeof story.createdAt === 'string' ? story.createdAt : new Date().toISOString(),
             chapters: [],
-            genres: story.genres || [],
-            tags: story.tags || [],
-            ratings: story.ratings || { average: 0, count: 0 },
-            comments: story.comments || [],
-            popularity: story.views || 0
+            genres: Array.isArray(story.genres) ? story.genres : [],
+            tags: Array.isArray(story.tags) ? story.tags : [],
+            ratings: typeof story.ratings === 'object' && story.ratings !== null ? story.ratings : { average: 0, count: 0 },
+            comments: Array.isArray(story.comments) ? story.comments : [],
+            popularity: typeof story.views === 'number' ? story.views : 0
           }));
           setAuthorStories(mappedStories);
         }

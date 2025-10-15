@@ -9,7 +9,7 @@ import { Story, Chapter } from "../types/story";
 function StoryDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { stories } = useStories();
+  const { stories, loading: storiesLoading } = useStories();
   const { authors } = useAuthors();
   const { isDarkMode } = useDarkMode();
   const [story, setStory] = useState<Story | null>(null);
@@ -20,15 +20,15 @@ function StoryDetail() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (!id) return;
-    const storyId = Number(id);
-    const foundStory = stories.find(s => s.id === storyId) || null;
+    if (!id || storiesLoading) return;
+    const storyId = id; // Keep as string since id can be string or number
+    const foundStory = stories.find((s: Story) => s.id === storyId) || null;
     setStory(foundStory);
     setLoading(false);
     if (storyId) {
       localStorage.setItem('last-read-story', storyId.toString());
     }
-  }, [id, stories]);
+  }, [id, stories, storiesLoading]);
 
   const handleFavorite = () => {
     // Placeholder for favorite functionality
@@ -295,7 +295,7 @@ function StoryDetail() {
       <div className="max-w-6xl mx-auto mt-16">
         <h2 className="text-2xl font-bold mb-6">Histórias Relacionadas</h2>
         <div className="grid md:grid-cols-3 gap-6">
-          {relatedStories.map((relStory) => (
+          {relatedStories.map((relStory: Story) => (
             <div
               key={relStory.id}
               className="bg-gray-800 rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"

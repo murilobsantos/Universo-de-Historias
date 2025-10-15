@@ -8,7 +8,7 @@ import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
 
 function Home() {
-  const { stories, loading, getRecommendations, getTopStories } = useStories();
+  const { stories, loading, getRecommendations, getTopStories, error } = useStories();
   const { currentAuthor } = useAuthors();
   const { isDarkMode } = useDarkMode();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function Home() {
   };
 
   const lastReadId = localStorage.getItem('last-read-story');
-  const lastReadNum = lastReadId ? Number(lastReadId) : null;
+  const lastReadNum = lastReadId ? lastReadId : null; // Keep as string
   const recommendations = lastReadNum ? getRecommendations(lastReadNum, currentAuthor || undefined) : getTopStories();
 
   return (
