@@ -70,18 +70,13 @@ const getStories = async (req, res) => {
     // Filtros
     const filter = {};
 
-    // Se não há filtro de autor específico, só mostra publicadas
-    // Se há filtro de autor, mostra todas as histórias do autor (para o perfil do autor)
-    // Se o usuário logado está procurando suas próprias histórias, mostra todas elas
+    // Se há filtro de autor específico
     if (req.query.author) {
       filter.author = req.query.author;
-      // Se o filtro de autor NÃO é o usuário logado, filtra por publicadas
-      // Se é o usuário logado procurando suas próprias histórias, mostra todas
-      if (!req.user || req.query.author !== req.user._id.toString()) {
-        filter.status = 'published';
-      }
-      // Se é o próprio autor, não filtra por status (mostra drafts também)
+      // Para perfis de autor: sempre mostra todas as histórias (publicadas e drafts)
+      // Isso permite que autores vejam suas próprias histórias em qualquer lugar
     } else {
+      // Para listagem geral: só mostra publicadas
       filter.status = 'published';
     }
 
