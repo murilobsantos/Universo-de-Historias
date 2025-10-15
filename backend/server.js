@@ -9,7 +9,19 @@ const PORT = process.env.PORT || 3000;
 
 // ✅ 1) Responder preflight OPTIONS antes de qualquer outra rota ou middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://thunderous-fenglisu-5d72ea.netlify.app'); // frontend que precisa acessar
+  // Permitir múltiplas origens
+  const allowedOrigins = [
+    'https://thunderous-fenglisu-5d72ea.netlify.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://universo-de-historias.netlify.app'
+  ];
+
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -24,7 +36,23 @@ app.use((req, res, next) => {
 // ✅ 2) Middleware cors simples para compatibilidade extra
 const cors = require('cors');
 app.use(cors({
-  origin: 'https://thunderous-fenglisu-5d72ea.netlify.app',
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://thunderous-fenglisu-5d72ea.netlify.app',
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'https://universo-de-historias.netlify.app'
+    ];
+
+    // Permitir requests sem origin (como mobile apps ou curl)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 
