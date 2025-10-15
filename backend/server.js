@@ -12,14 +12,13 @@ const connectDB = require('./config/database');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware CORS manual para garantir compatibilidade
+// ✅ 1) Tratamento manual do preflight
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://thunderous-fenglisu-5d72ea.netlify.app');
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
   res.header('Access-Control-Allow-Credentials', 'true');
 
-  // Responde preflight sem travar
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
@@ -27,16 +26,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware CORS adicional com cors()
+// ✅ 2) Depois disso, o cors()
 app.use(cors({
   origin: [
-    'http://localhost:5173', // desenvolvimento Vite
-    'http://localhost:3000', // desenvolvimento alternativo
-    'https://universo-historias.netlify.app', // produção Netlify
-    'https://thunderous-fenglisu-5d72ea.netlify.app', // preview Netlify
+    'https://thunderous-fenglisu-5d72ea.netlify.app',
+    'https://universo-historias.netlify.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
   credentials: true
 }));
 
