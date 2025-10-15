@@ -14,24 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware CORS - aplicado imediatamente
 app.use(cors({
-  origin: function (origin, callback) {
-    // Permitir requests sem origin (como mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
-
-    const allowedOrigins = [
-      'https://thunderous-fenglisu-5d72ea.netlify.app',
-      'https://universo-historias-backend.onrender.com',
-      'http://localhost:5173',
-      'http://localhost:5174'
-    ];
-
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Permitir todas as origens temporariamente para debug
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
