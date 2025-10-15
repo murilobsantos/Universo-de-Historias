@@ -1,20 +1,15 @@
 require('dotenv').config();
-console.log('🔧 Carregando variáveis de ambiente...');
-console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Configurada' : 'Não configurada');
-console.log('PORT:', process.env.PORT || '3000 (padrão)');
-console.log('FRONTEND_URL:', process.env.FRONTEND_URL || 'http://localhost:5173 (padrão)');
 
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ 1) Tratamento manual do preflight
+// ✅ 1) Responder preflight OPTIONS antes de qualquer outra rota ou middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Origin', 'https://thunderous-fenglisu-5d72ea.netlify.app'); // frontend que precisa acessar
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -26,16 +21,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ 2) Depois disso, o cors()
+// ✅ 2) Middleware cors simples para compatibilidade extra
+const cors = require('cors');
 app.use(cors({
-  origin: [
-    'https://thunderous-fenglisu-5d72ea.netlify.app',
-    'https://universo-historias.netlify.app',
-    'http://localhost:5173',
-    'http://localhost:3000',
-  ],
+  origin: 'https://thunderous-fenglisu-5d72ea.netlify.app',
   credentials: true
 }));
+
+// ✅ 3) Middleware body-parser
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // Função para iniciar o servidor após conectar ao banco
 const startServer = async () => {
