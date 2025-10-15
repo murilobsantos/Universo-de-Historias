@@ -9,7 +9,7 @@ import { Chapter } from "../types/story";
 const AVAILABLE_GENRES = ["Fantasia", "Aventura", "Ficção Científica", "Suspense", "Mistério", "Romance", "Terror", "Drama"];
 
 function NewStory() {
-  const { addStory } = useStories();
+  const { addStory, refreshStories } = useStories();
   const { currentAuthor } = useAuthors();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -140,7 +140,6 @@ function NewStory() {
         const data = await response.json();
         setMessage("História criada com sucesso!");
         // Refresh stories in the hook
-        const { refreshStories } = useStories();
         refreshStories();
         setTimeout(() => navigate("/profile/author/" + user.id), 2000);
       } else {
