@@ -16,10 +16,16 @@ interface User {
   };
 }
 
+interface RegisterResult {
+  success: boolean;
+  user?: User;
+  message?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string, role: 'reader' | 'author') => Promise<User | null>;
+  register: (name: string, email: string, password: string, role: 'reader' | 'author') => Promise<RegisterResult>;
   logout: () => void;
   loading: boolean;
 }
@@ -110,7 +116,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string, role: 'reader' | 'author'): Promise<User | null> => {
+  const register = async (name: string, email: string, password: string, role: 'reader' | 'author'): Promise<RegisterResult> => {
     try {
       const response = await fetch(API_ENDPOINTS.REGISTER, {
         method: 'POST',
@@ -124,15 +130,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         setUser(data.user);
-        return data.user;
+        return { success: true, user: data.user };
       } else {
         const error = await response.json();
         console.error('Registration failed:', error.message);
-        return null;
+        return { success: false, message: error.message || 'Registration failed' };
       }
     } catch (error) {
       console.error('Registration error:', error);
-      return null;
+      return { success: false, message: 'An error occurred during registration' };
     }
   };
 

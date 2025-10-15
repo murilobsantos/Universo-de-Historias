@@ -20,9 +20,9 @@ function AuthorRegistration() {
     setMessage("");
 
     try {
-      const user = await register(name, email, password, 'author');
+      const result = await register(name, email, password, 'author');
 
-      if (user) {
+      if (result.success && result.user) {
         setMessage("Registration successful!");
         // Clear form
         setName("");
@@ -32,9 +32,9 @@ function AuthorRegistration() {
         setAvatarFile(null);
         setBackgroundFile(null);
         // Redirect to author profile
-        navigate(`/profile/author/${user.id}`);
+        navigate(`/profile/author/${result.user.id}`);
       } else {
-        setMessage("Registration failed. Email may already be in use.");
+        setMessage(result.message || "Registration failed");
       }
     } catch (error) {
       console.error("Error during registration:", error);

@@ -23,6 +23,19 @@ interface Badge {
 import { Author } from "../types/author";
 import { Edit, BookOpen, Users, Crown, Star, Save, X, Award, Zap, Trophy, Target, Heart, Eye, TrendingUp } from 'lucide-react';
 
+// Função para calcular badges simples (movida para fora do componente)
+const getBadges = (author: Author, totalViews: number, averageRating: number) => {
+  const badges = [];
+  if (author.storiesCount >= 1) badges.push("Autor Estreante");
+  if (author.storiesCount >= 5) badges.push("Escritor Experiente");
+  if (author.followersCount >= 10) badges.push("Influenciador");
+  if (author.followersCount >= 50) badges.push("Celebridade Literária");
+  if (totalViews >= 1000) badges.push("Mil Leitores");
+  if (totalViews >= 10000) badges.push("Dez Mil Leitores");
+  if (averageRating >= 4.5) badges.push("Mestre das Palavras");
+  return badges;
+};
+
 function AuthorProfile() {
   const { id } = useParams<{ id: string }>();
   const { isDarkMode } = useDarkMode();
@@ -218,30 +231,13 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
     }
   }, [author]);
 
-  if (loadingAuthor || !author) {
-    return (
-      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} flex items-center justify-center p-8`}>
-        <div className="text-center">
-          {loadingAuthor ? (
-            <>
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <h1 className="text-2xl font-bold mb-6">Carregando perfil...</h1>
-            </>
-          ) : (
-            <>
-              <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
-              <Link to="/home" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300">
-                Voltar para histórias
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   const totalViews = authorStories?.reduce((sum, story) => sum + story.popularity, 0) || 0;
   const averageRating = authorStories?.length > 0 ? authorStories.reduce((sum, story) => sum + story.ratings.average, 0) / authorStories.length : 0;
+
+  const authorBadges = React.useMemo(() => {
+    if (!author) return [];
+    return getBadges(author, totalViews, averageRating);
+  }, [author, totalViews, averageRating]);
 
   useEffect(() => {
     const fetchAuthorStories = async () => {
@@ -279,18 +275,27 @@ const getAuthorBadges = (author: Author, totalViews: number, averageRating: numb
     }
   }, [author?.id]);
 
-// Função para calcular badges simples (movida para fora do componente)
-const getBadges = (author: Author, totalViews: number, averageRating: number) => {
-  const badges = [];
-  if (author.storiesCount >= 1) badges.push("Autor Estreante");
-  if (author.storiesCount >= 5) badges.push("Escritor Experiente");
-  if (author.followersCount >= 10) badges.push("Influenciador");
-  if (author.followersCount >= 50) badges.push("Celebridade Literária");
-  if (totalViews >= 1000) badges.push("Mil Leitores");
-  if (totalViews >= 10000) badges.push("Dez Mil Leitores");
-  if (averageRating >= 4.5) badges.push("Mestre das Palavras");
-  return badges;
-};
+  if (loadingAuthor || !author) {
+    return (
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-cosmic-dark via-cosmic-deep to-cosmic-dark text-white' : 'bg-backgroundLight text-black'} flex items-center justify-center p-8`}>
+        <div className="text-center">
+          {loadingAuthor ? (
+            <>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <h1 className="text-2xl font-bold mb-6">Carregando perfil...</h1>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold mb-6">Autor não encontrado</h1>
+              <Link to="/home" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300">
+                Voltar para histórias
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   const getBackgroundClass = (background: string) => {
     if (background.startsWith('data:')) {
@@ -563,9 +568,7 @@ const getBadges = (author: Author, totalViews: number, averageRating: number) =>
             </div>
 
             {/* Badges */}
-            {(() => {
-              const authorBadges = getBadges(author, totalViews, averageRating);
-              return authorBadges && authorBadges.length > 0 && (
+            {authorBadges && authorBadges.length > 0 && (
                 <motion.div
                   className="relative mt-4 flex flex-wrap gap-1 sm:absolute sm:top-4 sm:right-4"
                   initial="hidden"
@@ -626,8 +629,7 @@ const getBadges = (author: Author, totalViews: number, averageRating: number) =>
                     <span className="hidden sm:inline">Ver Todas</span>
                   </motion.div>
                 </motion.div>
-              );
-            })()}
+              )}
           </motion.div>
 
           {/* Vitrine de Destaques */}
