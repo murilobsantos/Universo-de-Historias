@@ -13,42 +13,36 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware CORS - aplicado imediatamente
-app.use(cors({
-  origin: function (origin, callback) {
-    // Permitir requests sem origin (como mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
-
-    // Lista de origens permitidas
-    const allowedOrigins = [
-      'http://localhost:5173',
-      'http://localhost:3000',
-      'https://universo-historias.netlify.app',
-      'https://universo-historias-backend.onrender.com',
-      'https://universo-historias.onrender.com'
-    ];
-
-    // Permitir qualquer origem que contenha "universo-historias" ou seja localhost
-    if (allowedOrigins.includes(origin) ||
-        origin.includes('universo-historias') ||
-        origin.includes('localhost') ||
-        origin.includes('127.0.0.1')) {
-      return callback(null, true);
-    }
-
-    console.log('CORS - Origem permitida:', origin);
-    return callback(null, true); // Temporariamente permitir tudo para debug
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
-}));
-
-// Headers CORS adicionais para preflight
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  // Lista de origens permitidas
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://universo-historias.netlify.app',
+    'https://thunderous-fenglisu-5d72ea.netlify.app', // Netlify preview URL
+    'https://universo-historias-backend.onrender.com',
+    'https://universo-historias.onrender.com'
+  ];
+
+  const origin = req.headers.origin;
+
+  // Permitir requests sem origin (como mobile apps, curl, etc.)
+  if (!origin) {
+    res.header('Access-Control-Allow-Origin', '*');
+  } else if (allowedOrigins.includes(origin) ||
+             origin.includes('universo-historias') ||
+             origin.includes('localhost') ||
+             origin.includes('127.0.0.1') ||
+             origin.includes('netlify.app')) { // Permitir qualquer Netlify domain
+    res.header('Access-Control-Allow-Origin', origin);
+  } else {
+    console.log('CORS - Origem bloqueada:', origin);
+    res.header('Access-Control-Allow-Origin', '*'); // Temporariamente permitir tudo
+  }
+
   res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, X-Access-Token');
 
   if (req.method === 'OPTIONS') {
     res.sendStatus(200);
@@ -56,6 +50,14 @@ app.use((req, res, next) => {
     next();
   }
 });
+
+// Configuração adicional do CORS para compatibilidade
+app.use(cors({
+  origin: true, // Permitir todas as origens
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'Cache-Control', 'X-Access-Token']
+}));
 
 // Função para iniciar o servidor após conectar ao banco
 const startServer = async () => {
