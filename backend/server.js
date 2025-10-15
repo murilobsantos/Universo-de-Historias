@@ -1,5 +1,4 @@
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+require('dotenv').config();
 console.log('🔧 Carregando variáveis de ambiente...');
 console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Configurada' : 'Não configurada');
 console.log('PORT:', process.env.PORT || '3000 (padrão)');
@@ -127,7 +126,7 @@ const startServer = async () => {
   });
 
   // Iniciar servidor
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
     console.log(`📱 Frontend: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
     console.log(`🔗 API Health: http://localhost:${PORT}/api/health`);
