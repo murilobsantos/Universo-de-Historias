@@ -13,37 +13,17 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware CORS - aplicado imediatamente
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-
-  // Sempre definir os headers CORS
-  res.header('Access-Control-Allow-Origin', origin || '*');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, X-Access-Token, Access-Control-Request-Method, Access-Control-Request-Headers');
-
-  console.log('CORS Request:', {
-    origin: origin,
-    method: req.method,
-    path: req.path,
-    headers: req.headers['access-control-request-headers']
-  });
-
-  if (req.method === 'OPTIONS') {
-    console.log('Responding to OPTIONS preflight request');
-    res.sendStatus(200);
-    return;
-  }
-
-  next();
-});
-
-// Configuração adicional do CORS para compatibilidade
 app.use(cors({
-  origin: true, // Permitir todas as origens
-  credentials: true,
+  origin: [
+    'http://localhost:5173', // desenvolvimento Vite
+    'http://localhost:3000', // desenvolvimento alternativo
+    'https://universo-historias.netlify.app', // produção Netlify
+    'https://thunderous-fenglisu-5d72ea.netlify.app', // preview Netlify
+    'https://universo-historias-backend.onrender.com', // backend Render
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'Cache-Control', 'X-Access-Token', 'Access-Control-Request-Method', 'Access-Control-Request-Headers']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  credentials: true
 }));
 
 // Função para iniciar o servidor após conectar ao banco
