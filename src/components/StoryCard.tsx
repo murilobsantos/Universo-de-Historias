@@ -5,7 +5,7 @@ interface StoryCardProps {
   title: string;
   description: string;
   image: string;
-  storyId?: string;
+  storyId?: string | number;
   onClick: () => void;
 }
 

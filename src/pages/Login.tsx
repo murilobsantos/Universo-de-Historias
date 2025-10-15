@@ -146,6 +146,7 @@ function Login() {
                   placeholder="Senha"
                   value={password}
                   onChange={handlePasswordChange}
+                  autoComplete="current-password"
                   className={`w-full p-3 border rounded-xl bg-white/10 text-white placeholder-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition ${
                     passwordError ? 'border-red-500' : 'border-white/30'
                   }`}

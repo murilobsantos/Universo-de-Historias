@@ -12,6 +12,21 @@ const connectDB = require('./config/database');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware CORS - aplicado imediatamente
+app.use(cors({
+  origin: [
+    process.env.FRONTEND_URL || 'https://thunderous-fenglisu-5d72ea.netlify.app/welcome',
+    'https://thunderous-fenglisu-5d72ea.netlify.app',
+    'https://thunderous-fenglisu-5d72ea.netlify.app/',
+    'https://universo-backend.onrender.com',
+    'http://localhost:5173',
+    'http://localhost:5174'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Função para iniciar o servidor após conectar ao banco
 const startServer = async () => {
   // Conectar ao banco de dados (apenas se MONGODB_URI estiver configurada)
@@ -28,20 +43,6 @@ const startServer = async () => {
   const authRoutes = require('./routes/auth');
   const userRoutes = require('./routes/users');
   const storyRoutes = require('./routes/stories');
-
-  // Middleware
-  app.use(cors({
-    origin: [
-      process.env.FRONTEND_URL || 'https://thunderous-fenglisu-5d72ea.netlify.app/welcome',
-      'https://thunderous-fenglisu-5d72ea.netlify.app',
-      'https://thunderous-fenglisu-5d72ea.netlify.app/',
-      'https://universo-backend.onrender.com',
-      'http://localhost:5173'
-    ],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  }));
 
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
