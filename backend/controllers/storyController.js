@@ -68,14 +68,19 @@ const getStories = async (req, res) => {
     const skip = (page - 1) * limit;
 
     // Filtros
-    const filter = { status: 'published' };
+    const filter = {};
+
+    // Se não há filtro de autor específico, só mostra publicadas
+    // Se há filtro de autor, mostra todas as histórias do autor (para o perfil do autor)
+    if (req.query.author) {
+      filter.author = req.query.author;
+      // Não filtra por status quando visualizando perfil de autor específico
+    } else {
+      filter.status = 'published';
+    }
 
     if (req.query.genre) {
       filter.genres = req.query.genre;
-    }
-
-    if (req.query.author) {
-      filter.author = req.query.author;
     }
 
     if (req.query.search) {
