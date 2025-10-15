@@ -32,7 +32,7 @@ const startServer = async () => {
   // Middleware
   app.use(cors({
     origin: [
-      process.env.FRONTEND_URL || 'http://localhost:5173',
+      process.env.FRONTEND_URL || 'https://thunderous-fenglisu-5d72ea.netlify.app/welcome',
       'https://thunderous-fenglisu-5d72ea.netlify.app',
       'https://thunderous-fenglisu-5d72ea.netlify.app/',
       'https://universo-backend.onrender.com',
