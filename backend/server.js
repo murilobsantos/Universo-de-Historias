@@ -12,14 +12,28 @@ const connectDB = require('./config/database');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware CORS - aplicado imediatamente
+// Middleware CORS manual para garantir compatibilidade
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://thunderous-fenglisu-5d72ea.netlify.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+  res.header('Access-Control-Allow-Credentials', 'true');
+
+  // Responde preflight sem travar
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// Middleware CORS adicional com cors()
 app.use(cors({
   origin: [
     'http://localhost:5173', // desenvolvimento Vite
     'http://localhost:3000', // desenvolvimento alternativo
     'https://universo-historias.netlify.app', // produção Netlify
     'https://thunderous-fenglisu-5d72ea.netlify.app', // preview Netlify
-    'https://universo-historias-backend.onrender.com', // backend Render
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
