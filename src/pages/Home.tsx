@@ -7,7 +7,7 @@ import { useDarkMode } from "../contexts/DarkModeContext";
 import StoryCard from "../components/StoryCard";
 import Skeleton from "../components/Skeleton";
 
-function Home() {
+const Home: React.FC = () => {
   const { stories, loading, getRecommendations, getTopStories, error } = useStories();
   const { currentAuthor } = useAuthors();
   const { isDarkMode } = useDarkMode();

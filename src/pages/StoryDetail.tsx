@@ -6,7 +6,7 @@ import { useDarkMode } from "../contexts/DarkModeContext";
 import Skeleton from "../components/Skeleton";
 import { Story, Chapter } from "../types/story";
 
-function StoryDetail() {
+const StoryDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { stories, loading: storiesLoading } = useStories();

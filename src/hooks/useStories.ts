@@ -28,7 +28,7 @@ const fetchStories = async (): Promise<Story[]> => {
   return mappedStories;
 };
 
-export default function useStories() {
+const useStories = () => {
   const queryClient = useQueryClient();
 
   const { data: stories = [], isLoading: loading, error } = useQuery({
@@ -69,4 +69,6 @@ export default function useStories() {
   };
 
   return { stories, loading, error, addStory, getRecommendations, getTopStories, refreshStories };
-}
+};
+
+export default useStories;
