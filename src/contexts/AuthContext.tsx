@@ -73,6 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -98,6 +99,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -124,6 +126,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name, email, password, role }),
+        credentials: 'include',
       });
 
       if (response.ok) {
